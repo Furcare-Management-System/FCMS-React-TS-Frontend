@@ -12,7 +12,9 @@ import {
   DialogTitle,
   FormControl,
   FormControlLabel,
+  Grid,
   IconButton,
+  InputAdornment,
   InputLabel,
   ListSubheader,
   MenuItem,
@@ -20,8 +22,10 @@ import {
   Select,
   Stack,
   TextField,
+  useMediaQuery,
 } from "@mui/material";
-import { Cancel, Check, Close } from "@mui/icons-material";
+import { Cancel, Check, Close, Event } from "@mui/icons-material";
+import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 
 export default function PetownerAppointmentModal(props) {
   const {
@@ -47,6 +51,8 @@ export default function PetownerAppointmentModal(props) {
     // Update the appointment object with the updated value
     setAppointment(updatedAppointment);
   };
+
+  const isMobile = useMediaQuery("(max-width:600px)");
 
   const [withRemarks, setWithremarks] = useState(false);
 
@@ -103,20 +109,40 @@ export default function PetownerAppointmentModal(props) {
                     }}
                   />
                 )}
+                {isUpdate && (
+                  <TextField
+                    variant="outlined"
+                    id="Date"
+                    label="Date"
+                    value={appointment.date}
+                    onChange={(ev) =>
+                      handleFieldChange("status", ev.target.value)
+                    }
+                    InputProps={{
+                      readOnly: true,
+                      "aria-readonly": true,
+                    }}
+                  />
+                )}
 
-                <TextField
-                  label="Date and Time"
-                  variant="outlined"
-                  id="Date"
-                  type="datetime-local"
-                  value={appointment.date || ""}
-                  onChange={(ev) => handleFieldChange("date", ev.target.value)}
-                  InputLabelProps={{ shrink: true }}
-                  inputProps={{
-                    min: new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().split("T")[0] + "T00:00",
-                  }}
-                  required
-                />
+                  <TextField
+                    label="Date and Time"
+                    variant="outlined"
+                    id="Date"
+                    type="datetime-local"
+                    value={appointment.date || ""}
+                    onChange={(ev) =>
+                      handleFieldChange("date", ev.target.value)
+                    }
+                    InputLabelProps={{ shrink: true }}
+                    inputProps={{
+                      min:
+                        new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
+                          .toISOString()
+                          .split("T")[0] + "T00:00",
+                    }}
+                    required
+                  />
 
                 <FormControl sx={{ m: 1, width: "100%" }}>
                   <InputLabel>Select Services</InputLabel>
@@ -166,7 +192,7 @@ export default function PetownerAppointmentModal(props) {
                       <MenuItem
                         key={name.id}
                         value={name.id}
-                        sx={{ml:5, justifyContent: "space-between" }}
+                        sx={{ ml: 5, justifyContent: "space-between" }}
                         disabled={name.isAvailable === 0}
                       >
                         {name.service}

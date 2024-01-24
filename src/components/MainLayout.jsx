@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, CssBaseline, Grid } from "@mui/material";
+import { Box, CssBaseline, Grid, Stack } from "@mui/material";
 import Navbar from "./Navbar";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
@@ -36,8 +36,8 @@ export default function MainLayout() {
       <CssBaseline />
       <Box>
         {token && <Navbar />}
-        <Box sx={{marginLeft:{sm:"240px"}}}>
-          {sidebarComponent}
+        <Box sx={{ marginLeft: { sm: "240px" } }}>
+          <Stack>{sidebarComponent}</Stack>
           <Box flex={5}>
             <Outlet />
           </Box>

@@ -166,7 +166,7 @@ export default function EditProfilePetOwner() {
       axiosClient
         .get(`/zipcodedetails/${query}`)
         .then(({ data }) => {
-          selectedZipcode(data.data.zipcode);
+          setSelectedZipcode(data.data.zipcode);
           setZipcode(data.data);
           setAddressdata((prevPetowner) => ({
             ...prevPetowner,
@@ -195,7 +195,7 @@ export default function EditProfilePetOwner() {
     timerId = setTimeout(() => {
       setZipcodeerror(null);
       getZipcodeDetails(selectedZipcode);
-    }, 3000);
+    }, 1000);
 
     return () => clearTimeout(timerId);
   }, [selectedZipcode]);

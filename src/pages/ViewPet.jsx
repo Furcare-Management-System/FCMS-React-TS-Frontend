@@ -305,7 +305,10 @@ export default function ViewPet() {
             {pet.photo ? (
               <Avatar
                 alt="pet-photo"
-                src={`${import.meta.env.VITE_API_BASE_URL}` + pet.photo}
+                // src={`${import.meta.env.VITE_API_BASE_URL}` + pet.photo}
+                src={
+                  `${import.meta.env.VITE_API_BASE_URL}/` + pet.photo
+                }
                 sx={{ width: 130, height: 130 }}
                 variant="rounded"
               />

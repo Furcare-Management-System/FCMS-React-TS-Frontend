@@ -170,7 +170,7 @@ export default function Signup() {
       setZipcodeerror(null);
       setErrors(null);
       getZipcodeDetails(selectedZipcode);
-    }, 2000);
+    }, 1000);
 
     return () => clearTimeout(timerId);
   }, [selectedZipcode]);

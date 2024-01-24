@@ -22,14 +22,12 @@ import { Edit, Close, Add } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import { useStateContext } from "../../contexts/ContextProvider";
 import PetownerAppointmentModal from "../../components/modals/PetownerAppointmentModal";
-import echo from "../../echo";
-import { toast } from "react-toastify";
 
 export default function MyAppointments() {
   const { staffuser } = useStateContext();
   const theme = useTheme();
   const isMobile = useMediaQuery("(max-width:600px)");
-  // const isMobile = useMediaQuery(theme.breakpoints.up("xs"));
+
   //for table
   const columns = [
     { id: "ID", name: "ID" },
@@ -247,15 +245,6 @@ export default function MyAppointments() {
     }
   };
 
-  const channel = echo.private(`admin-channel.${3}`);
-  // const channel = echo.channel(`admin-channel`);
-
-  channel.listen(".appointment-event", function (data) {
-    const display = `The appointment ${data.id} of ${data.firstname} ${data.lastname} is on ${data.date}`;
-    toast.info(display, { theme: "colored",autoClose:10000 });
-  });
-  console.log(channel)
-
   useEffect(() => {
     setAppointment({ ...appointment, services: selectedServices });
   }, [selectedServices]);
@@ -277,7 +266,7 @@ export default function MyAppointments() {
           p={1}
           display="flex"
           flexDirection="row"
-          justifyContent="space-between"
+          justifyContent={isMobile ? "right" : "space-between"}
         >
           {!isMobile && <Typography variant="h5">Appointments</Typography>}
           <Button
@@ -286,29 +275,15 @@ export default function MyAppointments() {
             color="success"
             size="small"
           >
-            {/* create appointment */}
-            {isMobile ? (
-              <Add />
-            ) : (
-              <Typography justifyContent={"right"}>
-                Create Appointment
-              </Typography>
-            )}
+            <Typography
+              justifyContent={"right"}
+              fontSize={isMobile ? "large" : "small"}
+            >
+              Create Appointment
+            </Typography>
           </Button>
         </Box>
-        {/* <DropDownButtons
-              title="status"
-              status={true}
-              anchorEl={anchorEl}
-              handleMenuItemClick={handleMenuItemClick}
-              handleOpenMenu={handleOpenMenu}
-              handleCloseMenu={handleCloseMenu}
-              optionLabel1="current"
-              optionLabel2="pending"
-              optionLabel3="confirmed"
-              optionLabel4="completed"
-              optionLabel5="cancelled"
-            /> */}
+
         <PetownerAppointmentModal
           open={open}
           onClose={closepopup}
@@ -438,7 +413,11 @@ export default function MyAppointments() {
               <TableHead>
                 <TableRow>
                   <TableCell
-                    style={{ backgroundColor: "black", color: "white" }}
+                    style={{
+                      backgroundColor: "black",
+                      color: "white",
+                      fontSize: "20px",
+                    }}
                   >
                     Appointments
                   </TableCell>
@@ -479,7 +458,7 @@ export default function MyAppointments() {
                         <TableRow hover role="checkbox" key={r.id}>
                           <TableCell
                             sx={{
-                              fontSize: "15px",
+                              fontSize: "18px",
                             }}
                           >
                             <div>
@@ -496,8 +475,7 @@ export default function MyAppointments() {
                                 )
                                 .map((filteredService) => (
                                   <span key={filteredService.id}>
-                                    {filteredService.service}
-                                    <br />
+                                    {filteredService.service}, &nbsp;
                                   </span>
                                 ))}
                             </div>
@@ -516,7 +494,7 @@ export default function MyAppointments() {
                             {(r.status === "Pending" ||
                               r.status === "Confirmed") && (
                               <div>
-                                <Stack direction="row" spacing={2}>
+                                <Stack direction="row" spacing={2}mt={1}>
                                   <Button
                                     variant="contained"
                                     size="small"

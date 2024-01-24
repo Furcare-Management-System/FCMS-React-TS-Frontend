@@ -295,82 +295,114 @@ export default function ViewMyPet() {
     <div>
       <Paper mt={1} sx={{ padding: "15px" }}>
         {notification && <Alert severity="success">{notification}</Alert>}
-        <Stack direction={{ xs: "column", sm: "row" }}>
-        {isMobile && <Typography variant="h5" fontWeight={"bold"} align="center">Pet Details</Typography>}
-        <Stack >
-          <Button onClick={uploadImage}>
-            {pet.photo ? (
-              <Avatar
-                alt="pet-photo"
-                src={`http://localhost:8000/` + pet.photo}
-                sx={{ width: 130, height: 130 }}
-                variant="rounded"
-              />
-            ) : (
-              <Avatar sx={{ width: 130, height: 130 }} variant="rounded">
-                <AddPhotoAlternate sx={{ width: 40, height: 40 }} />
-              </Avatar>
-            )}
-          </Button>
-          
-          </Stack>
-          <Stack flexDirection="column" padding={1}>
-            {!isMobile && <Typography variant="h6">Pet Details</Typography>}
-            <Stack flexDirection="row">
-              <Stack sx={{ marginRight: "10px" }} >
-                <Typography>Pet Name: {pet.name}</Typography>
-                <Typography>Birthdate: {pet.birthdate}</Typography>
-                <Typography>Gender: {pet.gender}</Typography>
+        {!isMobile && (
+          <Stack direction={"row"}>
+            <Stack>
+              <Button onClick={uploadImage}>
+                {pet.photo ? (
+                  <Avatar
+                    alt="pet-photo"
+                    src={`${import.meta.env.VITE_API_BASE_URL}/` + pet.photo}
+                    sx={{ width: 130, height: 130 }}
+                    variant="rounded"
+                  />
+                ) : (
+                  <Avatar sx={{ width: 130, height: 130 }} variant="rounded">
+                    <AddPhotoAlternate sx={{ width: 40, height: 40 }} />
+                  </Avatar>
+                )}
+              </Button>
+            </Stack>
+            <Stack flexDirection="column" padding={1}>
+              {!isMobile && <Typography variant="h6" fontWeight={"bold"}>Pet Details</Typography>}
+              <Stack flexDirection="row" justifyContent={"space-evenly"}>
+                <Stack sx={{ marginRight: "10px" }}>
+                  <Typography>Pet Name: {pet.name}</Typography>
+                  <Typography>Birthdate: {pet.birthdate}</Typography>
+                  <Typography>Gender: {pet.gender}</Typography>
+                </Stack>
+                <Stack>
+                  <Typography>Specie: {specie.specie}</Typography>
+                  <Typography>Breed: {breed.breed}</Typography>
+                  <Typography>Color: {pet.color}</Typography>
+                </Stack>
               </Stack>
-              <Stack>
-                <Typography>Specie: {specie.specie}</Typography>
-                <Typography>Breed: {breed.breed}</Typography>
-                <Typography>Color: {pet.color}</Typography>
+            </Stack>
+
+            {/* qrcode */}
+            <Stack>
+              <Box
+                sx={{
+                  ml: 10,
+                  width: "170px",
+                  height: "170px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "whitesmoke",
+                }}
+              >
+                <QrCodeGenerator
+                  qr={qr}
+                  GenerateQRCode={GenerateQRCode}
+                  petname={pet.name}
+                />
+              </Box>
+            </Stack>
+          </Stack>
+        )}
+
+        {isMobile && (
+          <Stack direction={"row"} justifyContent={"center"}spacing={2}>
+            <Stack>
+              <Button onClick={uploadImage}>
+                {pet.photo ? (
+                  <Avatar
+                    alt="pet-photo"
+                    src={`${import.meta.env.VITE_API_BASE_URL}/` + pet.photo}
+                    sx={{ width: 130, height: 130 }}
+                    variant="rounded"
+                  />
+                ) : (
+                  <Avatar sx={{ width: 130, height: 130 }} variant="rounded">
+                    <AddPhotoAlternate sx={{ width: 40, height: 40 }} />
+                  </Avatar>
+                )}
+              </Button>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <QrCodeGenerator
+                  qr={qr}
+                  GenerateQRCode={GenerateQRCode}
+                  petname={pet.name}
+                />
+              </Box>
+            </Stack>
+            <Stack flexDirection="column" padding={1}>
+              <Typography variant="h5" fontWeight={"bold"}>Pet Details</Typography>
+              <Stack flexDirection="column" justifyContent={"space-evenly"}>
+                <Stack sx={{ marginRight: "10px" }}>
+                  <Typography>Pet Name: {pet.name}</Typography>
+                  <Typography>Birthdate: {pet.birthdate}</Typography>
+                  <Typography>Gender: {pet.gender}</Typography>
+                </Stack>
+                <Stack>
+                  <Typography>Specie: {specie.specie}</Typography>
+                  <Typography>Breed: {breed.breed}</Typography>
+                  <Typography>Color: {pet.color}</Typography>
+                </Stack>
               </Stack>
             </Stack>
           </Stack>
-          {/* qrcode */}
-          {isMobile && 
-            <Box
-              sx={{
-                // ml: 10,
-                // width: "170px",
-                // height: "170px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                // backgroundColor: "whitesmoke",
-              }}
-            >
-              <QrCodeGenerator
-                qr={qr}
-                GenerateQRCode={GenerateQRCode}
-                petname={pet.name}
-              />
-            </Box>
-        }
-        {!isMobile &&  <Stack>
-            <Box
-              sx={{
-                ml: 10,
-                width: "170px",
-                height: "170px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "whitesmoke",
-              }}
-            >
-              <QrCodeGenerator
-                qr={qr}
-                GenerateQRCode={GenerateQRCode}
-                petname={pet.name}
-              />
-            </Box>
-          </Stack>}
-        </Stack>
+        )}
+
         <PetsModal
           open={open}
           onClick={closepopup}

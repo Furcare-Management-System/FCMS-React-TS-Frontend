@@ -33,6 +33,7 @@ export default function Consultation({ sid }) {
   const [notification, setNotification] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [date, setDate] = useState(new Date());
 
   const [consultations, setConsultations] = useState([]);
   const [pets, setPets] = useState([]);
@@ -85,8 +86,8 @@ export default function Consultation({ sid }) {
     remarks: "",
     unit_price: null,
     pet_id: null,
-    followup:null,
-    date:null
+    followup: null,
+    date: date,
   });
 
   const [open, openConsultation] = useState(false);

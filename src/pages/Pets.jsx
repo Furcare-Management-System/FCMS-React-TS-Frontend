@@ -186,7 +186,9 @@ export default function Pets() {
                           {r.photo ? (
                             <Avatar
                               alt="pet-photo"
-                              src={`http://localhost:8000/` + r.photo}
+                              src={
+                                `${import.meta.env.VITE_API_BASE_URL}/` + r.photo
+                              }
                               sx={{ width: 50, height: 50 }}
                               variant="rounded"
                             />

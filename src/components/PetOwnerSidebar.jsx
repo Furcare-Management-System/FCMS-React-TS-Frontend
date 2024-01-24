@@ -22,6 +22,7 @@ import {
   ListItemIcon,
   ListItemText,
   Menu,
+  Stack,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
@@ -79,10 +80,10 @@ export default function PetOwnerSidebar() {
         edge="start"
         sx={{
           display: { xs: "block", sm: "none" },
-
+          width: 50,mb:-3
         }}
       >
-        <Reorder  sx={{ width: 40, height: 40 }} />
+        <Reorder sx={{ width: 40, height: 40 }} />
       </IconButton>
       <Drawer
         sx={{
@@ -94,7 +95,7 @@ export default function PetOwnerSidebar() {
             marginTop: "70px",
           },
           display: { xs: "block", sm: "block" },
-          zIndex: 999,
+          zIndex: 2,
         }}
         variant={isMobile ? "temporary" : "permanent"}
         anchor="left"
