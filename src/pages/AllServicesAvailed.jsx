@@ -122,7 +122,7 @@ export default function AllServicesAvailed() {
                     .slice(page * rowperpage, page * rowperpage + rowperpage)
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
-                        <TableCell>{r.date_availed_for}</TableCell>
+                        <TableCell>{r.date}</TableCell>
                         <TableCell>{r.service.service}</TableCell>
                         <TableCell>{r.pet.name}</TableCell>
                         <TableCell>

@@ -27,7 +27,7 @@ export default function ChargeSlipDetailsModal(props) {
     printPDF,
     message,
     payment,
-    clientservice
+    clientservice,
   } = props;
 
   const columns = [
@@ -118,7 +118,12 @@ export default function ChargeSlipDetailsModal(props) {
                     >
                       Remaining Charge:
                     </TableCell>
-                    <TableCell>{payment.total - clientservice.deposit}</TableCell>
+                    <TableCell>
+                      {" "}
+                      {payment.total < clientservice.deposit
+                        ? 0
+                        : payment.total - clientservice.deposit}
+                    </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell
@@ -128,7 +133,11 @@ export default function ChargeSlipDetailsModal(props) {
                     >
                       Type of Payment:
                     </TableCell>
-                    <TableCell>{payment.type !== "Cash" ? `${payment.type} ${payment.type_ref_no}` : payment.type}</TableCell>
+                    <TableCell>
+                      {payment.type !== "Cash"
+                        ? `${payment.type} ${payment.type_ref_no}`
+                        : payment.type}
+                    </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell

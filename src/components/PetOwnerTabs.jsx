@@ -10,6 +10,7 @@ import PetOwnerPayments from "../pages/PetOwnerPayments";
 import ServiceCatBtns from "./ServiceCatTabs";
 import AllServicesAvailed from "../pages/AllServicesAvailed";
 import ToPayServices from "../pages/ToPayServices";
+import Admissions from "../pages/Admissions";
 
 export default function PetOWnerTabs({ petowner }) {
   const [value, setValue] = useState("1");
@@ -25,6 +26,7 @@ export default function PetOWnerTabs({ petowner }) {
           <TabList onChange={handleChange} aria-label="lab API tabs example">
             <Tab label="Pets" value="1" />
             <Tab label="Services" value="6" />
+            <Tab label="Admission" value="7" />
             <Tab label="Appointments" value="2" />
             <Tab label="Payments History" value="4" />
             <Tab label="To Pay Services" value="3" />
@@ -48,6 +50,9 @@ export default function PetOWnerTabs({ petowner }) {
         </TabPanel>
         <TabPanel value="6">
           <ServiceCatBtns />{" "}
+        </TabPanel>
+        <TabPanel value="7">
+          <Admissions />{" "}
         </TabPanel>
       </TabContext>
     </Box>

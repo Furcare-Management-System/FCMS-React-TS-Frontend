@@ -100,7 +100,7 @@ export default function PetOwnerForm() {
       setZipcode({});
       setZipcodeerror(null);
       getZipcodeDetails(selectedZipcode);
-    }, 4000);
+    }, 1000);
 
     return () => clearTimeout(timerId);
   }, [selectedZipcode]);

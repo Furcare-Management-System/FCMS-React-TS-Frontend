@@ -155,7 +155,6 @@ export default function TreatmentModal(props) {
                     label="HR"
                     variant="standard"
                     size="small"
-                    type="number"
                   />
                   <TextField
                     value={treatment.mucous_membranes || ""}
@@ -165,7 +164,6 @@ export default function TreatmentModal(props) {
                     label="MM"
                     variant="standard"
                     size="small"
-                    type="number"
                   />
                   <TextField
                     value={treatment.pr_prealbumin || ""}
@@ -175,7 +173,6 @@ export default function TreatmentModal(props) {
                     label="PR"
                     variant="standard"
                     size="small"
-                    type="number"
                   />
                   <TextField
                     value={treatment.temperature || ""}
@@ -185,7 +182,6 @@ export default function TreatmentModal(props) {
                     label="Temp"
                     variant="standard"
                     size="small"
-                    type="number"
                   />
                 </Stack>
                 <Stack
@@ -201,7 +197,6 @@ export default function TreatmentModal(props) {
                     label="RR"
                     variant="standard"
                     size="small"
-                    type="number"
                   />
                   <TextField
                     value={treatment.caspillar_refill_time || ""}
@@ -214,7 +209,6 @@ export default function TreatmentModal(props) {
                     label="CRT"
                     variant="standard"
                     size="small"
-                    type="number"
                   />
                   <TextField
                     value={treatment.body_condition_score || ""}
@@ -224,7 +218,6 @@ export default function TreatmentModal(props) {
                     label="BCS"
                     variant="standard"
                     size="small"
-                    type="number"
                   />
                   <TextField
                     value={treatment.fluid_rate || ""}
@@ -234,7 +227,6 @@ export default function TreatmentModal(props) {
                     label="FR"
                     variant="standard"
                     size="small"
-                    type="number"
                   />
                 </Stack>
               </Stack>

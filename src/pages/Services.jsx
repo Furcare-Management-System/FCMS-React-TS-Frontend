@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,
+  Button,
   Divider,
   Table,
   TableBody,
@@ -34,13 +35,16 @@ export default function Services() {
   const [servicesavailed, setServicesavailed] = useState([]);
 
   const getServices = () => {
-    setMessage("");
+    setMessage(null);
     setLoading(true);
     axiosClient
       .get(`/servicesavailed`)
       .then(({ data }) => {
         setLoading(false);
         setServicesavailed(data.data);
+        if (servicesavailed.length === 0) {
+          setMessage("No services logs found.");
+        } 
       })
       .catch((mes) => {
         const response = mes.response;
@@ -49,6 +53,7 @@ export default function Services() {
         }
         setLoading(false);
       });
+     
   };
 
   const handlechangepage = (event, newpage) => {
@@ -72,7 +77,25 @@ export default function Services() {
           padding: "20px",
         }}
       >
-        <Typography variant="h5" p={2}>Services Logs</Typography>
+        <Box
+          p={1}
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-between"
+          alignItems={"center"}
+        >
+          <Typography variant="h5" p={2}>
+            Services Logs
+          </Typography>
+          <Button
+            component={Link}
+            to={"/admin/services"}
+            variant="contained"
+            color="info"
+          >
+            services
+          </Button>
+        </Box>
         <TableContainer sx={{ height: "100%" }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
@@ -121,7 +144,7 @@ export default function Services() {
                     .slice(page * rowperpage, page * rowperpage + rowperpage)
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
-                        <TableCell>{r.date_availed_for}</TableCell>
+                        <TableCell>{r.date}</TableCell>
                         <TableCell>{`${r.clientservice.petowner.firstname} ${r.clientservice.petowner.lastname}`}</TableCell>
                         <TableCell>{r.pet.name}</TableCell>
                         <TableCell>{r.service.service}</TableCell>

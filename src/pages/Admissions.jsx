@@ -20,8 +20,9 @@ import AdmissionModal from "../components/modals/AdmissionModal";
 import TreatmentModal from "../components/modals/TreatmentModal";
 import Swal from "sweetalert2";
 
-export default function Admissions({ sid }) {
+export default function Admissions() {
   const { id } = useParams();
+  const sid = 20;
   //for table
   const columns = [
     { id: "Date", name: "Date" },
@@ -153,9 +154,8 @@ export default function Admissions({ sid }) {
           icon: "success",
         });
         getAdmissions();
-
       })
-      
+
       .catch((err) => {
         setOpenmodal(false);
         const response = err.response;
@@ -237,15 +237,6 @@ export default function Admissions({ sid }) {
           justifyContent="space-between"
         >
           <Button
-            onClick={addModal}
-            variant="contained"
-            size="small"
-            color="success"
-          >
-            <Add />
-            treatment
-          </Button>
-          <Button
             onClick={addConsent}
             variant="contained"
             size="small"
@@ -253,6 +244,15 @@ export default function Admissions({ sid }) {
           >
             <Add />
             client deposit
+          </Button>
+          <Button
+            onClick={addModal}
+            variant="contained"
+            size="small"
+            color="success"
+          >
+            <Add />
+            treatment
           </Button>
         </Box>
 

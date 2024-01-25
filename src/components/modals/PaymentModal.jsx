@@ -147,7 +147,11 @@ export default function PaymentModal(props) {
                     variant="outlined"
                     id="Remaining Charge"
                     label="Remaining Charge"
-                    value={payment.total - clientservice.deposit}
+                    value={
+                      payment.total < clientservice.deposit
+                        ? 0
+                        : payment.total - clientservice.deposit
+                    }
                     // onChange={(ev) =>
                     //   handleFieldChange("balance", ev.target.value)
                     // }
@@ -161,7 +165,7 @@ export default function PaymentModal(props) {
                     }}
                     size="small"
                   />
-                  <Divider/>
+                  <Divider />
                   <FormControl>
                     <InputLabel>Type of Payment</InputLabel>
                     <Select
@@ -221,7 +225,7 @@ export default function PaymentModal(props) {
                     required
                     size="small"
                   />
-                    <TextField
+                  <TextField
                     variant="outlined"
                     id="Balance"
                     label="Balance"

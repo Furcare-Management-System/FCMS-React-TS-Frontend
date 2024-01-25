@@ -217,6 +217,7 @@ export default function PetOwnerPayments() {
   const toPay = (r) => {
     setOpenpayment(true);
     setClientservice(r);
+    setPetowner(r.petowner)
   };
 
   const [backdrop, setBackdrop] = useState(false);
@@ -254,8 +255,8 @@ export default function PetOwnerPayments() {
       }).then((result) => {
         if (result.isConfirmed) {
           windowOpenPDFforPrint();
-          getPayments();
         }
+        getPayments();
       });
     } catch (err) {
       setBackdrop(false);

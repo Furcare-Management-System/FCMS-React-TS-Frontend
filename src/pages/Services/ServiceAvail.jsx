@@ -226,7 +226,7 @@ export default function ServiceAvail({ sid, title }) {
                     .slice(page * rowperpage, page * rowperpage + rowperpage)
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
-                        <TableCell>{r.date_availed_for}</TableCell>
+                        <TableCell>{r.date}</TableCell>
                         <TableCell>{r.pet.name}</TableCell>
                         <TableCell>{r.status}</TableCell>
                         <TableCell>

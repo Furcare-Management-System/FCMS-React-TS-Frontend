@@ -262,7 +262,7 @@ export default function ViewMyPet() {
     QRCode.toDataURL(
       qrval,
       {
-        width: 120,
+        width: 150,
         margin: 2,
         color: {
           dark: "#000000",
@@ -314,7 +314,7 @@ export default function ViewMyPet() {
               </Button>
             </Stack>
             <Stack flexDirection="column" padding={1}>
-              {!isMobile && <Typography variant="h6" fontWeight={"bold"}>Pet Details</Typography>}
+              {!isMobile && <Typography variant="h6" fontWeight={"bold"}>Pet Information</Typography>}
               <Stack flexDirection="row" justifyContent={"space-evenly"}>
                 <Stack sx={{ marginRight: "10px" }}>
                   <Typography>Pet Name: {pet.name}</Typography>
@@ -386,7 +386,7 @@ export default function ViewMyPet() {
               </Box>
             </Stack>
             <Stack flexDirection="column" padding={1}>
-              <Typography variant="h5" fontWeight={"bold"}>Pet Details</Typography>
+              <Typography variant="h5" fontWeight={"bold"}>Pet Information</Typography>
               <Stack flexDirection="column" justifyContent={"space-evenly"}>
                 <Stack sx={{ marginRight: "10px" }}>
                   <Typography>Pet Name: {pet.name}</Typography>

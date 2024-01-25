@@ -158,16 +158,9 @@ export default function TreatmentForm() {
       >
         <Box
           flexDirection={"row"}
-          justifyContent={"space-between"}
+          justifyContent={"right"}
           display={"flex"}
         >
-          <Button
-            variant="contained"
-            onClick={() => navigate(-1)}
-            sx={{ width: "10%" }}
-          >
-            back
-          </Button>
           <Button
             variant="contained"
             onClick={treatmentPDF}
@@ -256,7 +249,6 @@ export default function TreatmentForm() {
                 InputLabelProps={{ shrink: true }}
                 variant="standard"
                 size="small"
-                type="number"
                 InputProps={{
                   readOnly: edittreatment ? false : true,
                 }}
@@ -270,7 +262,6 @@ export default function TreatmentForm() {
                 InputLabelProps={{ shrink: true }}
                 variant="standard"
                 size="small"
-                type="number"
                 InputProps={{
                   readOnly: edittreatment ? false : true,
                 }}
@@ -286,7 +277,6 @@ export default function TreatmentForm() {
                 InputLabelProps={{ shrink: true }}
                 variant="standard"
                 size="small"
-                type="number"
                 InputProps={{
                   readOnly: edittreatment ? false : true,
                 }}
@@ -300,7 +290,6 @@ export default function TreatmentForm() {
                 InputLabelProps={{ shrink: true }}
                 variant="standard"
                 size="small"
-                type="number"
                 InputProps={{
                   readOnly: edittreatment ? false : true,
                 }}
@@ -314,7 +303,6 @@ export default function TreatmentForm() {
                 InputLabelProps={{ shrink: true }}
                 variant="standard"
                 size="small"
-                type="number"
                 InputProps={{
                   readOnly: edittreatment ? false : true,
                 }}
@@ -330,7 +318,6 @@ export default function TreatmentForm() {
                 InputLabelProps={{ shrink: true }}
                 variant="standard"
                 size="small"
-                type="number"
                 InputProps={{
                   readOnly: edittreatment ? false : true,
                 }}
@@ -344,7 +331,6 @@ export default function TreatmentForm() {
                 InputLabelProps={{ shrink: true }}
                 variant="standard"
                 size="small"
-                type="number"
                 InputProps={{
                   readOnly: edittreatment ? false : true,
                 }}
@@ -358,7 +344,6 @@ export default function TreatmentForm() {
                 InputLabelProps={{ shrink: true }}
                 variant="standard"
                 size="small"
-                type="number"
                 InputProps={{
                   readOnly: edittreatment ? false : true,
                 }}

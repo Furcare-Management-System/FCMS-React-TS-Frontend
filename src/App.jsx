@@ -40,6 +40,7 @@ import VDTabs from "./components/VDTabs";
 import ViewMyPet from "./pages/PetownerPages/ViewMyPet";
 import PetOwnerPaymentsHistory from "./pages/PetownerPages/PetOwnerPaymentsHistory";
 import PetOwnerServicesAvailed from "./pages/PetownerPages/PetOwnerServicesAvailed";
+import ServiceAvaileble from "./pages/ServiceAvailable";
 
 const roles = {
   ADMIN: "1",
@@ -48,18 +49,7 @@ const roles = {
 };
 
 function App() {
-  // useEffect(() => {
-  //   // Fetch initial data from your Laravel backend
-  //   axios
-  //     .get("/api/today")
-  //     .then((response) => {
-  //       console.log("Initial Data Received:", response.data);
-  //       // Perform actions based on the initial data
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching initial data:", error);
-  //     });
-  // }, []);
+
   return (
     <>
       <Routes>
@@ -105,6 +95,7 @@ function App() {
             <Route path="vaccinations" element={<VDTabs />} />
 
             <Route path="myprofile" element={<ViewStaffEdit />} />
+            <Route path="services" element={<ServiceAvaileble />} />
           </Route>
           <Route element={<RequireAuth allowedRoles={[roles.ADMIN]} />}>
             <Route path="/admin/settings" element={<SettingsTabs />} />

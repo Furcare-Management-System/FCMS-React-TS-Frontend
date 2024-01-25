@@ -32,7 +32,6 @@ export default function SettingsTabs() {
             <Tab label="Veterinarians" value="4" />
             <Tab label="Species" value="5" />
             <Tab label="Breeds" value="6" />
-            <Tab label="Services" value="8" />
             <Tab label="Payment Records" value="7" />
             <Tab label="Archives" value="10" />
           </TabList>
@@ -43,7 +42,6 @@ export default function SettingsTabs() {
         <TabPanel value="4"><Vets/></TabPanel>
         <TabPanel value="5"><Species/></TabPanel>
         <TabPanel value="6"><Breeds/></TabPanel>
-        <TabPanel value="8"><ServiceAvaileble/></TabPanel>
         <TabPanel value="7"><Payments/></TabPanel>
         <TabPanel value="10"><ArchiveTabs/></TabPanel>
       </TabContext>

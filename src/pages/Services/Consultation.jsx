@@ -87,7 +87,6 @@ export default function Consultation({ sid }) {
     unit_price: null,
     pet_id: null,
     followup: null,
-    date: date,
   });
 
   const [open, openConsultation] = useState(false);

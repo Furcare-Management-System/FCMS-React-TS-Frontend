@@ -74,7 +74,6 @@ export default function PetOwnerServicesAvailed() {
           padding: "20px",
         }}
       >
-        <Divider />
         {!isMobile && (
           <Typography p={2} variant="h5">
             Availed Services
@@ -135,7 +134,7 @@ export default function PetOwnerServicesAvailed() {
                     .slice(page * rowperpage, page * rowperpage + rowperpage)
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
-                        <TableCell>{r.date_availed_for}</TableCell>
+                        <TableCell>{r.date}</TableCell>
                         <TableCell>{r.pet.name}</TableCell>
                         <TableCell>{r.service.service}</TableCell>
                         <TableCell>
@@ -203,7 +202,7 @@ export default function PetOwnerServicesAvailed() {
                               fontSize: "15px",
                             }}>
                             <div>
-                              <strong>Date:</strong> {r.date_availed_for}
+                              <strong>Date:</strong> {r.date}
                             </div>
                             <div>
                               <strong>Pet:</strong> {r.pet.name}

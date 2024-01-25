@@ -223,7 +223,11 @@ export default function Signup() {
                   }
                   required
                   error={errors && errors.email ? true : false}
-                  helperText={errors && errors.email}
+                  helperText={
+                    errors && errors.email
+                      ? errors && errors.email
+                      : "Please input a valid email address."
+                  }
                   autoFocus
                 />
               </Grid>
@@ -240,9 +244,12 @@ export default function Signup() {
                   onChange={(ev) =>
                     setPetowner({ ...petowner, password: ev.target.value })
                   }
-                  placeholder="Password should be at least 8 characters long."
                   error={errors && errors.password ? true : false}
-                  helperText={errors && errors.password}
+                  helperText={
+                    errors && errors.password
+                      ? errors && errors.password
+                      : "Your password must be at least 8 characters long and contain numbers and letters."
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
@@ -261,7 +268,6 @@ export default function Signup() {
                       password_confirmation: ev.target.value,
                     })
                   }
-                  placeholder="Password should be at least 8 characters long."
                   error={errors && errors.password_confirmation ? true : false}
                   helperText={errors && errors.password_confirmation}
                 />
@@ -446,7 +452,7 @@ export default function Signup() {
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundBlendMode: "soft-light",
-        position: "fixed",
+        position: "absolute",
         backdropFilter: "blur(10px)",
         backgroundColor: "rgba(0,0,30,0.4)",
       }}
@@ -457,14 +463,13 @@ export default function Signup() {
           backgroundColor: "white",
           borderRadius: "5%", // Adjust radius for mobile
           p: 1, // Remove padding for mobile
-          mt: isMobile ? "20%" : "5%",
+          mt: isMobile ? "20%" : "3%",
         }}
         component="main"
         maxWidth="sm"
       >
         <Box
           sx={{
-            p: 1,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
