@@ -20,7 +20,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   const redirectToHome = () => {
-    navigate('/home');
+    navigate("/home");
     window.location.reload();
   };
 
@@ -93,12 +93,8 @@ export default function Login() {
           }}
           p={2}
         >
-          <img
-            src="furcare-logo.png"
-            height={"70"}
-            width={"70"}
-          />
-          <Typography variant={isMobile ? "body1":"h6"} fontWeight={"bold"}>
+          <img src="furcare-logo.png" height={"70"} width={"70"} />
+          <Typography variant={isMobile ? "body1" : "h6"} fontWeight={"bold"}>
             FUR CARE VETERINARY CLINIC
           </Typography>
           <Box component="form" onSubmit={onSubmit}>
@@ -134,11 +130,6 @@ export default function Login() {
               size="small"
               required
             />
-            {/* <Grid item xs align="right">
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid> */}
             <Button
               type="submit"
               fullWidth
@@ -148,12 +139,18 @@ export default function Login() {
               Login
             </Button>
           </Box>
-          <Box textAlign="center">
-            <Typography variant="body1">
+           <Box textAlign="center" display="flex" flexDirection={"row"}>
+            <Typography variant="body1" p={1}>
               Don't have an account?{" "}
-              <Link to="/signup" variant="body1">
-                Sign Up
-              </Link>
+            </Typography>
+            <Typography
+              variant="body2"
+              color={"blue"}
+              onClick={() => navigate("/signup")}
+              component={Button}
+              size="small"
+            >
+              Sign Up
             </Typography>
           </Box>
         </Box>
