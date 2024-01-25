@@ -151,7 +151,7 @@ export default function Login() {
           <Box textAlign="center">
             <Typography variant="body1">
               Don't have an account?{" "}
-              <Link href="/signup" variant="body1">
+              <Link to="/signup" variant="body1">
                 Sign Up
               </Link>
             </Typography>

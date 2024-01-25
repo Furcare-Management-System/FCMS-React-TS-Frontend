@@ -140,7 +140,7 @@ export default function AdminHome() {
               sx={{
                 mt: 4,
                 width: "330px",
-                height: "320px",
+                height: "310px",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",

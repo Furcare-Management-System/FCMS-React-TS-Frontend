@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import QrCodeScanner from "../../components/QrCodeScanner";
-import {
-  Grid,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { Grid, Paper, Typography } from "@mui/material";
 import { Add, Close, Money, Paid, People } from "@mui/icons-material";
 import TotalGraph from "../../components/TotalGraph";
 import axiosClient from "../../axios-client";
@@ -84,7 +80,9 @@ export default function PetownerHome() {
 
   return (
     <>
-      <Paper sx={{ padding: "15px", margin: "10px", height: "100%" }}>
+      <Paper
+        sx={{ padding: "15px", margin: "10px", height: "100%" }}
+      >
         <Typography variant="h5" mb={1}>
           Home
         </Typography>
