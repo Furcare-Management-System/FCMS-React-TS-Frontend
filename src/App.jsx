@@ -52,7 +52,7 @@ function App() {
 
   return (
     <>
-      <Routes>
+      <Routes >
         {/* Authenticated Routes */}
 
         <Route path="/" element={<MainLayout />}>
