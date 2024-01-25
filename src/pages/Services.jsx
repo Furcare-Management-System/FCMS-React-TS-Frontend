@@ -44,7 +44,7 @@ export default function Services() {
         setServicesavailed(data.data);
         if (servicesavailed.length === 0) {
           setMessage("No services logs found.");
-        } 
+        }
       })
       .catch((mes) => {
         const response = mes.response;
@@ -53,7 +53,6 @@ export default function Services() {
         }
         setLoading(false);
       });
-     
   };
 
   const handlechangepage = (event, newpage) => {
@@ -124,7 +123,7 @@ export default function Services() {
               </TableBody>
             )}
 
-            {!loading && message && (
+            {!servicesavailed && !loading && message && (
               <TableBody>
                 <TableRow>
                   <TableCell

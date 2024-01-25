@@ -11,14 +11,17 @@ import { Alert, Link, Paper, useMediaQuery } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axios-client";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const { user, updateUser, setToken, updateStaff, token, updatePetowner } =
     useStateContext();
   const isMobile = useMediaQuery("(max-width:600px)");
+  const navigate = useNavigate();
 
   const redirectToHome = () => {
-    window.location.href = "/home";
+    navigate('/home');
+    window.location.reload();
   };
 
   const emailRef = useRef();
@@ -57,7 +60,7 @@ export default function Login() {
       });
   };
 
-  const imageURL = "../src/assets/furcarebg.jpg";
+  const imageURL = "../../public/furcarebg.jpg";
 
   return (
     <Paper
@@ -91,7 +94,7 @@ export default function Login() {
           p={2}
         >
           <img
-            src="../src/assets/furcare-logo.png"
+            src="../../public/furcare-logo.png"
             height={"70"}
             width={"70"}
           />

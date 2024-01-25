@@ -90,7 +90,7 @@ export default function ServiceAvaileble() {
 
         {notification && <Alert severity="success">{notification}</Alert>}
 
-        <TableContainer sx={{ height: 340 }}>
+        <TableContainer sx={{ height: "100%" }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>

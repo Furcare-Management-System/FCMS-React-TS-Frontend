@@ -55,7 +55,7 @@ export default function Signup() {
     zipcode: "",
   });
 
-  const imageURL = "../src/assets/furcarebg.jpg";
+  const imageURL = "../../public/furcarebg.jpg";
 
   const [activeStep, setActiveStep] = useState(0);
   const [zipcodeloading, setzipcodeLoading] = useState(0);

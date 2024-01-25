@@ -35,7 +35,7 @@ export default function Navbar() {
           <IconButton edge="start" color="inherit" aria-label="menu" 
           >
             <img
-              src="/../src/assets/furcare-logo.png"
+              src="/../../public/furcare-logo.png"
               height={"50"}
               width={"50"}
             />
