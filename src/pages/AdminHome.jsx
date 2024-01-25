@@ -139,7 +139,7 @@ export default function AdminHome() {
             <Box
               sx={{
                 mt: 4,
-                width: "320px",
+                width: "330px",
                 height: "320px",
                 display: "flex",
                 flexDirection: "column",
