@@ -60,7 +60,7 @@ export default function Login() {
       });
   };
 
-  const imageURL = "/furcarebg.jpg";
+  const imageURL = "furcarebg.jpg";
 
   return (
     <Paper
@@ -94,7 +94,7 @@ export default function Login() {
           p={2}
         >
           <img
-            src="/furcare-logo.png"
+            src="furcare-logo.png"
             height={"70"}
             width={"70"}
           />
