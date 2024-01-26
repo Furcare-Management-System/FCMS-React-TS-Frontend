@@ -25,7 +25,7 @@ import TestResultModal from "../../components/modals/TestResultModal";
 import EnlargeImageModal from "../../components/modals/EnlargeImageModal";
 import AttachmentModal from "../../components/modals/AttachmentModal";
 
-export default function TestResults({ sid,sname }) {
+export default function TestResults({ sid, sname }) {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
@@ -389,7 +389,10 @@ export default function TestResults({ sid,sname }) {
                           <TableCell>{r.pet.name}</TableCell>
                           <TableCell>
                             <img
-                              src={`http://localhost:8000/` + r.attachment}
+                              src={
+                                `${import.meta.env.VITE_API_BASE_URL}/` +
+                                r.attachment
+                              }
                               height="50"
                               width="50"
                               onClick={() => toggleImage(r)}
