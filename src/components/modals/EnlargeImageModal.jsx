@@ -20,8 +20,8 @@ export default function EnlargeImageModal(props) {
   };
 
   return (
-    <div style={{ maxWidth: '200%', maxHeight: '100%', overflow: 'auto' }}>
-      <Dialog open={open} onClose={onClose} fullWidth >
+    <div style={{ maxWidth: "200%", maxHeight: "100%", overflow: "auto" }}>
+      <Dialog open={open} onClose={onClose} fullWidth>
         <DialogTitle>
           {title}
           <IconButton onClick={onClose} style={{ float: "right" }}>
@@ -38,7 +38,9 @@ export default function EnlargeImageModal(props) {
               ))}
             </Box>
           )}
-         <Button variant="contained" size="small" onClick={rotateImage}>Rotate 90°</Button>
+          <Button variant="contained" size="small" onClick={rotateImage}>
+            Rotate 90°
+          </Button>
           <img
             style={{
               top: 0,
@@ -51,7 +53,7 @@ export default function EnlargeImageModal(props) {
               alignItems: "center",
               transform: `rotate(${rotation}deg)`,
             }}
-            src={`http://localhost:8000/` + image}
+            src={`${import.meta.env.VITE_API_BASE_URL}/` + image}
           />
         </DialogContent>
       </Dialog>
