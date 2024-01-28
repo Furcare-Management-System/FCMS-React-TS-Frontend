@@ -90,6 +90,7 @@ export default function Admissions() {
   const [modalloading, setModalloading] = useState(false);
   const [clientservice, setClientservice] = useState({
     id: null,
+    date:null,
     deposit: null,
   });
   const [treatment, setTreatment] = useState({

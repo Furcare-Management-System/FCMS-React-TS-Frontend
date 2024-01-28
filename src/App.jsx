@@ -41,6 +41,7 @@ import ViewMyPet from "./pages/PetownerPages/ViewMyPet";
 import PetOwnerPaymentsHistory from "./pages/PetownerPages/PetOwnerPaymentsHistory";
 import PetOwnerServicesAvailed from "./pages/PetownerPages/PetOwnerServicesAvailed";
 import ServiceAvaileble from "./pages/ServiceAvailable";
+import ForgotPassword from "./pages/ForgotPassword";
 
 const roles = {
   ADMIN: "1",
@@ -142,6 +143,7 @@ function App() {
         <Route path="/" element={<GuestLayout />}>
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
+          <Route path="forgotpassword" element={<ForgotPassword />} />
         </Route>
 
         {/* 404 Not Found */}

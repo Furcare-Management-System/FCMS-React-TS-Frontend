@@ -61,6 +61,9 @@ export default function EditAppointment(props) {
     setWithremarks(!!appointment.remarks);
   }, [appointment.remarks]);
 
+  const today = new Date();
+  today.setHours(8, 0, 0, 0);
+  
   return (
     <>
       <Backdrop open={loading} style={{ zIndex: 999 }}>
@@ -123,7 +126,7 @@ export default function EditAppointment(props) {
                   onChange={(ev) => handleFieldChange("date", ev.target.value)}
                   InputLabelProps={{ shrink: true }}
                   inputProps={{
-                    min: new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().split("T")[0] + "T00:00",
+                    min:  new Date().toISOString().split("T")[0] + "T00:00",
                   }}
                   required
                 />

@@ -17,6 +17,7 @@ import {
   Avatar,
   Grid,
   useTheme,
+  CircularProgress,
 } from "@mui/material";
 import Swal from "sweetalert2";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -34,13 +35,14 @@ export default function Signup() {
   const [code, setCode] = useState(null);
   const [entercode, setEnterCode] = useState(null);
   const [loading, setLoading] = useState(null);
+  const [zipcodeloading, setZipcodeloading] = useState(false);
 
   const [petowner, setPetowner] = useState({
     id: null,
     firstname: "",
     lastname: "",
     contact_num: "",
-    zipcode_id: null,
+    zipcode_id: "",
     barangay: "",
     zone: "",
     email: "",
@@ -58,7 +60,6 @@ export default function Signup() {
   const imageURL = "furcarebg.jpg";
 
   const [activeStep, setActiveStep] = useState(0);
-  const [zipcodeloading, setzipcodeLoading] = useState(0);
 
   const steps = [
     "Create a User Account",
@@ -74,20 +75,22 @@ export default function Signup() {
     axiosClient
       .post("/signup", petowner)
       .then(({ data }) => {
+        setLoading(false);
         if (data?.status === 204) {
           Swal.fire({
             title: "Success",
             text: "You have been successfully registered!",
             icon: "success",
+            allowOutsideClick: false,
           }).then((result) => {
             if (result.isConfirmed) {
-              setLoading(false);
               navigate("/login");
             }
           });
         }
       })
       .catch((err) => {
+        setLoading(false);
         const response = err.response;
         if (response && response.status == 422) {
           setErrors(response.data.errors);
@@ -95,7 +98,6 @@ export default function Signup() {
         if (errors.email || errors.password) {
           setActiveStep(0);
         }
-        setLoading(false);
       });
   };
 
@@ -127,14 +129,19 @@ export default function Signup() {
 
   const handlePetowner = (e) => {
     e.preventDefault();
+    setLoading(true);
+
     if (code === entercode) {
       setActiveStep(2);
+      setLoading(false);
     } else {
       Swal.fire({
         // title: "Error",
         text: "You have entered wrong verification code.",
         icon: "error",
+        allowOutsideClick: false,
       });
+      setLoading(false);
     }
   };
 
@@ -162,6 +169,7 @@ export default function Signup() {
 
   useEffect(() => {
     let timerId;
+    setZipcodeloading(true);
 
     clearTimeout(timerId);
 
@@ -170,16 +178,19 @@ export default function Signup() {
       setZipcodeerror(null);
       setErrors(null);
       getZipcodeDetails(selectedZipcode);
+      setZipcodeloading(false);
     }, 1000);
 
-    return () => clearTimeout(timerId);
+    return () => {
+      clearTimeout(timerId);
+      setZipcodeloading(false);
+    };
   }, [selectedZipcode]);
 
   const getZipcodeDetails = (query) => {
     if (query) {
       setZipcode({});
       setZipcodeerror(null);
-      setzipcodeLoading(true);
       axiosClient
         .get(`/zipcodedetails/${query}`)
         .then(({ data }) => {
@@ -188,14 +199,12 @@ export default function Signup() {
             ...prevStaff,
             zipcode_id: data.data.id,
           }));
-          setzipcodeLoading(false);
         })
         .catch((error) => {
           const response = error.response;
           if (response && response.status === 404) {
             setZipcodeerror(response.data.message);
           }
-          setzipcodeLoading(false);
         });
     }
   };
@@ -217,7 +226,7 @@ export default function Signup() {
                   size="small"
                   type="email"
                   fullWidth
-                  value={petowner.email}
+                  value={petowner.email || ""}
                   onChange={(ev) =>
                     setPetowner({ ...petowner, email: ev.target.value })
                   }
@@ -240,7 +249,7 @@ export default function Signup() {
                   type="password"
                   required
                   fullWidth
-                  value={petowner.password}
+                  value={petowner.password || ""}
                   onChange={(ev) =>
                     setPetowner({ ...petowner, password: ev.target.value })
                   }
@@ -261,7 +270,7 @@ export default function Signup() {
                   fullWidth
                   required
                   type="password"
-                  value={petowner.password_confirmation}
+                  value={petowner.password_confirmation || ""}
                   onChange={(ev) =>
                     setPetowner({
                       ...petowner,
@@ -284,7 +293,13 @@ export default function Signup() {
                   We have sent a verification code to your email address.
                 </Typography>
                 <Typography p={1} fontWeight={"bold"}>
-                  {petowner.email}
+                  {petowner.email}{" "}
+                  <Button
+                    sx={{ fontSize: "10px", color: "blue" }}
+                    onClick={verifyEmail}
+                  >
+                    resend
+                  </Button>
                 </Typography>
               </Grid>
               <Grid item xs={12}>
@@ -311,7 +326,7 @@ export default function Signup() {
                   size="small"
                   id="firstname"
                   label="Firstname"
-                  value={petowner.firstname}
+                  value={petowner.firstname || ""}
                   onChange={(ev) =>
                     setPetowner({ ...petowner, firstname: ev.target.value })
                   }
@@ -328,7 +343,7 @@ export default function Signup() {
                   id="Lastname"
                   label="Lastname"
                   fullWidth
-                  value={petowner.lastname}
+                  value={petowner.lastname || ""}
                   onChange={(ev) =>
                     setPetowner({ ...petowner, lastname: ev.target.value })
                   }
@@ -353,7 +368,7 @@ export default function Signup() {
                       <InputAdornment position="start">+63</InputAdornment>
                     ),
                   }}
-                  value={petowner.contact_num}
+                  value={petowner.contact_num || ""}
                   onChange={(ev) => {
                     const input = ev.target.value.slice(0, 10);
                     setPetowner({ ...petowner, contact_num: input });
@@ -369,7 +384,7 @@ export default function Signup() {
                   size="small"
                   label="Zone/Block/Street"
                   fullWidth
-                  value={petowner.zone}
+                  value={petowner.zone || ""}
                   onChange={(ev) =>
                     setPetowner({ ...petowner, zone: ev.target.value })
                   }
@@ -384,7 +399,7 @@ export default function Signup() {
                   label="Barangay"
                   size="small"
                   fullWidth
-                  value={petowner.barangay}
+                  value={petowner.barangay || ""}
                   onChange={(ev) =>
                     setPetowner({ ...petowner, barangay: ev.target.value })
                   }
@@ -402,35 +417,45 @@ export default function Signup() {
                   fullWidth={!zipcode.area}
                   value={selectedZipcode}
                   onChange={handleZipcodeChange}
-                  disabled={zipcodeloading}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        {zipcodeloading && <CircularProgress size={15} />}
+                      </InputAdornment>
+                    ),
+                  }}
                   required
                   error={
                     (errors && errors.zipcode_id) || zipcodeerror ? true : false
                   }
                   helperText={(errors && errors.zipcode_id) || zipcodeerror}
                 />
-                {zipcode.area && (
-                  <>
-                    <Grid item xs={12}>
-                      <TextField
-                        id="Area"
-                        label="Area"
-                        size="small"
-                        value={zipcode.area || ""}
-                        required
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        id="Province"
-                        label="Province"
-                        size="small"
-                        value={zipcode.province || ""}
-                        required
-                      />
-                    </Grid>
-                  </>
-                )}
+                <Grid item xs={12}>
+                  <TextField
+                    id="Area"
+                    label="Area"
+                    size="small"
+                    value={zipcode.area || ""}
+                    required
+                    InputProps={{
+                      readOnly: true,
+                      "aria-readonly": true,
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    id="Province"
+                    label="Province"
+                    size="small"
+                    value={zipcode.province || ""}
+                    required
+                    InputProps={{
+                      readOnly: true,
+                      "aria-readonly": true,
+                    }}
+                  />
+                </Grid>
               </Grid>
             </Grid>
           </Box>
@@ -529,24 +554,28 @@ export default function Signup() {
                     )}
                     {activeStep === 1 && (
                       <>
-                        <Button
-                          variant="contained"
+                        <LoadingButton
+                          size="small"
+                          loading={loading}
                           color="primary"
                           type="submit"
+                          variant="contained"
                         >
                           Verify
-                        </Button>
+                        </LoadingButton>
                       </>
                     )}
                     {activeStep === 2 && (
                       <>
-                        <Button
-                          variant="contained"
+                        <LoadingButton
+                          size="small"
+                          loading={loading}
                           color="primary"
                           type="submit"
+                          variant="contained"
                         >
                           Register
-                        </Button>
+                        </LoadingButton>
                       </>
                     )}
                   </Box>

@@ -107,8 +107,7 @@ export default function Vets() {
   const [modalloading, setModalloading] = useState(false);
   const [vet, setVet] = useState({
     id: null,
-    role: "",
-    description: "",
+    fullname: "",
   });
 
   const onEdit = (r) => {
@@ -225,7 +224,7 @@ export default function Vets() {
                     variant="outlined"
                     id="Full Name"
                     label="Full Name"
-                    value={vet.fullname}
+                    value={vet.fullname || ""}
                     onChange={(ev) =>
                       setVet({ ...vet, fullname: ev.target.value })
                     }

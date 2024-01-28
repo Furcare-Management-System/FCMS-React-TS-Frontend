@@ -37,6 +37,7 @@ export default function Profile() {
   //for menuitem
 
   const logoutmodal = () => {
+    setAnchorEl(null);
     Swal.fire({
       icon: "question",
       title: "Do you want to logout?",

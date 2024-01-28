@@ -532,7 +532,7 @@ export default function Appointments() {
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
                         <TableCell>{r.id}</TableCell>
-                        <TableCell>{r.date}</TableCell>
+                        <TableCell>{new Date(r.date).toDateString()}</TableCell>
                         <TableCell>{`${r.petowner.firstname} ${r.petowner.lastname}`}</TableCell>
                         <TableCell>
                           {services

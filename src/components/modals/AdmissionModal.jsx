@@ -14,6 +14,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
+import { format } from "date-fns";
 
 export default function AdmissionModal(props) {
   const {
@@ -25,12 +26,18 @@ export default function AdmissionModal(props) {
     setClientservice,
     errors,
     loading,
+    isUpdate,
   } = props;
 
   const handleFieldChange = (fieldName, value) => {
     const updatedAdmission = { ...clientservice, [fieldName]: value };
     setClientservice(updatedAdmission);
   };
+
+  const [date, setDate] = useState(new Date());
+  const parsedDate = new Date(clientservice.date);
+  const clientserviceDate = format(parsedDate, "MMMM d, yyyy h:mm a");
+  const dateToday = format(date, "MMMM d, yyyy h:mm a");
 
   return (
     <>
@@ -57,18 +64,33 @@ export default function AdmissionModal(props) {
             )}
             <form onSubmit={(e) => onSubmit(e)}>
               <Stack spacing={2} margin={2}>
-                <TextField
-                  variant="outlined"
-                  id="Date"
-                  label="Date"
-                  value={new Date().toLocaleDateString()}
-                  InputLabelProps={{ shrink: true }}
-                  InputProps={{
-                    readOnly: true,
-                    "aria-readonly": true,
-                  }}
-                  required
-                />
+                {isUpdate ? (
+                  <TextField
+                    variant="outlined"
+                    id="Date"
+                    label="Date"
+                    value={clientserviceDate}
+                    InputLabelProps={{ shrink: true }}
+                    InputProps={{
+                      readOnly: true,
+                      "aria-readonly": true,
+                    }}
+                    required
+                  />
+                ) : (
+                  <TextField
+                    variant="outlined"
+                    id="Date"
+                    label="Date"
+                    value={dateToday}
+                    InputLabelProps={{ shrink: true }}
+                    InputProps={{
+                      readOnly: true,
+                      "aria-readonly": true,
+                    }}
+                    required
+                  />
+                )}
                 <TextField
                   variant="outlined"
                   id="Pet Owner"

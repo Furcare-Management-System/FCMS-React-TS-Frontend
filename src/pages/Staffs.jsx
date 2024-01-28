@@ -17,7 +17,6 @@ import {
   Typography,
 } from "@mui/material";
 import { Add, Archive, Edit, Visibility } from "@mui/icons-material";
-import DropDownButtons from "../components/DropDownButtons";
 import Swal from "sweetalert2";
 
 export default function Staffs() {
@@ -41,7 +40,7 @@ export default function Staffs() {
   const [page, pagechange] = useState(0);
   const [rowperpage, rowperpagechange] = useState(10);
 
-  const [notification, setNotification] = useState("");
+  const [message, setMessage] = useState("");
   const [staffs, setStaffs] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -82,6 +81,9 @@ export default function Staffs() {
 
   useEffect(() => {
     getStaffs();
+    if (staffs.length === 0) {
+      setMessage("No staffs found.");
+    }
   }, []);
 
   return (
@@ -111,8 +113,6 @@ export default function Staffs() {
           </Button>
         </Box>
 
-        {notification && <Alert severity="success">{notification}</Alert>}
-
         <TableContainer sx={{ height: 340 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
@@ -132,6 +132,18 @@ export default function Staffs() {
                 <TableRow>
                   <TableCell colSpan={5} style={{ textAlign: "center" }}>
                     Loading...
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            )}
+             {!loading && message && (
+              <TableBody>
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    style={{ textAlign: "center" }}
+                  >
+                    {message}
                   </TableCell>
                 </TableRow>
               </TableBody>

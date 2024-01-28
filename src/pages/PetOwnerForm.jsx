@@ -12,6 +12,7 @@ import {
   Alert,
   InputAdornment,
   Paper,
+  CircularProgress,
 } from "@mui/material";
 import Swal from "sweetalert2";
 
@@ -21,6 +22,7 @@ export default function PetOwnerForm() {
 
   const [selectedZipcode, setSelectedZipcode] = useState(null);
   const [zipcodeerror, setZipcodeerror] = useState(null);
+  const [zipcodeloading, setZipcodeloading] = useState(false);
 
   const [petowner, setPetowner] = useState({
     id: null,
@@ -93,16 +95,20 @@ export default function PetOwnerForm() {
 
   useEffect(() => {
     let timerId;
+    setZipcodeloading(true);
 
     clearTimeout(timerId);
-
     timerId = setTimeout(() => {
       setZipcode({});
       setZipcodeerror(null);
       getZipcodeDetails(selectedZipcode);
+      setZipcodeloading(false);
     }, 1000);
 
-    return () => clearTimeout(timerId);
+    return () => {
+      clearTimeout(timerId);
+      setZipcodeloading(false);
+    };
   }, [selectedZipcode]);
 
   const getZipcodeDetails = (query) => {
@@ -314,39 +320,41 @@ export default function PetOwnerForm() {
                   (errors && errors.zipcode_id) || zipcodeerror ? true : false
                 }
                 helperText={(errors && errors.zipcode_id) || zipcodeerror}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      {zipcodeloading && <CircularProgress size={15} />}
+                    </InputAdornment>
+                  ),
+                }}
               />
-
-              {zipcode.area && (
-                <>
-                  <Box>
-                    <TextField
-                      id="Area"
-                      label="Area"
-                      size="small"
-                      value={zipcode.area || ""}
-                      required
-                      InputProps={{
-                        readOnly: true,
-                        "aria-readonly": true,
-                      }}
-                    />
-                  </Box>
-                  <Box>
-                    <TextField
-                      id="Province"
-                      label="Province"
-                      size="small"
-                      value={zipcode.province || ""}
-                      fullWidth
-                      required
-                      InputProps={{
-                        readOnly: true,
-                        "aria-readonly": true,
-                      }}
-                    />
-                  </Box>
-                </>
-              )}
+              <Box>
+                <TextField
+                  id="Area"
+                  label="Area"
+                  size="small"
+                  value={zipcode.area || ""}
+                  required
+                  InputProps={{
+                    readOnly: true,
+                    "aria-readonly": true,
+                  }}
+                />
+              </Box>
+              <Box>
+                <TextField
+                  id="Province"
+                  label="Province"
+                  size="small"
+                  value={zipcode.province || ""}
+                  fullWidth
+                  required
+                  InputProps={{
+                    readOnly: true,
+                    "aria-readonly": true,
+                  }}
+                />
+              </Box>
             </Box>
           </Box>
         );
@@ -401,7 +409,12 @@ export default function PetOwnerForm() {
                 )}
                 {activeStep === 1 && (
                   <>
-                    <Button variant="contained" color="primary" type="submit">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      disabled={zipcodeloading}
+                    >
                       Save
                     </Button>
                   </>

@@ -51,6 +51,7 @@ export default function Deworming({ sid }) {
   const [deworminglogs, setDeworminglogs] = useState([]);
   const [deworminglog, setDeworminglog] = useState({
     id: null,
+    date:null,
     weight: "",
     description: "",
     return: "",

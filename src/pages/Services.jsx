@@ -42,9 +42,7 @@ export default function Services() {
       .then(({ data }) => {
         setLoading(false);
         setServicesavailed(data.data);
-        if (servicesavailed.length === 0) {
-          setMessage("No services logs found.");
-        }
+        
       })
       .catch((mes) => {
         const response = mes.response;
@@ -65,6 +63,9 @@ export default function Services() {
 
   useEffect(() => {
     getServices();
+    if (servicesavailed.length === 0) {
+      setMessage("No services logs found.");
+    }
   }, []);
 
   return (
@@ -123,7 +124,7 @@ export default function Services() {
               </TableBody>
             )}
 
-            {!servicesavailed && !loading && message && (
+            {!loading && message && (
               <TableBody>
                 <TableRow>
                   <TableCell

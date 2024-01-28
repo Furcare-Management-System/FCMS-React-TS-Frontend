@@ -11,6 +11,7 @@ import {
   Typography,
   InputAdornment,
   Paper,
+  CircularProgress,
 } from "@mui/material";
 import Swal from "sweetalert2";
 
@@ -20,6 +21,7 @@ export default function StaffForm() {
 
   const [selectedZipcode, setSelectedZipcode] = useState(null);
   const [zipcodeerror, setZipcodeerror] = useState(null);
+  const [zipcodeloading, setZipcodeloading] = useState(false);
 
   const [staff, setStaff] = useState({
     id: null,
@@ -45,6 +47,7 @@ export default function StaffForm() {
 
   const onSubmit = (ev) => {
     ev.preventDefault();
+    setErrors(null);
 
     axiosClient
       .post(`/staffs`, staff)
@@ -89,6 +92,7 @@ export default function StaffForm() {
 
   useEffect(() => {
     let timerId;
+    setZipcodeloading(true);
 
     clearTimeout(timerId);
 
@@ -96,9 +100,13 @@ export default function StaffForm() {
       setZipcode({});
       setZipcodeerror(null);
       getZipcodeDetails(selectedZipcode);
-    }, 4000);
+      setZipcodeloading(false);
+    }, 1000);
 
-    return () => clearTimeout(timerId);
+    return () => {
+      clearTimeout(timerId);
+      setZipcodeloading(false);
+    };
   }, [selectedZipcode]);
 
   const getZipcodeDetails = (query) => {
@@ -292,43 +300,56 @@ export default function StaffForm() {
               helperText={errors && errors.barangay}
             />
 
-            <TextField
-              id="Zipcode"
-              label="Zipcode"
-              size="small"
-              type="number"
-              value={selectedZipcode}
-              onChange={handleZipcodeChange}
-              fullWidth
-              required
-              error={
-                (errors && errors.zipcode_id) || zipcodeerror ? true : false
-              }
-              helperText={(errors && errors.zipcode_id) || zipcodeerror}
-            />
+            <Box display={"flex"} flexDirection={"row"} sx={{ width: "100%" }}>
+              <TextField
+                id="Zipcode"
+                label="Zipcode"
+                size="small"
+                type="number"
+                value={selectedZipcode}
+                onChange={handleZipcodeChange}
+                fullWidth={!zipcode.area}
+                required
+                error={
+                  (errors && errors.zipcode_id) || zipcodeerror ? true : false
+                }
+                helperText={(errors && errors.zipcode_id) || zipcodeerror}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      {zipcodeloading && <CircularProgress size={15} />}
+                    </InputAdornment>
+                  ),
+                }}
+              />
 
-            {zipcode.area && (
-              <>
-                <TextField
-                  id="Area"
-                  label="Area"
-                  size="small"
-                  value={zipcode.area || ""}
-                  fullWidth
-                  required
-                  error={errors && errors.zipcode_id ? true : false}
-                />
-                <TextField
-                  id="Province"
-                  label="Province"
-                  size="small"
-                  value={zipcode.province || ""}
-                  fullWidth
-                  required
-                  error={errors && errors.zipcode_id ? true : false}
-                />
-              </>
-            )}
+              <TextField
+                id="Area"
+                label="Area"
+                size="small"
+                value={zipcode.area || ""}
+                fullWidth
+                required
+                InputProps={{
+                  readOnly: true,
+                  "aria-readonly": true,
+                }}
+                error={errors && errors.zipcode_id ? true : false}
+              />
+              <TextField
+                id="Province"
+                label="Province"
+                size="small"
+                value={zipcode.province || ""}
+                fullWidth
+                required
+                InputProps={{
+                  readOnly: true,
+                  "aria-readonly": true,
+                }}
+                error={errors && errors.zipcode_id ? true : false}
+              />
+            </Box>
           </Box>
         );
       default:

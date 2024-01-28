@@ -17,6 +17,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
+import { format } from 'date-fns';
 
 export default function TreatmentModal(props) {
   const {
@@ -37,6 +38,7 @@ export default function TreatmentModal(props) {
   };
 
   const [date, setDate] = useState(new Date());
+  const formattedDate = format(date, "MMMM d, yyyy h:mm a");
 
   return (
     <>
@@ -78,7 +80,7 @@ export default function TreatmentModal(props) {
                 />
               )}
               <TextField
-                value={date.toLocaleDateString()}
+                value={formattedDate}
                 label="Date"
                 variant="outlined"
                 size="small"

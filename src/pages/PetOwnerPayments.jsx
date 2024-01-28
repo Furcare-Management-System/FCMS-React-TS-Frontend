@@ -340,6 +340,7 @@ export default function PetOwnerPayments() {
           setClientservice={setClientservice}
           // errors={errors}
           loading={modalloading}
+          isUpdate={true}
         />
 
         <BalancePaymentModal

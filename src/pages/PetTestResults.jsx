@@ -415,7 +415,7 @@ export default function PetTestResults({ sid, sname }) {
                           <TableCell>{r.date}</TableCell>
                           <TableCell>
                             <img
-                              src={`http://localhost:8000/` + r.attachment}
+                              src={`${import.meta.env.VITE_API_BASE_URL}/` + r.attachment}
                               height="50"
                               width="50"
                               onClick={() => toggleImage(r)}

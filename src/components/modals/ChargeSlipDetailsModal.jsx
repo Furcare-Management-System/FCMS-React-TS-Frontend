@@ -90,7 +90,7 @@ export default function ChargeSlipDetailsModal(props) {
                       </TableCell>
                     </TableRow>
                   ))}
-                  <TableRow>
+                 {!message && <> <TableRow>
                     <TableCell
                       colSpan={5}
                       align="right"
@@ -169,6 +169,8 @@ export default function ChargeSlipDetailsModal(props) {
                     </TableCell>
                     <TableCell>{clientservice.balance}</TableCell>
                   </TableRow>
+                  </>
+                  }
                 </TableBody>
               </Table>
             </TableContainer>

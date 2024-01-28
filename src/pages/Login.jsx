@@ -6,7 +6,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { Alert, Link, Paper, useMediaQuery } from "@mui/material";
+import { Alert, Link, Paper, Stack, useMediaQuery } from "@mui/material";
 
 import { useEffect, useRef, useState } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
@@ -130,6 +130,16 @@ export default function Login() {
               size="small"
               required
             />
+            <Box textAlign={"right"}>
+              <Typography
+              variant="body2"
+              onClick={() => navigate("/forgotpassword")}
+              component={Button}
+              sx={{fontSize:"10px", alignSelf:"right"}}
+            >
+              Forgot Password?
+            </Typography>
+            </Box>
             <Button
               type="submit"
               fullWidth
