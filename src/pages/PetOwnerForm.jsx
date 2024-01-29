@@ -15,6 +15,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import Swal from "sweetalert2";
+import { LoadingButton } from "@mui/lab";
 
 export default function PetOwnerForm() {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ export default function PetOwnerForm() {
   const [selectedZipcode, setSelectedZipcode] = useState(null);
   const [zipcodeerror, setZipcodeerror] = useState(null);
   const [zipcodeloading, setZipcodeloading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [petowner, setPetowner] = useState({
     id: null,
@@ -49,10 +51,11 @@ export default function PetOwnerForm() {
   const onSubmit = (ev) => {
     ev.preventDefault();
     setErrors(null);
-
+    setLoading(true);
     axiosClient
       .post(`/petowners`, petowner)
       .then((response) => {
+        setLoading(false);
         Swal.fire({
           text: "Petowner registration has been saved!",
           icon: "success",
@@ -65,6 +68,7 @@ export default function PetOwnerForm() {
       })
       .catch((err) => {
         handleErrors(err);
+        setLoading(false);
       });
   };
 
@@ -409,14 +413,14 @@ export default function PetOwnerForm() {
                 )}
                 {activeStep === 1 && (
                   <>
-                    <Button
-                      variant="contained"
-                      color="primary"
+                    <LoadingButton
+                      loading={loading}
                       type="submit"
+                      variant="contained"
                       disabled={zipcodeloading}
                     >
                       Save
-                    </Button>
+                    </LoadingButton>
                   </>
                 )}
               </Box>

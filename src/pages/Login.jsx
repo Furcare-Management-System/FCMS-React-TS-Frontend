@@ -2,7 +2,6 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
@@ -12,6 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axios-client";
 import { useNavigate } from "react-router-dom";
+import { LoadingButton } from "@mui/lab";
 
 export default function Login() {
   const { user, updateUser, setToken, updateStaff, token, updatePetowner } =
@@ -28,6 +28,7 @@ export default function Login() {
   const passwordRef = useRef();
 
   const [errors, setErrors] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = (ev) => {
     ev.preventDefault();
@@ -36,10 +37,11 @@ export default function Login() {
       password: passwordRef.current.value,
     };
     setErrors(null);
-
+    setLoading(true);
     axiosClient
       .post("/login", payload)
       .then(({ data }) => {
+        setLoading(false);
         updateStaff(data.staff);
         updatePetowner(data.petowner);
         updateUser(data.user);
@@ -57,6 +59,7 @@ export default function Login() {
             });
           }
         }
+        setLoading(false);
       });
   };
 
@@ -132,24 +135,25 @@ export default function Login() {
             />
             <Box textAlign={"right"}>
               <Typography
-              variant="body2"
-              onClick={() => navigate("/forgotpassword")}
-              component={Button}
-              sx={{fontSize:"10px", alignSelf:"right"}}
-            >
-              Forgot Password?
-            </Typography>
+                variant="body2"
+                onClick={() => navigate("/forgotpassword")}
+                component={Button}
+                sx={{ fontSize: "10px", alignSelf: "right" }}
+              >
+                Forgot Password?
+              </Typography>
             </Box>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
+            <LoadingButton
               sx={{ mt: 2, mb: 2 }}
+              loading={loading}
+              fullWidth
+              type="submit"
+              variant="contained"
             >
               Login
-            </Button>
+            </LoadingButton>
           </Box>
-           <Box textAlign="center" display="flex" flexDirection={"row"}>
+          <Box textAlign="center" display="flex" flexDirection={"row"}>
             <Typography variant="body1" p={1}>
               Don't have an account?{" "}
             </Typography>

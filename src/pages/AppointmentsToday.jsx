@@ -17,6 +17,7 @@ import { Add, Close, Done, DoneAll, Edit } from "@mui/icons-material";
 import EditAppointment from "../components/modals/EditAppointment";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { format } from 'date-fns';
 
 export default function AppointmentsToday() {
   const navigate = useNavigate();
@@ -388,7 +389,9 @@ export default function AppointmentsToday() {
                 {appointments &&
                   appointments.map((r) => (
                     <TableRow hover role="checkbox" key={r.id}>
-                      <TableCell>{r.date}</TableCell>
+                      <TableCell>
+                        {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
+                      </TableCell>
                       <TableCell>{`${r.petowner.firstname} ${r.petowner.lastname}`}</TableCell>
                       <TableCell>
                         {services

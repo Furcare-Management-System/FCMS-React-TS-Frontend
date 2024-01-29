@@ -196,7 +196,7 @@ export default function ServiceCatBtns() {
             >
               <Divider />
               <TabContext value={value}>
-                <Box sx={{ maxWidth: { xs: 320, sm: 1000 } }}>
+                <Box>
                   <Typography
                     variant="h6"
                     align="center"

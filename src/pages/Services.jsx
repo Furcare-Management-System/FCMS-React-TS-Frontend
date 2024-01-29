@@ -37,6 +37,7 @@ export default function Services() {
   const getServices = () => {
     setMessage(null);
     setLoading(true);
+    setServicesavailed([])
     axiosClient
       .get(`/servicesavailed`)
       .then(({ data }) => {
@@ -63,9 +64,6 @@ export default function Services() {
 
   useEffect(() => {
     getServices();
-    if (servicesavailed.length === 0) {
-      setMessage("No services logs found.");
-    }
   }, []);
 
   return (

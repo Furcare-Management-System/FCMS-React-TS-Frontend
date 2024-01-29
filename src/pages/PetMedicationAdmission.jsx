@@ -12,9 +12,10 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { Add, Archive, Edit, Refresh } from "@mui/icons-material";
+import { Add, Archive, Delete, Edit, Refresh } from "@mui/icons-material";
 import MedicationModal from "../components/modals/MedicationModal";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function PetMedicationAdmission({ pid }) {
   //for table
@@ -46,6 +47,7 @@ export default function PetMedicationAdmission({ pid }) {
 
   const getTreatmentPetMedication = () => {
     setMessage("");
+    setMedications([])
     setLoading(true);
     axiosClient
       .get(`/treatments/${id}/medications`)
@@ -107,12 +109,33 @@ export default function PetMedicationAdmission({ pid }) {
   };
 
   const onArchive = (u) => {
-    if (!window.confirm("Are you sure to archive this medication?")) {
-      return;
-    }
+    // if (!window.confirm("Are you sure to delete this medication?")) {
+    //   return;
+    // }
 
-    axiosClient.delete(`/medications/${u.id}/archive`).then(() => {
-      getTreatmentPetMedication();
+    // axiosClient.delete(`/medications/${u.id}/archive`).then(() => {
+    //   getTreatmentPetMedication();
+    // });
+
+    Swal.fire({
+      title: "Are you sure to delete this medication?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosClient.delete(`/medications/${u.id}/archive`).then(() => {
+          Swal.fire({
+            // title: "Service was archived!",
+            icon: "success",
+            // confirmButtonColor: "black",
+          }).then(() => {
+            getTreatmentPetMedication();
+          });
+        });
+      }
     });
   };
 
@@ -199,7 +222,7 @@ export default function PetMedicationAdmission({ pid }) {
           category={category}
           isUpdate={medication.id}
         />
-        <TableContainer maxWidth="sm">
+        <TableContainer >
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
@@ -244,21 +267,21 @@ export default function PetMedicationAdmission({ pid }) {
                       {admission.status !== "Completed" && (
                         <TableCell>
                           <Stack direction="row">
-                            <IconButton
+                            {/* <IconButton
                               variant="contained"
                               size="small"
                               color="info"
                               onClick={() => onEdit(r)}
                             >
                               <Edit fontSize="small" />
-                            </IconButton>
+                            </IconButton> */}
                             <IconButton
                               variant="contained"
                               color="error"
                               size="small"
                               onClick={() => onArchive(r)}
                             >
-                              <Archive fontSize="small" />
+                              <Delete fontSize="small" />
                             </IconButton>
                           </Stack>
                         </TableCell>

@@ -171,11 +171,11 @@ export default function VaccinationLogsModal(props) {
 
                 <Box border={1} p={1}>
                   <Table>
-                    <TableBody>
+                    <TableBody >
                       {againsts.map((item) => (
                         <TableRow key={item.id}>
-                          <TableCell>{item.acronym}</TableCell>
-                          <TableCell>{item.description}</TableCell>
+                          <TableCell size="small" sx={{fontWeight:"bold"}}>{item.acronym}</TableCell>
+                          <TableCell size="small">{item.description}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>

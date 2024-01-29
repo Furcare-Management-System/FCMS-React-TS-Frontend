@@ -13,16 +13,14 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography,
 } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import axiosClient from "../axios-client";
 import ChargeSlipDetailsModal from "../components/modals/ChargeSlipDetailsModal";
 import Swal from "sweetalert2";
 import AdmissionModal from "../components/modals/AdmissionModal";
-import { useStateContext } from "../contexts/ContextProvider";
-import PaymentModal from "../components/modals/PaymentModal";
 import BalancePaymentModal from "../components/modals/BalancePaymentModal";
+import { format } from "date-fns";
 
 export default function PetOwnerPayments() {
   //for table
@@ -406,7 +404,7 @@ export default function PetOwnerPayments() {
                     .slice(page * rowperpage, page * rowperpage + rowperpage)
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
-                        <TableCell>{r.date}</TableCell>
+                        <TableCell>{format(new Date(r.date), "MMMM d, yyyy h:mm a")}</TableCell>
                         <TableCell>{r.deposit.toFixed(2)}</TableCell>
                         <TableCell>{r.balance.toFixed(2)}</TableCell>
                         <TableCell>{r.status}</TableCell>

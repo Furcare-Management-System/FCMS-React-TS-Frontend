@@ -266,6 +266,7 @@ export default function Admissions() {
           setClientservice={setClientservice}
           errors={errors}
           loading={modalloading}
+          isUpdate={clientservice.id}
         />
         <TreatmentModal
           open={openmodal}

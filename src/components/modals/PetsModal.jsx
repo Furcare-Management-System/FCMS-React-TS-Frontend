@@ -24,6 +24,7 @@ import {
   TextField,
 } from "@mui/material";
 import { Add, Archive, Close, Delete, Edit } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
 
 export default function PetsModal(props) {
   const {
@@ -40,6 +41,7 @@ export default function PetsModal(props) {
     setPet,
     errors,
     isUpdate,
+    submitloading,
   } = props;
 
   const handleFieldChange = (fieldName, value) => {
@@ -241,10 +243,13 @@ export default function PetsModal(props) {
                       placeholder="Enter the other color"
                     />
                   )}
-
-                  <Button color="primary" variant="contained" type="submit">
+                  <LoadingButton
+                    loading={submitloading}
+                    type="submit"
+                    variant="contained"
+                  >
                     Save
-                  </Button>
+                  </LoadingButton>
                 </Stack>
               </form>
             </DialogContent>

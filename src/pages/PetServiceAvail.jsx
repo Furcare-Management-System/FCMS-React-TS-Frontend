@@ -16,6 +16,7 @@ import { useParams } from "react-router-dom";
 import { Add, Archive } from "@mui/icons-material";
 import ServiceAvailModal from "../components/modals/ServiceAvailModal";
 import Swal from "sweetalert2";
+import { format } from "date-fns";
 
 export default function PetServiceAvail({ sid, title }) {
   const { id } = useParams();
@@ -23,7 +24,6 @@ export default function PetServiceAvail({ sid, title }) {
   const columns = [
     { id: "Date", name: "Date" },
     { id: "Service", name: "Service" },
-    { id: "Actions", name: "Actions" },
   ];
 
   const [message, setMessage] = useState("");
@@ -209,18 +209,10 @@ export default function PetServiceAvail({ sid, title }) {
                     .slice(page * rowperpage, page * rowperpage + rowperpage)
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
-                        <TableCell>{r.date}</TableCell>
-                        <TableCell>{r.service.service}</TableCell>
                         <TableCell>
-                          <Button
-                            variant="contained"
-                            size="small"
-                            color="error"
-                            onClick={() => onArchive(r)}
-                          >
-                            <Archive fontSize="small" />
-                          </Button>
+                          {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
                         </TableCell>
+                        <TableCell>{r.service.service}</TableCell>
                       </TableRow>
                     ))}
               </TableBody>

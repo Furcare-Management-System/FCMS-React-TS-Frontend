@@ -21,6 +21,7 @@ import QRCode from "qrcode";
 import CryptoJS from "crypto-js";
 import { useStateContext } from "../contexts/ContextProvider";
 import PetImageModal from "../components/modals/PetImageModal";
+import { format } from "date-fns";
 
 export default function ViewPet() {
   const { id } = useParams();
@@ -50,10 +51,12 @@ export default function ViewPet() {
 
   const [open, setOpen] = useState(false);
   const [upload, setUpload] = useState(false);
+  const [uploadloading, setUploadloading] = useState(false);
   const [uploadError, setUploadError] = useState(null);
   const [petimage, setPetimage] = useState({
     photo: null,
   });
+  const [submitloading, setSubmitloading] = useState(false);
 
   const getPet = () => {
     setNotification(null);
@@ -119,11 +122,13 @@ export default function ViewPet() {
 
   const onSubmit = (ev) => {
     ev.preventDefault();
+    setSubmitloading(true);
 
     if (pet.id) {
       axiosClient
         .put(`/pets/${pet.id}`, pet)
         .then(() => {
+          setSubmitloading(false);
           setNotification("Pet was successfully updated");
           setOpen(false);
           getPet();
@@ -133,6 +138,7 @@ export default function ViewPet() {
           if (response && response.status == 422) {
             setErrors(response.data.errors);
           }
+          setSubmitloading(false);
         });
     } else {
       if (!pet.photo) {
@@ -150,6 +156,7 @@ export default function ViewPet() {
           },
         })
         .then(() => {
+          setSubmitloading(false);
           setNotification("Pet was successfully added");
           setOpen(false);
           getPet();
@@ -159,6 +166,7 @@ export default function ViewPet() {
           if (response && response.status == 422) {
             setErrors(response.data.errors);
           }
+          setSubmitloading(false);
         });
     }
   };
@@ -169,7 +177,7 @@ export default function ViewPet() {
 
   const submitImage = (e) => {
     e.preventDefault();
-
+    setUploadloading(true);
     if (!petimage.photo) {
       setUploadError("Please select an image attachment to upload.");
       return;
@@ -186,6 +194,7 @@ export default function ViewPet() {
           },
         })
         .then((response) => {
+          setUploadloading(false);
           setNotification(response.data.success);
           setUpload(false);
           setPetimage({});
@@ -193,6 +202,7 @@ export default function ViewPet() {
         })
         .catch((response) => {
           setUploadError(response.data.message);
+          setUploadloading(false);
         });
     } catch (error) {
       setUploadError("Failed to upload the attachment.");
@@ -305,10 +315,7 @@ export default function ViewPet() {
             {pet.photo ? (
               <Avatar
                 alt="pet-photo"
-                // src={`${import.meta.env.VITE_API_BASE_URL}` + pet.photo}
-                src={
-                  `${import.meta.env.VITE_API_BASE_URL}/` + pet.photo
-                }
+                src={`${import.meta.env.VITE_API_BASE_URL}/` + pet.photo}
                 sx={{ width: 130, height: 130 }}
                 variant="rounded"
               />
@@ -385,6 +392,7 @@ export default function ViewPet() {
           handleSpecieChange={handleSpecieChange}
           species={species}
           specie={breed.specie_id}
+          submitloading={submitloading}
         />
 
         <PetImageModal
@@ -394,6 +402,7 @@ export default function ViewPet() {
           handleImage={handleImage}
           submitImage={submitImage}
           uploadError={uploadError}
+          uploadloading={uploadloading}
         />
 
         <PetTabs />

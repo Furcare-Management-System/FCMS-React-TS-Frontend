@@ -153,7 +153,6 @@ export default function PetConditionAdmission() {
   const handleRefresh = () => {
     getTreatmentPetCondition();
   };
-  console.log(admission);
 
   useEffect(() => {
     getTreatmentPetCondition();

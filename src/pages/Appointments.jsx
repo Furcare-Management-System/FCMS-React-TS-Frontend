@@ -22,8 +22,7 @@ import Notif from "../components/Notif";
 import { useStateContext } from "../contexts/ContextProvider";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { HomeSearchBar } from "../components/HomeSearchBar";
-import { toast } from "react-toastify";
+import { format } from 'date-fns';
 
 export default function Appointments() {
   const navigate = useNavigate();
@@ -532,7 +531,7 @@ export default function Appointments() {
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
                         <TableCell>{r.id}</TableCell>
-                        <TableCell>{new Date(r.date).toDateString()}</TableCell>
+                        <TableCell>{format(new Date(r.date), "MMMM d, yyyy h:mm a")}</TableCell>
                         <TableCell>{`${r.petowner.firstname} ${r.petowner.lastname}`}</TableCell>
                         <TableCell>
                           {services

@@ -46,13 +46,19 @@ export default function Staffs() {
 
   const getStaffs = () => {
     setLoading(true);
+    setStaffs([])
+    setMessage("")
     axiosClient
       .get("/staffs")
       .then(({ data }) => {
         setLoading(false);
         setStaffs(data.data);
       })
-      .catch(() => {
+      .catch((mes) => {
+        const response = mes.response;
+        if (response && response.status == 404) {
+          setMessage(response.data.message);
+        }
         setLoading(false);
       });
   };
@@ -81,9 +87,6 @@ export default function Staffs() {
 
   useEffect(() => {
     getStaffs();
-    if (staffs.length === 0) {
-      setMessage("No staffs found.");
-    }
   }, []);
 
   return (

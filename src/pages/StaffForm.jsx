@@ -386,7 +386,11 @@ export default function StaffForm() {
               style={{ alignItems: "center" }}
             >
               {getStepContent(activeStep)}
-              <Box sx={{ padding: "10px", alignSelf: "center" }}>
+              <Box  sx={{
+                  padding: "10px",
+                  display: "flex",
+                  justifyContent: "center",
+                }}>
                 <Button disabled={activeStep === 0} onClick={handlePrev}>
                   Back
                 </Button>

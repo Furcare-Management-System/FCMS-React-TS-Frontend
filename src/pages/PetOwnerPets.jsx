@@ -50,6 +50,7 @@ export default function PetOwnerPets() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState(null);
   const [pets, setPets] = useState([]);
+  const [submitloading, setSubmitloading] = useState(false);
 
   const [pet, setPet] = useState({
     id: null,
@@ -151,11 +152,12 @@ export default function PetOwnerPets() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-
+    setSubmitloading(true);
     if (pet.id) {
       axiosClient
         .put(`/pets/${pet.id}`, pet)
         .then(() => {
+          setSubmitloading(false);
           setNotification("Pet was successfully updated");
           openchange(false);
           getPets();
@@ -165,11 +167,13 @@ export default function PetOwnerPets() {
           if (response && response.status == 422) {
             setErrors(response.data.errors);
           }
+          setSubmitloading(false);
         });
     } else {
       axiosClient
         .post(`/petowners/${id}/addpet`, pet)
         .then(() => {
+          setSubmitloading(false);
           setNotification("Pet was successfully added");
           openchange(false);
           getPets();
@@ -179,6 +183,7 @@ export default function PetOwnerPets() {
           if (response && response.status == 422) {
             setErrors(response.data.errors);
           }
+          setSubmitloading(false);
         });
     }
   };
@@ -254,6 +259,7 @@ export default function PetOwnerPets() {
           addImage={true}
           handleImage={handleImage}
           error={error}
+          submitloading={submitloading}
         />
         <Divider />
         <TableContainer sx={{ height: 350 }}>
@@ -302,13 +308,17 @@ export default function PetOwnerPets() {
                             <Avatar
                               alt="pet-photo"
                               src={
-                                `${import.meta.env.VITE_API_BASE_URL}/` + r.photo
+                                `${import.meta.env.VITE_API_BASE_URL}/` +
+                                r.photo
                               }
                               sx={{ width: 50, height: 50 }}
                               variant="rounded"
                             />
                           ) : (
-                            <Avatar sx={{ width: 50, height: 50 }} variant="rounded">
+                            <Avatar
+                              sx={{ width: 50, height: 50 }}
+                              variant="rounded"
+                            >
                               <AddPhotoAlternate
                                 sx={{ width: 20, height: 20 }}
                               />

@@ -9,10 +9,18 @@ import {
   TextField,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
 
 export default function PetImageModal(props) {
-  const { open, onClose, onClick, handleImage, submitImage, uploadError } =
-    props;
+  const {
+    open,
+    onClose,
+    onClick,
+    handleImage,
+    submitImage,
+    uploadError,
+    uploadloading,
+  } = props;
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
@@ -40,9 +48,13 @@ export default function PetImageModal(props) {
               required
             />
             {uploadError && <p style={{ color: "red" }}>{uploadError}</p>}
-            <Button color="primary" variant="contained" type="submit">
+            <LoadingButton
+              loading={uploadloading}
+              type="submit"
+              variant="contained"
+            >
               Upload
-            </Button>
+            </LoadingButton>
           </Stack>
         </form>
       </DialogContent>

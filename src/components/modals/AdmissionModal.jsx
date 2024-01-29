@@ -35,8 +35,6 @@ export default function AdmissionModal(props) {
   };
 
   const [date, setDate] = useState(new Date());
-  const parsedDate = new Date(clientservice.date);
-  const clientserviceDate = format(parsedDate, "MMMM d, yyyy h:mm a");
   const dateToday = format(date, "MMMM d, yyyy h:mm a");
 
   return (
@@ -69,7 +67,7 @@ export default function AdmissionModal(props) {
                     variant="outlined"
                     id="Date"
                     label="Date"
-                    value={clientserviceDate}
+                    value={format(new Date(clientservice.date), "MMMM d, yyyy h:mm a")}
                     InputLabelProps={{ shrink: true }}
                     InputProps={{
                       readOnly: true,

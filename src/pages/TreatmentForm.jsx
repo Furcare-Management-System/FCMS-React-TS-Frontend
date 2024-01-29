@@ -135,7 +135,7 @@ export default function TreatmentForm() {
 
   useEffect(() => {
     getCurrentTreatment();
-    getAdmission()
+    getAdmission();
   }, []);
 
   return (
@@ -156,11 +156,7 @@ export default function TreatmentForm() {
           textAlign: "center",
         }}
       >
-        <Box
-          flexDirection={"row"}
-          justifyContent={"right"}
-          display={"flex"}
-        >
+        <Box flexDirection={"row"} justifyContent={"right"} display={"flex"}>
           <Button
             variant="contained"
             onClick={treatmentPDF}

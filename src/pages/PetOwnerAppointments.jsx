@@ -26,6 +26,7 @@ import {
 } from "@mui/icons-material";
 import EditAppointment from "../components/modals/EditAppointment";
 import Swal from "sweetalert2";
+import { format } from 'date-fns';
 
 export default function PetOwnerAppointments({ petowner }) {
   //for table
@@ -33,7 +34,6 @@ export default function PetOwnerAppointments({ petowner }) {
     { id: "Date", name: "Date" },
     { id: "Services", name: "Services" },
     { id: "Purpose", name: "Purpose" },
-    { id: "Remarks", name: "Remarks" },
     { id: "Veterinarian", name: "Veterinarian" },
     { id: "Status", name: "Status" },
     { id: "Actions", name: "Actions" },
@@ -363,7 +363,7 @@ export default function PetOwnerAppointments({ petowner }) {
                     .slice(page * rowperpage, page * rowperpage + rowperpage)
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
-                        <TableCell>{r.date}</TableCell>
+                        <TableCell>{format(new Date(r.date), "MMMM d, yyyy h:mm a")}</TableCell>
                         <TableCell>
                           {services
                             .filter((service) =>
@@ -377,7 +377,6 @@ export default function PetOwnerAppointments({ petowner }) {
                             ))}
                         </TableCell>
                         <TableCell>{r.purpose}</TableCell>
-                        <TableCell>{r.remarks}</TableCell>
                         <TableCell>{r.vet.fullname}</TableCell>
                         <TableCell>{r.status}</TableCell>
                         <TableCell>
