@@ -124,10 +124,7 @@ export default function PetownerAppointmentModal(props) {
                   onChange={(ev) => handleFieldChange("date", ev.target.value)}
                   InputLabelProps={{ shrink: true }}
                   inputProps={{
-                    min:
-                      new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
-                        .toISOString()
-                        .split("T")[0] + "T00:00",
+                    min: new Date().toISOString().split("T")[0] + "T00:00",
                   }}
                   required
                 />
