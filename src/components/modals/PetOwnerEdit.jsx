@@ -3,6 +3,7 @@ import {
   Alert,
   Box,
   Button,
+  CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -24,24 +25,18 @@ export default function PetOwnerEdit(props) {
     loading,
     petowner,
     setPetowner,
-    address,
-    setAddress,
     errors,
     isUpdate,
     zipcode,
     selectedZipcode,
     handleZipcodeChange,
     zipcodeerror,
+    zipcodeloading
   } = props;
 
   const handleFieldChange = (fieldName, value) => {
     const updatedPetOwner = { ...petowner, [fieldName]: value };
     setPetowner(updatedPetOwner);
-  };
-
-  const handleFieldChangeAddress = (fieldName, value) => {
-    const updatedAddress = { ...address, [fieldName]: value };
-    setAddress(updatedAddress);
   };
 
   return (
@@ -64,7 +59,7 @@ export default function PetOwnerEdit(props) {
                 ))}
               </Box>
             )}
-            <form onSubmit={(e) => onSubmit(e)} on>
+            <form onSubmit={(e) => onSubmit(e)}>
               <Stack spacing={2} margin={2}>
                 <TextField
                   variant="outlined"
@@ -110,19 +105,17 @@ export default function PetOwnerEdit(props) {
                   variant="outlined"
                   id="Zone"
                   label="Zone"
-                  value={address.zone}
-                  onChange={(ev) =>
-                    handleFieldChangeAddress("zone", ev.target.value)
-                  }
+                  value={petowner.zone || ""}
+                  onChange={(ev) => handleFieldChange("zone", ev.target.value)}
                   required
                 />
                 <TextField
                   variant="outlined"
                   id="Barangay"
                   label="Barangay"
-                  value={address.barangay}
+                  value={petowner.barangay || ""}
                   onChange={(ev) =>
-                    handleFieldChangeAddress("barangay", ev.target.value)
+                    handleFieldChange("barangay", ev.target.value)
                   }
                   required
                 />
@@ -145,6 +138,13 @@ export default function PetOwnerEdit(props) {
                         : false
                     }
                     helperText={(errors && errors.zipcode_id) || zipcodeerror}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          {zipcodeloading && <CircularProgress size={15} />}
+                        </InputAdornment>
+                      ),
+                    }}
                   />
 
                   <Box>

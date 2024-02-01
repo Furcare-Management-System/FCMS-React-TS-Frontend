@@ -163,8 +163,8 @@ export default function Staffs() {
                         <TableCell>{`${r.firstname} ${r.lastname}`}</TableCell>
                         <TableCell>0{r.contact_num}</TableCell>
                         <TableCell>
-                          {r.address.zone}, {r.address.barangay},{" "}
-                          {r.address.zipcode.area}
+                          {r.zone}, {r.barangay},{" "}
+                          {r.zipcode.area}
                         </TableCell>
                         <TableCell>
                           <Stack direction="row" spacing={2}>

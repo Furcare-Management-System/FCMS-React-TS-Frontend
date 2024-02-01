@@ -177,7 +177,7 @@ export default function Login() {
               Login
             </LoadingButton>
           </Box>
-          <Box textAlign="center" display="flex" flexDirection={"row"}>
+          {/* <Box textAlign="center" display="flex" flexDirection={"row"}>
             <Typography variant="body1" p={1}>
               Don't have an account?{" "}
             </Typography>
@@ -190,7 +190,7 @@ export default function Login() {
             >
               Sign Up
             </Typography>
-          </Box>
+          </Box> */}
         </Box>
       </Container>
     </Paper>

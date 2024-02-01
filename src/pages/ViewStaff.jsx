@@ -17,15 +17,10 @@ export default function ViewStaff() {
     firstname: "",
     lastname: "",
     contact_num: "",
-    address_id: null,
-    user_id: null,
-  });
-
-  const [addressdata, setAddressdata] = useState({
-    id: null,
     zipcode_id: null,
     barangay: "",
     zone: "",
+    user_id: null,
   });
 
   const [userdata, setUserdata] = useState({
@@ -57,7 +52,6 @@ export default function ViewStaff() {
 
   const getStaff = () => {
     setStaff({});
-    setAddressdata({});
     setZipcode({});
     setErrors(null);
     setLoading(true);
@@ -68,10 +62,9 @@ export default function ViewStaff() {
       .then(({ data }) => {
         setLoading(false);
         setStaff(data);
-        setAddressdata(data.address);
-        setZipcode(data.address.zipcode);
+        setZipcode(data.zipcode);
         setUserdata(data.user);
-        setSelectedZipcode(data.address.zipcode.zipcode);
+        setSelectedZipcode(data.zipcode.zipcode);
       })
       .catch(() => {
         setLoading(false);
@@ -97,12 +90,7 @@ export default function ViewStaff() {
     setLoading(true);
 
     const updateStaffPromise = axiosClient.put(`/staffs/${staff.id}`, staff);
-    const updateAddressPromise = axiosClient.put(
-      `/addresses/${staff.address_id}`,
-      addressdata
-    );
-
-    Promise.all([updateStaffPromise, updateAddressPromise])
+    Promise.all(updateStaffPromise)
       .then(() => {
         Swal.fire({
           title: "Success",
@@ -163,7 +151,7 @@ export default function ViewStaff() {
         .then(({ data }) => {
           setSelectedZipcode(data.data.zipcode);
           setZipcode(data.data);
-          setAddressdata((prevStaff) => ({
+          setStaff((prevStaff) => ({
             ...prevStaff,
             zipcode_id: data.data.id,
           }));
@@ -219,7 +207,7 @@ export default function ViewStaff() {
             Name: {staff.firstname} {staff.lastname}
           </Typography>
           <Typography>
-            Address: {addressdata.zone}, {addressdata.barangay}, {zipcode.area},{" "}
+            Address: {staff.zone}, {staff.barangay}, {zipcode.area},{" "}
             {zipcode.province}, {zipcode.zipcode}
           </Typography>
           <Typography>Contact Number: +63{staff.contact_num}</Typography>
@@ -247,8 +235,6 @@ export default function ViewStaff() {
         loading={loading}
         petowner={staff}
         setPetowner={setStaff}
-        address={addressdata}
-        setAddress={setAddressdata}
         errors={errors}
         isUpdate={id}
         zipcode={zipcode}

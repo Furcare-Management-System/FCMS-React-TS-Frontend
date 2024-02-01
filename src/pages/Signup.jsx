@@ -138,7 +138,6 @@ export default function Signup() {
       setLoading(false);
     } else {
       Swal.fire({
-        // title: "Error",
         text: "You have entered wrong verification code.",
         icon: "error",
         allowOutsideClick: false,

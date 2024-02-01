@@ -190,8 +190,8 @@ export default function PetOwners() {
                         <TableCell>{`${r.firstname} ${r.lastname}`}</TableCell>
                         <TableCell>0{r.contact_num}</TableCell>
                         <TableCell>
-                          {r.address.zone}, {r.address.barangay},{" "}
-                          {r.address.zipcode.area}
+                          {r.zone}, {r.barangay},{" "}
+                          {r.zipcode.area}
                         </TableCell>
                         <TableCell>
                           <Stack direction="row" spacing={2}>
@@ -203,7 +203,6 @@ export default function PetOwners() {
                               size="small"
                             >
                               <Visibility fontSize="small" />
-                              {/* <NavigateNext fontSize="small" /> */}
                             </Button>
 
                             <Button

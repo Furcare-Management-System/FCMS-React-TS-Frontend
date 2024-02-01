@@ -1,11 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Button from "@mui/material/Button";
-import ClickAwayListener from "@mui/material/ClickAwayListener";
-import Grow from "@mui/material/Grow";
-import Paper from "@mui/material/Paper";
-import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
-import MenuList from "@mui/material/MenuList";
 import Stack from "@mui/material/Stack";
 import { Avatar, Divider, Menu, Typography } from "@mui/material";
 import { useStateContext } from "../contexts/ContextProvider";
@@ -97,9 +92,7 @@ export default function Profile() {
       axiosClient
         .post(`/users`, userprofile)
         .then(() => {
-          // setNotification("User was successfully created");
           setopenchange(false);
-          // getUsers();
         })
         .catch((err) => {
           const response = err.response;

@@ -18,12 +18,7 @@ export default function ViewPetOwner() {
     firstname: "",
     lastname: "",
     contact_num: "",
-    address_id: null,
     user_id: null,
-  });
-
-  const [addressdata, setAddressdata] = useState({
-    id: null,
     zipcode_id: null,
     barangay: "",
     zone: "",
@@ -51,6 +46,7 @@ export default function ViewPetOwner() {
 
   const [openuser, openuserchange] = useState(false);
   const [openPetowner, openPetownerchange] = useState(false);
+  const [zipcodeloading, setZipcodeloading] = useState(false);
 
   const closepopup = () => {
     openuserchange(false);
@@ -60,7 +56,6 @@ export default function ViewPetOwner() {
 
   const getPetowner = () => {
     setPetownerdata({});
-    setAddressdata({});
     setZipcode({});
     setErrors(null);
     setLoading(true);
@@ -71,10 +66,9 @@ export default function ViewPetOwner() {
       .then(({ data }) => {
         setLoading(false);
         setPetownerdata(data);
-        setAddressdata(data.address);
-        setZipcode(data.address.zipcode);
+        setZipcode(data.zipcode);
         setUserdata(data.user);
-        setSelectedZipcode(data.address.zipcode.zipcode);
+        setSelectedZipcode(data.zipcode.zipcode);
       })
       .catch(() => {
         setLoading(false);
@@ -103,12 +97,8 @@ export default function ViewPetOwner() {
       `/petowners/${petownerdata.id}`,
       petownerdata
     );
-    const updateAddressPromise = axiosClient.put(
-      `/addresses/${petownerdata.address_id}`,
-      addressdata
-    );
 
-    Promise.all([updatePetowner, updateAddressPromise])
+    Promise.all(updatePetowner)
       .then(() => {
         Swal.fire({
           title: "Success",
@@ -187,18 +177,19 @@ export default function ViewPetOwner() {
   const getZipcodeDetails = (query) => {
     if (query) {
       setZipcodeerror(null);
-
+      setZipcodeloading(true);
       axiosClient
         .get(`/zipcodedetails/${query}`)
         .then(({ data }) => {
-          selectedZipcode(data.data.zipcode);
+          setZipcodeloading(false);
           setZipcode(data.data);
-          setAddressdata((prevPetowner) => ({
+          setPetownerdata((prevPetowner) => ({
             ...prevPetowner,
             zipcode_id: data.data.id,
           }));
         })
         .catch((error) => {
+          setZipcodeloading(false);
           const response = error.response;
           if (response && response.status === 404) {
             setZipcodeerror(response.data.message);
@@ -208,7 +199,6 @@ export default function ViewPetOwner() {
   };
 
   const handleZipcodeChange = (event) => {
-    setSelectedZipcode(zipcode.zipcode);
     setSelectedZipcode(event.target.value);
   };
 
@@ -220,7 +210,7 @@ export default function ViewPetOwner() {
     timerId = setTimeout(() => {
       setZipcodeerror(null);
       getZipcodeDetails(selectedZipcode);
-    }, 2000);
+    }, 1000);
 
     return () => clearTimeout(timerId);
   }, [selectedZipcode]);
@@ -249,8 +239,8 @@ export default function ViewPetOwner() {
             Name: {petownerdata.firstname} {petownerdata.lastname}
           </Typography>
           <Typography>
-            Address: {addressdata.zone}, {addressdata.barangay}, {zipcode.area},{" "}
-            {zipcode.province}, {zipcode.zipcode}
+            Address: {petownerdata.zone}, {petownerdata.barangay},{" "}
+            {zipcode.area}, {zipcode.province}, {zipcode.zipcode}
           </Typography>
           <Typography>Contact Number: +63{petownerdata.contact_num}</Typography>
         </Stack>
@@ -293,8 +283,6 @@ export default function ViewPetOwner() {
         onSubmit={onSubmit}
         petowner={petownerdata}
         setPetowner={setPetownerdata}
-        address={addressdata}
-        setAddress={setAddressdata}
         errors={errors}
         loading={loading}
         isUpdate={id}
@@ -302,6 +290,7 @@ export default function ViewPetOwner() {
         selectedZipcode={selectedZipcode}
         handleZipcodeChange={handleZipcodeChange}
         zipcodeerror={zipcodeerror}
+        zipcodeloading={zipcodeloading}
       />
       <UserEdit
         open={openuser}
