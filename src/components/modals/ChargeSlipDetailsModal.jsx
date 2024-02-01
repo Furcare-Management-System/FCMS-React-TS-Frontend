@@ -167,7 +167,7 @@ export default function ChargeSlipDetailsModal(props) {
                           align="right"
                           sx={{ fontWeight: "bold" }}
                         >
-                          Balance:
+                          Amounts Payable:
                         </TableCell>
                         <TableCell>{clientservice.balance}</TableCell>
                       </TableRow>

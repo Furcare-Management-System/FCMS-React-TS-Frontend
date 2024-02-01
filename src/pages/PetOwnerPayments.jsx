@@ -194,7 +194,6 @@ export default function PetOwnerPayments() {
     paymentrecord.total = totalCost.toFixed(2);
 
     return totalCost;
-    // return paymentrecord.total;
   };
 
   const calculateBalance = () => {

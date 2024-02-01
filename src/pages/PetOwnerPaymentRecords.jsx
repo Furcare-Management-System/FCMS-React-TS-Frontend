@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
 import {
   Box,
-  Button,
-  Divider,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -12,48 +10,24 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import axiosClient from "../axios-client";
-import { format } from 'date-fns';
+import { format } from "date-fns";
+import { useParams } from "react-router-dom";
 
-export default function Services() {
+export default function PetOwnerPaymentRecords() {
   //for table
   const columns = [
     { id: "Date", name: "Date" },
-    { id: "Client", name: "Client" },
-    { id: "Pet", name: "Pet" },
-    { id: "Service", name: "Service" },
-    { id: "Price", name: "Price" },
+    { id: "Ref #", name: "Ref #" },
+    { id: "Type", name: "Type" },
     { id: "Total", name: "Total" },
-    { id: "Status", name: "Status" },
+    { id: "Deposit", name: "Deposit" },
+    { id: "Remaining Charge", name: "Remaining Charge" },
+    { id: "Amount", name: "Amount" },
+    { id: "Change", name: "Change" },
+    { id: "Amounts Payable", name: "Amounts Payable" },
   ];
-  const [page, pagechange] = useState(0);
-  const [rowperpage, rowperpagechange] = useState(10);
-
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
-
-  const [servicesavailed, setServicesavailed] = useState([]);
-
-  const getServices = () => {
-    setMessage(null);
-    setLoading(true);
-    setServicesavailed([])
-    axiosClient
-      .get(`/servicesavailed`)
-      .then(({ data }) => {
-        setLoading(false);
-        setServicesavailed(data.data);
-        
-      })
-      .catch((mes) => {
-        const response = mes.response;
-        if (response && response.status == 404) {
-          setMessage(response.data.message);
-        }
-        setLoading(false);
-      });
-  };
 
   const handlechangepage = (event, newpage) => {
     pagechange(newpage);
@@ -63,39 +37,42 @@ export default function Services() {
     pagechange(0);
   };
 
+  const [page, pagechange] = useState(0);
+  const [rowperpage, rowperpagechange] = useState(10);
+
+  const [payments, setPayments] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState(null);
+  const { id } = useParams();
+
+  const getPayments = () => {
+    setMessage(null);
+    setPayments([]);
+    setLoading(true);
+    axiosClient
+      .get(`/paymentrecords/petowner/${id}`)
+      .then(({ data }) => {
+        setLoading(false);
+        setPayments(data.data);
+      })
+      .catch((error) => {
+        const response = error.response;
+        if (response && response.status === 404) {
+          setMessage(response.data.message);
+        }
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
-    getServices();
+    getPayments();
   }, []);
 
   return (
     <>
       <Box
-        flex={5}
-        sx={{
-          minWidth: "90%",
-          padding: "20px",
-        }}
       >
-        <Box
-          p={1}
-          display="flex"
-          flexDirection="row"
-          justifyContent="space-between"
-          alignItems={"center"}
-        >
-          <Typography variant="h5" p={2}>
-            Services Logs
-          </Typography>
-          <Button
-            component={Link}
-            to={"/admin/services"}
-            variant="contained"
-            color="info"
-          >
-            services
-          </Button>
-        </Box>
-        <TableContainer sx={{ height: "100%" }}>
+        <TableContainer sx={{ height: "!00%" }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
@@ -109,7 +86,6 @@ export default function Services() {
                 ))}
               </TableRow>
             </TableHead>
-
             {loading && (
               <TableBody>
                 <TableRow>
@@ -138,24 +114,28 @@ export default function Services() {
 
             {!loading && (
               <TableBody>
-                {servicesavailed &&
-                  servicesavailed
+                {payments &&
+                  payments
                     .slice(page * rowperpage, page * rowperpage + rowperpage)
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
-                         <TableCell>
+                        <TableCell>
                           {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
                         </TableCell>
-                        <TableCell>{`${r.clientservice.petowner.firstname} ${r.clientservice.petowner.lastname}`}</TableCell>
-                        <TableCell>{r.pet.name}</TableCell>
-                        <TableCell>{r.service.service}</TableCell>
+                        <TableCell>{r.chargeslip_ref_no}</TableCell>
                         <TableCell>
-                          {r.unit_price ? r.unit_price.toFixed(2) : 0}
+                          {r.type === "Cash"
+                            ? `${r.type}`
+                            : `${r.type} ${r.type_ref_no}`}
                         </TableCell>
-                        <TableCell>
-                          {(r.unit_price * r.quantity).toFixed(2)}
-                        </TableCell>
-                        <TableCell>{r.status}</TableCell>
+                        <TableCell>{r.total.toFixed(2)}</TableCell>
+                        <TableCell>{r.clientdeposit.deposit.toFixed(2)}</TableCell>
+                        <TableCell> {r.total < r.clientdeposit.deposit
+                            ? 0
+                            : r.total - r.clientdeposit.deposit}</TableCell>
+                        <TableCell>{r.amount.toFixed(2)}</TableCell>
+                        <TableCell>{r.change.toFixed(2)}</TableCell>
+                        <TableCell>{r.clientdeposit.balance.toFixed(2)}</TableCell>
                       </TableRow>
                     ))}
               </TableBody>
@@ -166,7 +146,7 @@ export default function Services() {
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}
-          count={servicesavailed.length}
+          count={payments.length}
           component="div"
           onPageChange={handlechangepage}
           onRowsPerPageChange={handleRowsPerPage}

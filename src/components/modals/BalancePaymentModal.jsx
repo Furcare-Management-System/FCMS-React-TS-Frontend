@@ -62,6 +62,8 @@ export default function BalancePaymentModal(props) {
     calculateChange();
   }, []);
 
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <>
       <>
@@ -127,6 +129,9 @@ export default function BalancePaymentModal(props) {
                       ),
                     }}
                     size="small"
+                    disabled={isHovered}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
                   />
                   <FormControl>
                     <InputLabel>Type of Payment</InputLabel>
@@ -186,6 +191,9 @@ export default function BalancePaymentModal(props) {
                     }}
                     required
                     size="small"
+                    disabled={isHovered}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
                   />
                   <Button color="success" variant="contained" type="submit">
                     Pay

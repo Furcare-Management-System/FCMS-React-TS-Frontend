@@ -11,6 +11,7 @@ import ServiceCatBtns from "./ServiceCatTabs";
 import AllServicesAvailed from "../pages/AllServicesAvailed";
 import ToPayServices from "../pages/ToPayServices";
 import Admissions from "../pages/Admissions";
+import PetOwnerPaymentRecords from "../pages/PetOwnerPaymentRecords";
 
 export default function PetOWnerTabs({ petowner }) {
   const [value, setValue] = useState("1");
@@ -28,8 +29,9 @@ export default function PetOWnerTabs({ petowner }) {
             <Tab label="Services" value="6" />
             <Tab label="Admission" value="7" />
             <Tab label="Appointments" value="2" />
-            <Tab label="Payments History" value="4" />
             <Tab label="To Pay Services" value="3" />
+            <Tab label="Payables" value="4" />
+            <Tab label="Payment History" value="8" />
             <Tab label="Availed Services" value="5" />
           </TabList>
         </Box>
@@ -53,6 +55,9 @@ export default function PetOWnerTabs({ petowner }) {
         </TabPanel>
         <TabPanel value="7">
           <Admissions />{" "}
+        </TabPanel>
+        <TabPanel value="8">
+          <PetOwnerPaymentRecords />{" "}
         </TabPanel>
       </TabContext>
     </Box>

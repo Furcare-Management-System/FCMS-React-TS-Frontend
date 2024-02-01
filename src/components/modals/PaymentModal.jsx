@@ -75,6 +75,8 @@ export default function PaymentModal(props) {
   const [date, setDate] = useState(new Date());
   const dateToday = format(date, "MMMM d, yyyy h:mm a");
 
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <>
       <>
@@ -102,7 +104,7 @@ export default function PaymentModal(props) {
               )}
               <form onSubmit={(e) => onSubmit(e)}>
                 <Stack spacing={2} margin={1}>
-                <TextField
+                  <TextField
                     variant="outlined"
                     id="Date"
                     label="Date"
@@ -138,12 +140,14 @@ export default function PaymentModal(props) {
                     required
                     InputProps={{
                       readOnly: true,
-                      "aria-readonly": true,
                       startAdornment: (
                         <InputAdornment position="start">₱</InputAdornment>
                       ),
                     }}
                     size="small"
+                    disabled={isHovered}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
                   />
                   <TextField
                     variant="outlined"
@@ -158,6 +162,9 @@ export default function PaymentModal(props) {
                         <InputAdornment position="start">₱</InputAdornment>
                       ),
                     }}
+                    disabled={isHovered}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
                     size="small"
                   />
                   <TextField
@@ -169,9 +176,6 @@ export default function PaymentModal(props) {
                         ? 0
                         : payment.total - clientservice.deposit
                     }
-                    // onChange={(ev) =>
-                    //   handleFieldChange("balance", ev.target.value)
-                    // }
                     required
                     InputProps={{
                       readOnly: true,
@@ -181,6 +185,9 @@ export default function PaymentModal(props) {
                       ),
                     }}
                     size="small"
+                    disabled={isHovered}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
                   />
                   <Divider />
                   <FormControl>
@@ -210,11 +217,31 @@ export default function PaymentModal(props) {
                       size="small"
                     />
                   )}
-                  <TextField
+                  {clientservice.deposit < payment.total ? 
+                    <TextField
+                      label="Amount"
+                      variant="outlined"
+                      id="Amount"
+                      value={payment.amount || ""}
+                      onChange={(ev) =>
+                        handleFieldChange("amount", ev.target.value)
+                      }
+                      required
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">₱</InputAdornment>
+                        ),
+                      }}
+                      inputProps={{ min: "1" }}
+                      size="small"
+                      type="number"
+                    /> 
+                    :
+                    <TextField
                     label="Amount"
                     variant="outlined"
                     id="Amount"
-                    value={payment.amount || ""}
+                    value={payment.amount || ``}
                     onChange={(ev) =>
                       handleFieldChange("amount", ev.target.value)
                     }
@@ -227,6 +254,7 @@ export default function PaymentModal(props) {
                     size="small"
                     type="number"
                   />
+                  }
                   <TextField
                     label="Change"
                     variant="outlined"
@@ -241,6 +269,9 @@ export default function PaymentModal(props) {
                     }}
                     required
                     size="small"
+                    disabled={isHovered}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
                   />
                   <TextField
                     variant="outlined"
@@ -259,22 +290,10 @@ export default function PaymentModal(props) {
                       ),
                     }}
                     size="small"
+                    disabled={isHovered}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
                   />
-                  {/* <TextField
-                    variant="outlined"
-                    id="Balance"
-                    label="Balance"
-                    value={clientservice.balance}
-                    required
-                    InputProps={{
-                      readOnly: true,
-                      "aria-readonly": true,
-                      startAdornment: (
-                        <InputAdornment position="start">₱</InputAdornment>
-                      ),
-                    }}
-                    size="small"
-                  /> */}
                   <Button color="success" variant="contained" type="submit">
                     Pay
                   </Button>
