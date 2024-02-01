@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import axiosClient from "../axios-client";
+import { format } from "date-fns";
 
 export default function Payments() {
   //for table
@@ -129,7 +130,9 @@ export default function Payments() {
                       <TableRow hover role="checkbox" key={r.id}>
                         <TableCell>{r.id}</TableCell>
                         <TableCell>{`${r.clientdeposit.petowner.firstname} ${r.clientdeposit.petowner.lastname}`}</TableCell>
-                        <TableCell>{r.date}</TableCell>
+                        <TableCell>
+                          {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
+                        </TableCell>
                         <TableCell>{r.chargeslip_ref_no}</TableCell>
                         <TableCell>
                           {r.type === "Cash"

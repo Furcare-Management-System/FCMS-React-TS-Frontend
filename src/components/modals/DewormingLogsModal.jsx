@@ -18,6 +18,7 @@ import {
   TextField,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
+import { format } from "date-fns";
 
 export default function DewormingLogsModal(props) {
   const {
@@ -41,6 +42,7 @@ export default function DewormingLogsModal(props) {
   };
 
   const [date, setDate] = useState(new Date());
+  const dateToday = format(date, "MMMM d, yyyy h:mm a");
 
   return (
     <>
@@ -89,7 +91,7 @@ export default function DewormingLogsModal(props) {
                     variant="outlined"
                     id="Date"
                     label="Date"
-                    value={deworminglog.date}
+                    value={format(new Date(deworminglog.date), "MMMM d, yyyy h:mm a")}
                     InputLabelProps={{ shrink: true }}
                     InputProps={{
                       readOnly: true,
@@ -102,7 +104,7 @@ export default function DewormingLogsModal(props) {
                     variant="outlined"
                     id="Date"
                     label="Date"
-                    value={date.toLocaleDateString()}
+                    value={dateToday}
                     InputLabelProps={{ shrink: true }}
                     InputProps={{
                       readOnly: true,
@@ -198,6 +200,9 @@ export default function DewormingLogsModal(props) {
                   onChange={(ev) =>
                     handleFieldChange("return", ev.target.value)
                   }
+                  inputProps={{
+                    min: new Date().toISOString().split("T")[0],
+                  }}
                   InputLabelProps={{ shrink: true }}
                   required
                 />

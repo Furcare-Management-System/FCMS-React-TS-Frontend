@@ -19,6 +19,7 @@ import { Link, useParams } from "react-router-dom";
 import AdmissionModal from "../components/modals/AdmissionModal";
 import TreatmentModal from "../components/modals/TreatmentModal";
 import Swal from "sweetalert2";
+import { format } from 'date-fns';
 
 export default function Admissions() {
   const { id } = useParams();
@@ -320,7 +321,9 @@ export default function Admissions() {
                     .slice(page * rowperpage, page * rowperpage + rowperpage)
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
-                        <TableCell>{r.treatment.date}</TableCell>
+                       <TableCell>
+                          {format(new Date(r.treatment.date), "MMMM d, yyyy h:mm a")}
+                        </TableCell>
                         <TableCell>{r.treatment.day}</TableCell>
                         <TableCell>{r.treatment.pet.name}</TableCell>
                         <TableCell>{r.treatment.diagnosis}</TableCell>
@@ -341,14 +344,6 @@ export default function Admissions() {
                                 View
                               </Typography>
                             </Button>
-                            {/* <Button
-                              variant="contained"
-                              color="error"
-                              size="small"
-                              onClick={() => onArchive(r)}
-                            >
-                              <Archive fontSize="small" />
-                            </Button> */}
                           </Stack>
                         </TableCell>
                       </TableRow>

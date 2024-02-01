@@ -6,7 +6,6 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  Divider,
   FormControl,
   IconButton,
   InputAdornment,
@@ -15,9 +14,9 @@ import {
   Select,
   Stack,
   TextField,
-  Typography,
 } from "@mui/material";
 import { Add, Archive, Close, Delete, Edit } from "@mui/icons-material";
+import { format } from "date-fns";
 
 export default function BalancePaymentModal(props) {
   const {
@@ -38,37 +37,26 @@ export default function BalancePaymentModal(props) {
   };
 
   const calculateChange = () => {
-    // const totalCost = payment.total || 0;
     const balance = clientservice.balance || 0;
-    // const deposit = clientservice.deposit || 0;
     const amount = payment.amount || 0;
-    // const currentbalance =  balance - deposit;
 
     if (
-      // isNaN(deposit) ||
       isNaN(balance) ||
       isNaN(amount) ||
-      // deposit === undefined ||
       balance === undefined ||
       amount === undefined
     ) {
       return 0;
     }
 
-    // if (totalCost !== 0) {
-    //   const change =
-    //     amount -
-    //     (payment.total + clientservice.balance - clientservice.deposit);
-    //   payment.change = change >= 0 ? change : 0;
-    //   return change >= 0 ? change : 0;
-    // } else {
-    //   return 0;
-    // }
-
     const change = amount - balance;
     payment.change = change >= 0 ? change : 0;
     return change >= 0 ? change : 0;
   };
+
+  const [date, setDate] = useState(new Date());
+  const dateToday = format(date, "MMMM d, yyyy h:mm a");
+
 
   useEffect(() => {
     calculateChange();
@@ -101,6 +89,18 @@ export default function BalancePaymentModal(props) {
               )}
               <form onSubmit={(e) => onSubmit(e)}>
                 <Stack spacing={2} margin={1}>
+                <TextField
+                    variant="outlined"
+                    id="Date"
+                    label="Date"
+                    value={dateToday}
+                    InputLabelProps={{ shrink: true }}
+                    InputProps={{
+                      readOnly: true,
+                      "aria-readonly": true,
+                    }}
+                    required
+                  />
                   <TextField
                     variant="outlined"
                     id="Referrence No."

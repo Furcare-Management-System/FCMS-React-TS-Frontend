@@ -5,7 +5,15 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { Alert, Link, Paper, Stack, useMediaQuery } from "@mui/material";
+import {
+  Alert,
+  Checkbox,
+  FormControlLabel,
+  Link,
+  Paper,
+  Stack,
+  useMediaQuery,
+} from "@mui/material";
 
 import { useEffect, useRef, useState } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
@@ -49,6 +57,7 @@ export default function Login() {
         redirectToHome();
       })
       .catch((err) => {
+        setLoading(false);
         const response = err.response;
         if (response && response.status === 422) {
           if (response.data.errors) {
@@ -59,8 +68,13 @@ export default function Login() {
             });
           }
         }
-        setLoading(false);
       });
+  };
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleCheckboxChange = () => {
+    setShowPassword(!showPassword);
   };
 
   const imageURL = "furcarebg.jpg";
@@ -89,7 +103,7 @@ export default function Login() {
       >
         <Box
           sx={{
-            marginTop: 15,
+            marginTop: 13,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -128,10 +142,20 @@ export default function Login() {
               fullWidth
               name="password"
               label="Password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               size="small"
               required
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={showPassword}
+                  onChange={handleCheckboxChange}
+                  color="primary"
+                />
+              }
+              label="Show Password"
             />
             <Box textAlign={"right"}>
               <Typography

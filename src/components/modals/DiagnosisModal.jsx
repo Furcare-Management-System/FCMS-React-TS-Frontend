@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Alert,
@@ -18,6 +18,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
+import { format } from "date-fns";
 
 export default function DiagnosisModal(props) {
   const {
@@ -33,11 +34,12 @@ export default function DiagnosisModal(props) {
   } = props;
 
   const handleFieldChange = (fieldName, value) => {
-    // Create a copy of the breed object and update the specified field
     const updatedDiagnosis = { ...diagnosis, [fieldName]: value };
-    // Update the breed object with the updated value
     setDiagnosis(updatedDiagnosis);
   };
+
+  const [date, setDate] = useState(new Date());
+  const dateToday = format(date, "MMMM d, yyyy h:mm a");
 
   return (
     <>
@@ -85,7 +87,7 @@ export default function DiagnosisModal(props) {
                     variant="outlined"
                     id="Date"
                     label="Date"
-                    value={diagnosis.date}
+                    value={format(new Date(diagnosis.date), "MMMM d, yyyy h:mm a")}
                     InputLabelProps={{ shrink: true }}
                     InputProps={{
                       readOnly: true,
@@ -98,7 +100,7 @@ export default function DiagnosisModal(props) {
                     variant="outlined"
                     id="Date"
                     label="Date"
-                    value={new Date().toLocaleDateString()}
+                    value={dateToday}
                     InputLabelProps={{ shrink: true }}
                     InputProps={{
                       readOnly: true,
@@ -152,7 +154,7 @@ export default function DiagnosisModal(props) {
                   }
                   InputLabelProps={{ shrink: true }}
                   inputProps={{
-                    min: new Date().toISOString().split("T")[0] + "T00:00",
+                    min: new Date().toISOString().split("T")[0],
                   }} // Set minimum date to today
                   required
                 />

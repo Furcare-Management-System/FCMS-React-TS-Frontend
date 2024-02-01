@@ -24,6 +24,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
+import { format } from "date-fns";
 
 export default function VaccinationLogsModal(props) {
   const {
@@ -48,6 +49,7 @@ export default function VaccinationLogsModal(props) {
     setVaccination(updatedLogs);
   };
   const [date, setDate] = useState(new Date());
+  const dateToday = format(date, "MMMM d, yyyy h:mm a");
 
   return (
     <>
@@ -91,12 +93,12 @@ export default function VaccinationLogsModal(props) {
                       required
                     />
                   )}
-                {isUpdate ? (
+                    {isUpdate ? (
                   <TextField
                     variant="outlined"
                     id="Date"
                     label="Date"
-                    value={vaccination.date}
+                    value={format(new Date(vaccination.date), "MMMM d, yyyy h:mm a")}
                     InputLabelProps={{ shrink: true }}
                     InputProps={{
                       readOnly: true,
@@ -109,7 +111,7 @@ export default function VaccinationLogsModal(props) {
                     variant="outlined"
                     id="Date"
                     label="Date"
-                    value={new Date().toLocaleDateString()}
+                    value={dateToday}
                     InputLabelProps={{ shrink: true }}
                     InputProps={{
                       readOnly: true,

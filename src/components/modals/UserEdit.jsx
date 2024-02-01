@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Alert,
   Box,
   Button,
+  Checkbox,
   CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
   FormControl,
+  FormControlLabel,
   IconButton,
   InputLabel,
   MenuItem,
@@ -36,6 +38,12 @@ export default function UserEdit(props) {
     const updatedUser = { ...user, [fieldName]: value };
     // Update the user object with the updated value
     setUser(updatedUser);
+  };
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleCheckboxChange = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -93,7 +101,7 @@ export default function UserEdit(props) {
                   variant="outlined"
                   id="Password"
                   label="New Password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={user.password || ""}
                   onChange={(ev) =>
                     handleFieldChange("password", ev.target.value)
@@ -104,13 +112,23 @@ export default function UserEdit(props) {
                   variant="outlined"
                   id="Password Confirmation"
                   label="Password Confirmation"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={user.password_confirmation || ""}
                   onChange={(ev) =>
                     handleFieldChange("password_confirmation", ev.target.value)
                   }
                   required={!isUpdate}
                   placeholder="Retype Change Password"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={showPassword}
+                      onChange={handleCheckboxChange}
+                      color="primary"
+                    />
+                  }
+                  label="Show Password"
                 />
                 <Button color="primary" variant="contained" type="submit">
                   Save

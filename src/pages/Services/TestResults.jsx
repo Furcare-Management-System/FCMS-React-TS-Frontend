@@ -18,12 +18,13 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { Add, Archive, Edit } from "@mui/icons-material";
+import { Add, Archive, Delete, Edit } from "@mui/icons-material";
 import { Link, useParams } from "react-router-dom";
 import axiosClient from "../../axios-client";
 import TestResultModal from "../../components/modals/TestResultModal";
 import EnlargeImageModal from "../../components/modals/EnlargeImageModal";
 import AttachmentModal from "../../components/modals/AttachmentModal";
+import { format } from "date-fns";
 
 export default function TestResults({ sid, sname }) {
   const { id } = useParams();
@@ -50,6 +51,7 @@ export default function TestResults({ sid, sname }) {
     setTestresults([]);
     setMessage(null);
     setLoading(true);
+    setErrors(null);
     axiosClient
       .get(`/testresults/petowner/${id}/service/${sid}`)
       .then(({ data }) => {
@@ -81,6 +83,7 @@ export default function TestResults({ sid, sname }) {
 
   //for table
   const columns = [
+    { id: "Date", name: "Date" },
     { id: "Pet", name: "Pet" },
     { id: "Attachment", name: "Attachment" },
     { id: "Description", name: "Description" },
@@ -145,6 +148,7 @@ export default function TestResults({ sid, sname }) {
       return;
     }
 
+    // axiosClient.delete(`/testresults/${r.id}/archive`).then(() => {
     axiosClient.delete(`/testresults/${r.id}/archive`).then(() => {
       setNotification("Test result was archived.");
       getTestresults();
@@ -386,6 +390,9 @@ export default function TestResults({ sid, sname }) {
                       .slice(page * rowperpage, page * rowperpage + rowperpage)
                       .map((r) => (
                         <TableRow hover role="checkbox" key={r.id}>
+                          <TableCell>
+                            {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
+                          </TableCell>
                           <TableCell>{r.pet.name}</TableCell>
                           <TableCell>
                             <img
@@ -417,14 +424,14 @@ export default function TestResults({ sid, sname }) {
                               >
                                 <Edit fontSize="small" />
                               </Button>
-                              <Button
+                              {/* <Button
                                 variant="contained"
                                 size="small"
                                 color="error"
                                 onClick={() => onArchive(r)}
                               >
-                                <Archive fontSize="small" />
-                              </Button>
+                                <Delete fontSize="small" />
+                              </Button> */}
                             </Stack>
                           </TableCell>
                         </TableRow>

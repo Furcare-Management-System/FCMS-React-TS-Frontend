@@ -11,6 +11,8 @@ import {
   CssBaseline,
   Grid,
   useTheme,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import Swal from "sweetalert2";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -140,6 +142,12 @@ export default function ForgotPassword() {
     setUser(updatedUser);
   };
 
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleCheckboxChange = () => {
+    setShowPassword(!showPassword);
+  };
+
   const getStepContent = (step) => {
     switch (step) {
       case 0:
@@ -223,7 +231,13 @@ export default function ForgotPassword() {
               name="Reset Password"
               size="small"
               required
-              type="password"
+              error={errors && errors.password ? true : false}
+              helperText={
+                errors && errors.password
+                  ? errors && errors.password
+                  : "Your password must be at least 8 characters long and contain numbers and letters."
+              }
+              type={showPassword ? "text" : "password"}
               value={user.password || ""}
               onChange={(ev) => handleFieldChange("password", ev.target.value)}
             />
@@ -231,7 +245,7 @@ export default function ForgotPassword() {
               margin="normal"
               fullWidth
               size="small"
-              type="password"
+              type={showPassword ? "text" : "password"}
               variant="outlined"
               id="Password Confirmation"
               label="Password Confirmation"
@@ -239,8 +253,19 @@ export default function ForgotPassword() {
               onChange={(ev) =>
                 handleFieldChange("password_confirmation", ev.target.value)
               }
-              placeholder="Retype Change Password"
+              error={errors && errors.password ? true : false}
+              helperText={errors && errors.password}
               required
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={showPassword}
+                  onChange={handleCheckboxChange}
+                  color="primary"
+                />
+              }
+              label="Show Password"
             />
           </Box>
         );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Alert,
   Backdrop,
@@ -18,6 +18,7 @@ import {
   TextField,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
+import { format } from "date-fns";
 
 export default function TestResultModal(props) {
   const {
@@ -42,6 +43,9 @@ export default function TestResultModal(props) {
     const updatedTestresult = { ...testresult, [fieldName]: value };
     setTestresult(updatedTestresult);
   };
+
+  const [date, setDate] = useState(new Date());
+  const dateToday = format(date, "MMMM d, yyyy h:mm a");
 
   return (
     <>
@@ -90,6 +94,33 @@ export default function TestResultModal(props) {
                       }
                     />
                   )}
+                    {isUpdate ? (
+                  <TextField
+                    variant="outlined"
+                    id="Date"
+                    label="Date"
+                    value={format(new Date(testresult.date), "MMMM d, yyyy h:mm a")}
+                    InputLabelProps={{ shrink: true }}
+                    InputProps={{
+                      readOnly: true,
+                      "aria-readonly": true,
+                    }}
+                    required
+                  />
+                ) : (
+                  <TextField
+                    variant="outlined"
+                    id="Date"
+                    label="Date"
+                    value={dateToday}
+                    InputLabelProps={{ shrink: true }}
+                    InputProps={{
+                      readOnly: true,
+                      "aria-readonly": true,
+                    }}
+                    required
+                  />
+                )}
                   {othertests && (
                     <FormControl>
                       <InputLabel>Type</InputLabel>

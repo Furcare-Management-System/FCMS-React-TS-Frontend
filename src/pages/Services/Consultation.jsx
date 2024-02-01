@@ -16,7 +16,8 @@ import {
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import DiagnosisModal from "../../components/modals/DiagnosisModal";
-import { Add, Archive, Edit } from "@mui/icons-material";
+import { Add, Archive, Delete, Edit } from "@mui/icons-material";
+import { format } from 'date-fns';
 
 export default function Consultation({ sid }) {
   const { id } = useParams();
@@ -118,13 +119,13 @@ export default function Consultation({ sid }) {
     openConsultation(true);
   };
 
-  const onArchive = (u) => {
-    if (!window.confirm("Are you sure to archive this?")) {
+  const onDelete = (u) => {
+    if (!window.confirm("Are you sure to delete this?")) {
       return;
     }
 
-    axiosClient.delete(`/diagnosis/${u.id}/archive`).then(() => {
-      setNotification("This consultation diagnosis record was archived.");
+    axiosClient.delete(`/diagnosis/${u.id}/forcedelete`).then(() => {
+      setNotification("This consultation diagnosis record was deleted.");
       getConsultations();
     });
   };
@@ -245,10 +246,14 @@ export default function Consultation({ sid }) {
                     .slice(page * rowperpage, page * rowperpage + rowperpage)
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
-                        <TableCell>{r.date}</TableCell>
+                        <TableCell>
+                          {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
+                        </TableCell>
                         <TableCell>{r.pet.name}</TableCell>
                         <TableCell>{r.remarks}</TableCell>
-                        <TableCell>{r.followup}</TableCell>
+                        <TableCell>
+                          {format(new Date(r.followup), "MMMM d, yyyy h:mm a")}
+                        </TableCell>
                         <TableCell>{r.servicesavailed.status}</TableCell>
                         <TableCell>
                           <Stack direction="row" spacing={2}>
@@ -261,14 +266,14 @@ export default function Consultation({ sid }) {
                               <Edit fontSize="small" />
                             </Button>
 
-                            <Button
+                           {r.servicesavailed.status !== "Completed" && <Button
                               variant="contained"
                               size="small"
                               color="error"
-                              onClick={() => onArchive(r)}
+                              onClick={() => onDelete(r)}
                             >
-                              <Archive fontSize="small" />
-                            </Button>
+                              <Delete fontSize="small" />
+                            </Button>}
                           </Stack>
                         </TableCell>
                       </TableRow>

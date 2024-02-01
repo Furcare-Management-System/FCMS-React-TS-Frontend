@@ -137,6 +137,9 @@ export default function PetsModal(props) {
                     onChange={(ev) =>
                       handleFieldChange("birthdate", ev.target.value)
                     }
+                    inputProps={{
+                      max: new Date().toISOString().split("T")[0],
+                    }}
                     InputLabelProps={{ shrink: true }}
                     required
                   />

@@ -18,6 +18,8 @@ import {
   Grid,
   useTheme,
   CircularProgress,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import Swal from "sweetalert2";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -213,6 +215,12 @@ export default function Signup() {
     setSelectedZipcode(event.target.value);
   };
 
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleCheckboxChange = () => {
+    setShowPassword(!showPassword);
+  };
+
   const getStepContent = (step) => {
     switch (step) {
       case 0:
@@ -246,7 +254,7 @@ export default function Signup() {
                   id="Password"
                   size="small"
                   label="Password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   required
                   fullWidth
                   value={petowner.password || ""}
@@ -269,7 +277,7 @@ export default function Signup() {
                   size="small"
                   fullWidth
                   required
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={petowner.password_confirmation || ""}
                   onChange={(ev) =>
                     setPetowner({
@@ -279,6 +287,18 @@ export default function Signup() {
                   }
                   error={errors && errors.password_confirmation ? true : false}
                   helperText={errors && errors.password_confirmation}
+                />
+              </Grid>
+              <Grid item xs={12} >
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={showPassword}
+                      onChange={handleCheckboxChange}
+                      color="primary"
+                    />
+                  }
+                  label="Show Password"
                 />
               </Grid>
             </Grid>

@@ -9,11 +9,10 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography,
 } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import axiosClient from "../axios-client";
-import { useStateContext } from "../contexts/ContextProvider";
+import { format } from "date-fns";
 
 export default function AllServicesAvailed() {
   //for table
@@ -122,7 +121,9 @@ export default function AllServicesAvailed() {
                     .slice(page * rowperpage, page * rowperpage + rowperpage)
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
-                        <TableCell>{r.date}</TableCell>
+                        <TableCell>
+                          {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
+                        </TableCell>
                         <TableCell>{r.service.service}</TableCell>
                         <TableCell>{r.pet.name}</TableCell>
                         <TableCell>

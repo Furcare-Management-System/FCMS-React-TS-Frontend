@@ -15,6 +15,7 @@ import {
 import PetConditionAdmission from "./PetConditionAdmission";
 import PetMedicationAdmission from "./PetMedicationAdmission";
 import { ToastContainer, toast } from "react-toastify";
+import { format } from "date-fns";
 
 export default function TreatmentForm() {
   const { id } = useParams();
@@ -178,7 +179,7 @@ export default function TreatmentForm() {
               ))}
             </div>
           )}
-          <Typography variant="body1">Date: {treatment.date}</Typography>
+          {treatment.date && <Typography variant="body1">Date: {format(new Date(treatment.date), "MMMM d, yyyy h:mm a")}</Typography>}
           <Typography variant="body1">Day: {treatment.day} </Typography>
           <Box
             sx={{

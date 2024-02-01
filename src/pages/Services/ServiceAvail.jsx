@@ -16,6 +16,7 @@ import { useParams } from "react-router-dom";
 import { Add, Archive } from "@mui/icons-material";
 import ServiceAvailModal from "../../components/modals/ServiceAvailModal";
 import Swal from "sweetalert2";
+import { format } from 'date-fns';
 
 export default function ServiceAvail({ sid, title }) {
   const { id } = useParams();
@@ -226,7 +227,9 @@ export default function ServiceAvail({ sid, title }) {
                     .slice(page * rowperpage, page * rowperpage + rowperpage)
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
-                        <TableCell>{r.date}</TableCell>
+                        <TableCell>
+                          {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
+                        </TableCell>
                         <TableCell>{r.pet.name}</TableCell>
                         <TableCell>{r.status}</TableCell>
                         <TableCell>

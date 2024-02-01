@@ -16,6 +16,7 @@ import {
 import { useEffect, useState } from "react";
 import axiosClient from "../axios-client";
 import { DeleteForever, RestoreFromTrash } from "@mui/icons-material";
+import { format } from "date-fns";
 
 export default function UserArchives() {
   const columns = [
@@ -42,8 +43,8 @@ export default function UserArchives() {
   const [message, setMessage] = useState(null);
 
   const getArchivedUsers = () => {
-    setMessage(null)
-    setUsers([])
+    setMessage(null);
+    setUsers([]);
     setLoading(true);
     axiosClient
       .get(`/archives/users`)
@@ -117,7 +118,10 @@ export default function UserArchives() {
                 {loading && (
                   <TableBody>
                     <TableRow>
-                      <TableCell colSpan={columns.length} style={{ textAlign: "center" }}>
+                      <TableCell
+                        colSpan={columns.length}
+                        style={{ textAlign: "center" }}
+                      >
                         Loading...
                       </TableCell>
                     </TableRow>
@@ -148,7 +152,12 @@ export default function UserArchives() {
                           <TableRow hover role="checkbox" key={r.id}>
                             <TableCell>{r.id}</TableCell>
                             <TableCell>{r.email}</TableCell>
-                            <TableCell>{r.deleted_at}</TableCell>
+                            <TableCell>
+                              {format(
+                                new Date(r.deleted_at),
+                                "MMMM d, yyyy h:mm a"
+                              )}
+                            </TableCell>
                             <TableCell>
                               <Stack direction="row" spacing={2}>
                                 <Button

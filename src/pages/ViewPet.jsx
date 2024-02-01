@@ -206,6 +206,7 @@ export default function ViewPet() {
         });
     } catch (error) {
       setUploadError("Failed to upload the attachment.");
+      setUploadloading(false);
     }
   };
 
@@ -343,7 +344,11 @@ export default function ViewPet() {
             <Stack flexDirection="row">
               <Stack sx={{ marginRight: "10px" }}>
                 <Typography>Pet Name: {pet.name}</Typography>
-                <Typography>Birthdate: {pet.birthdate}</Typography>
+                {pet.birthdate && (
+                  <Typography>
+                    Birthdate: {format(new Date(pet.birthdate), "MMMM d, yyyy")}
+                  </Typography>
+                )}
                 <Typography>Gender: {pet.gender}</Typography>
               </Stack>
               <Stack>

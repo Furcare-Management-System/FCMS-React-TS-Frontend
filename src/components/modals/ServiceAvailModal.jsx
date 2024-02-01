@@ -19,6 +19,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
+import { format } from "date-fns";
 
 export default function ServiceAvailModal(props) {
   const {
@@ -33,13 +34,12 @@ export default function ServiceAvailModal(props) {
   } = props;
 
   const handleFieldChange = (fieldName, value) => {
-    // Create a copy of the breed object and update the specified field
     const updatedServiceAvail = { ...serviceavail, [fieldName]: value };
-    // Update the breed object with the updated value
     setServiceavail(updatedServiceAvail);
   };
 
   const [date, setDate] = useState(new Date());
+  const dateToday = format(date, "MMMM d, yyyy h:mm a");
 
   return (
     <>
@@ -79,7 +79,7 @@ export default function ServiceAvailModal(props) {
                   variant="outlined"
                   id="Date"
                   label="Date"
-                  value={new Date().toLocaleDateString()}
+                  value={dateToday}
                   InputLabelProps={{ shrink: true }}
                   InputProps={{
                     readOnly: true,

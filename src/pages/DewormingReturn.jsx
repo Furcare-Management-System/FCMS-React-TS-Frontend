@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axiosClient from "../axios-client";
-import { Link, useParams } from "react-router-dom";
 import {
   Alert,
   Box,
@@ -14,11 +13,10 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { useStateContext } from "../contexts/ContextProvider";
 import DropDownButtons from "../components/DropDownButtons";
+import { format } from "date-fns";
 
 export default function DewormingReturn() {
-  const { notification, setNotification } = useStateContext();
 
   const columns = [
     { id: "Return Date", name: "Return Date" },
@@ -34,27 +32,7 @@ export default function DewormingReturn() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [errors, setErrors] = useState(null);
   const [deworminglogs, setDeworminglogs] = useState([]);
-  const [pets, setPets] = useState([]);
-  const [againsts, setAgainsts] = useState([]);
-  const [vaccinationlog, setVaccinationlog] = useState({
-    id: null,
-    weight: "",
-    description: "",
-    va_againsts: "",
-    return: null,
-    pet_id: null,
-    vet_id: null,
-    unit_price: null,
-  });
-  const [vets, setVets] = useState([]);
-  const [pet, setPet] = useState([]);
-
-  const [openAdd, setOpenAdd] = useState(false);
-  const [modalloading, setModalloading] = useState(false);
-
-  const { id } = useParams();
 
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
@@ -82,67 +60,6 @@ export default function DewormingReturn() {
         }
         setLoading(false);
       });
-  };
-
-  const getAgainsts = () => {
-    axiosClient
-      .get(`/againsts`)
-      .then(({ data }) => {
-        setAgainsts(data.data);
-      })
-      .catch(() => {});
-  };
-
-  const getVets = () => {
-    axiosClient
-      .get(`/vets`)
-      .then(({ data }) => {
-        setVets(data.data);
-      })
-      .catch(() => {});
-  };
-
-  const handleOpenAddModal = () => {
-    getAgainsts();
-    getVets();
-    setOpenAdd(true);
-    setVaccinationlog({});
-    setErrors(null);
-  };
-
-  const handleCloseModal = () => {
-    setOpenAdd(false);
-  };
-
-  const handleArchive = (record) => {
-    if (!window.confirm("Are you sure to archive this?")) {
-      return;
-    }
-
-    axiosClient.delete(`/deworminglogs/${record.id}/archive`).then(() => {
-      setNotification("Vaccination was archived");
-      getDewormings();
-    });
-  };
-
-  const handleEdit = (record) => {
-    getAgainsts();
-    getVets();
-    setErrors(null);
-    setModalloading(true);
-
-    axiosClient
-      .get(`/deworminglogs/${record.id}`)
-      .then(({ data }) => {
-        setModalloading(false);
-        setVaccinationlog(data);
-        setPet(data.pet);
-      })
-      .catch(() => {
-        setModalloading(false);
-      });
-
-    setOpenAdd(true);
   };
 
   useEffect(() => {
@@ -207,7 +124,6 @@ export default function DewormingReturn() {
           />
         </Box>
         <Box sx={{ minWidth: "90%" }}>
-          {notification && <Alert severity="success">{notification}</Alert>}
 
           <TableContainer sx={{ height: 380 }}>
             <Table stickyHeader aria-label="sticky table">
@@ -259,13 +175,23 @@ export default function DewormingReturn() {
                       )
                       .map((record) => (
                         <TableRow hover role="checkbox" key={record.id}>
-                          <TableCell>{record.return}</TableCell>
+                          <TableCell>
+                            {format(
+                              new Date(record.return),
+                              "MMMM d, yyyy h:mm a"
+                            )}
+                          </TableCell>
                           <TableCell>{`${record.servicesavailed.clientservice.petowner.firstname} ${record.servicesavailed.clientservice.petowner.lastname}`}</TableCell>
                           <TableCell>{record.pet.name}</TableCell>
                           <TableCell>{`${record.weight} kg`}</TableCell>
                           <TableCell>{record.description}</TableCell>
                           <TableCell>{record.vet.fullname}</TableCell>
-                          <TableCell>{record.date}</TableCell>
+                          <TableCell>
+                            {format(
+                              new Date(record.date),
+                              "MMMM d, yyyy h:mm a"
+                            )}
+                          </TableCell>
                         </TableRow>
                       ))}
                 </TableBody>

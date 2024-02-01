@@ -18,6 +18,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Add, Archive, Close, Delete, Edit } from "@mui/icons-material";
+import { format } from "date-fns";
 
 export default function PaymentModal(props) {
   const {
@@ -71,6 +72,9 @@ export default function PaymentModal(props) {
     calculateChange();
   }, []);
 
+  const [date, setDate] = useState(new Date());
+  const dateToday = format(date, "MMMM d, yyyy h:mm a");
+
   return (
     <>
       <>
@@ -98,6 +102,19 @@ export default function PaymentModal(props) {
               )}
               <form onSubmit={(e) => onSubmit(e)}>
                 <Stack spacing={2} margin={1}>
+                <TextField
+                    variant="outlined"
+                    id="Date"
+                    label="Date"
+                    value={dateToday}
+                    InputLabelProps={{ shrink: true }}
+                    InputProps={{
+                      readOnly: true,
+                      "aria-readonly": true,
+                    }}
+                    size="small"
+                    required
+                  />
                   <TextField
                     variant="outlined"
                     id="Referrence No."

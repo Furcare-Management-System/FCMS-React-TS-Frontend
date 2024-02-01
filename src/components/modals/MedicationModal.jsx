@@ -47,15 +47,6 @@ export default function MedicationModal(props) {
     }));
   };
 
-  // const handleFieldChangeMedicine = (fieldName, value) => {
-  //   const updatedMedication = {
-  //     ...medication,
-  //     [fieldName]: value,
-  //     unit_price: value,
-  //   };
-  //   setMedication(updatedMedication);
-  // };
-
   return (
     <>
       <Backdrop open={loading} style={{ zIndex: 999 }}>

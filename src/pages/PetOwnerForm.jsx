@@ -13,6 +13,8 @@ import {
   InputAdornment,
   Paper,
   CircularProgress,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import Swal from "sweetalert2";
 import { LoadingButton } from "@mui/lab";
@@ -142,6 +144,12 @@ export default function PetOwnerForm() {
     setSelectedZipcode(event.target.value);
   };
 
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleCheckboxChange = () => {
+    setShowPassword(!showPassword);
+  };
+
   const getStepContent = (step) => {
     switch (step) {
       case 0:
@@ -182,7 +190,7 @@ export default function PetOwnerForm() {
               id="Password"
               size="small"
               label="Password"
-              type="password"
+             type={showPassword ? "text" : "password"}
               required
               fullWidth
               value={petowner.password}
@@ -203,7 +211,7 @@ export default function PetOwnerForm() {
               size="small"
               fullWidth
               required
-              type="password"
+             type={showPassword ? "text" : "password"}
               value={petowner.password_confirmation}
               onChange={(ev) =>
                 setPetowner({
@@ -212,6 +220,16 @@ export default function PetOwnerForm() {
                 })
               }
               error={errors && errors.password ? true : false}
+            />
+              <FormControlLabel
+              control={
+                <Checkbox
+                  checked={showPassword}
+                  onChange={handleCheckboxChange}
+                  color="primary"
+                />
+              }
+              label="Show Password"
             />
           </Box>
         );

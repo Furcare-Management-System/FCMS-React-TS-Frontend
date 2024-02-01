@@ -24,8 +24,9 @@ import axiosClient from "../../axios-client";
 import TestResultModal from "../../components/modals/TestResultModal";
 import EnlargeImageModal from "../../components/modals/EnlargeImageModal";
 import AttachmentModal from "../../components/modals/AttachmentModal";
+import { format } from "date-fns";
 
-export default function OtherTestResults({ sid,sname }) {
+export default function OtherTestResults({ sid, sname }) {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
@@ -43,7 +44,7 @@ export default function OtherTestResults({ sid,sname }) {
     attachment: null,
     description: "",
     unit_price: null,
-    service_id:null
+    service_id: null,
   });
 
   const [error, setError] = useState(null);
@@ -102,6 +103,7 @@ export default function OtherTestResults({ sid,sname }) {
 
   //for table
   const columns = [
+    { id: "Date", name: "Date" },
     { id: "Pet", name: "Pet" },
     { id: "Type", name: "Type" },
     { id: "Attachment", name: "Attachment" },
@@ -130,7 +132,7 @@ export default function OtherTestResults({ sid,sname }) {
   const openModal = () => {
     setTestresult({});
     getPets();
-    get4DXtests()
+    get4DXtests();
     openchange(true);
     setErrors(null);
     setError(null);
@@ -144,7 +146,7 @@ export default function OtherTestResults({ sid,sname }) {
   // onClicks
   const onEdit = (r) => {
     getPets();
-    get4DXtests()
+    get4DXtests();
     setModalloading(true);
     axiosClient
       .get(`/testresults/${r.id}`)
@@ -202,11 +204,15 @@ export default function OtherTestResults({ sid,sname }) {
       formData.append("attachment", testresult.attachment);
 
       axiosClient
-        .post(`/testresults/petowner/${id}/service/${testresult.service_id}`, testresult, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
+        .post(
+          `/testresults/petowner/${id}/service/${testresult.service_id}`,
+          testresult,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
         .then(() => {
           setNotification("Test result was successfully saved.");
           openchange(false);
@@ -411,11 +417,19 @@ export default function OtherTestResults({ sid,sname }) {
                       .slice(page * rowperpage, page * rowperpage + rowperpage)
                       .map((r) => (
                         <TableRow hover role="checkbox" key={r.id}>
+                          <TableCell>
+                            {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
+                          </TableCell>
                           <TableCell>{r.pet.name}</TableCell>
-                          <TableCell>{r.servicesavailed.service.service}</TableCell>
+                          <TableCell>
+                            {r.servicesavailed.service.service}
+                          </TableCell>
                           <TableCell>
                             <img
-                              src={`http://localhost:8000/` + r.attachment}
+                              src={
+                                `${import.meta.env.VITE_API_BASE_URL}/` +
+                                r.attachment
+                              }
                               height="50"
                               width="50"
                               onClick={() => toggleImage(r)}

@@ -18,6 +18,7 @@ import {
 import { Add, Archive, Edit } from "@mui/icons-material";
 import VaccinationLogsModal from "../../components/modals/VaccinationLogsModal";
 import { useStateContext } from "../../contexts/ContextProvider";
+import { format } from "date-fns";
 
 export default function Vaccination({ sid, sname }) {
   const { notification, setNotification } = useStateContext();
@@ -50,8 +51,7 @@ export default function Vaccination({ sid, sname }) {
     pet_id: null,
     vet_id: null,
     unit_price: null,
-    date:null
-
+    date: null,
   });
   const [vets, setVets] = useState([]);
   const [pet, setPet] = useState([]);
@@ -246,7 +246,6 @@ export default function Vaccination({ sid, sname }) {
             errors={errors}
             isUpdate={vaccinationlog.id}
             servicename={sname}
-
           />
 
           {notification && <Alert severity="success">{notification}</Alert>}
@@ -295,12 +294,22 @@ export default function Vaccination({ sid, sname }) {
                       )
                       .map((record) => (
                         <TableRow hover role="checkbox" key={record.id}>
-                          <TableCell>{record.date}</TableCell>
+                          <TableCell>
+                            {format(
+                              new Date(record.date),
+                              "MMMM d, yyyy h:mm a"
+                            )}
+                          </TableCell>
                           <TableCell>{`${record.weight} kg`}</TableCell>
                           <TableCell>{record.va_againsts}</TableCell>
                           <TableCell>{record.description}</TableCell>
                           <TableCell>{record.vet.fullname}</TableCell>
-                          <TableCell>{record.return}</TableCell>
+                          <TableCell>
+                            {format(
+                              new Date(record.return),
+                              "MMMM d, yyyy h:mm a"
+                            )}
+                          </TableCell>
                           <TableCell>{record.servicesavailed.status}</TableCell>
                           <TableCell>
                             <Stack direction="row" spacing={2}>

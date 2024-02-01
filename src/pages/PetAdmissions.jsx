@@ -27,6 +27,7 @@ import {
   NavigateNext,
   Visibility,
 } from "@mui/icons-material";
+import { format } from "date-fns";
 
 export default function PetAdmissions() {
   const { id } = useParams();
@@ -188,7 +189,9 @@ export default function PetAdmissions() {
                     .slice(page * rowperpage, page * rowperpage + rowperpage)
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
-                        <TableCell>{r.date}</TableCell>
+                        <TableCell>
+                          {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
+                        </TableCell>
                         <TableCell>{r.day}</TableCell>
                         <TableCell>{r.diagnosis}</TableCell>
                         <TableCell>
@@ -202,15 +205,6 @@ export default function PetAdmissions() {
                               target="_blank"
                             >
                               <Visibility fontSize="small" />
-                            </Button>
-
-                            <Button
-                              variant="contained"
-                              size="small"
-                              color="error"
-                              onClick={() => onArchive(r)}
-                            >
-                              <Archive fontSize="small" />
                             </Button>
                           </Stack>
                         </TableCell>

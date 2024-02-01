@@ -90,87 +90,89 @@ export default function ChargeSlipDetailsModal(props) {
                       </TableCell>
                     </TableRow>
                   ))}
-                 {!message && <> <TableRow>
-                    <TableCell
-                      colSpan={5}
-                      align="right"
-                      sx={{ fontWeight: "bold" }}
-                    >
-                      Total:
-                    </TableCell>
-                    <TableCell>{payment.total}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell
-                      colSpan={5}
-                      align="right"
-                      sx={{ fontWeight: "bold" }}
-                    >
-                      Deposit:
-                    </TableCell>
-                    <TableCell>{clientservice.deposit}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell
-                      colSpan={5}
-                      align="right"
-                      sx={{ fontWeight: "bold" }}
-                    >
-                      Remaining Charge:
-                    </TableCell>
-                    <TableCell>
-                      {" "}
-                      {payment.total < clientservice.deposit
-                        ? 0
-                        : payment.total - clientservice.deposit}
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell
-                      colSpan={5}
-                      align="right"
-                      sx={{ fontWeight: "bold" }}
-                    >
-                      Type of Payment:
-                    </TableCell>
-                    <TableCell>
-                      {payment.type !== "Cash"
-                        ? `${payment.type} ${payment.type_ref_no}`
-                        : payment.type}
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell
-                      colSpan={5}
-                      align="right"
-                      sx={{ fontWeight: "bold" }}
-                    >
-                      Amount:
-                    </TableCell>
-                    <TableCell>{payment.amount}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell
-                      colSpan={5}
-                      align="right"
-                      sx={{ fontWeight: "bold" }}
-                    >
-                      Change:
-                    </TableCell>
-                    <TableCell>{payment.change}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell
-                      colSpan={5}
-                      align="right"
-                      sx={{ fontWeight: "bold" }}
-                    >
-                      Balance:
-                    </TableCell>
-                    <TableCell>{clientservice.balance}</TableCell>
-                  </TableRow>
-                  </>
-                  }
+                  {!message && clientservice.status !== "To Pay" && (
+                    <>
+                      <TableRow>
+                        <TableCell
+                          colSpan={5}
+                          align="right"
+                          sx={{ fontWeight: "bold" }}
+                        >
+                          Total:
+                        </TableCell>
+                        <TableCell>{payment.total}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell
+                          colSpan={5}
+                          align="right"
+                          sx={{ fontWeight: "bold" }}
+                        >
+                          Deposit:
+                        </TableCell>
+                        <TableCell>{clientservice.deposit}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell
+                          colSpan={5}
+                          align="right"
+                          sx={{ fontWeight: "bold" }}
+                        >
+                          Remaining Charge:
+                        </TableCell>
+                        <TableCell>
+                          {" "}
+                          {payment.total < clientservice.deposit
+                            ? 0
+                            : payment.total - clientservice.deposit}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell
+                          colSpan={5}
+                          align="right"
+                          sx={{ fontWeight: "bold" }}
+                        >
+                          Type of Payment:
+                        </TableCell>
+                        <TableCell>
+                          {payment.type !== "Cash"
+                            ? `${payment.type} ${payment.type_ref_no}`
+                            : payment.type}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell
+                          colSpan={5}
+                          align="right"
+                          sx={{ fontWeight: "bold" }}
+                        >
+                          Amount:
+                        </TableCell>
+                        <TableCell>{payment.amount}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell
+                          colSpan={5}
+                          align="right"
+                          sx={{ fontWeight: "bold" }}
+                        >
+                          Change:
+                        </TableCell>
+                        <TableCell>{payment.change}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell
+                          colSpan={5}
+                          align="right"
+                          sx={{ fontWeight: "bold" }}
+                        >
+                          Balance:
+                        </TableCell>
+                        <TableCell>{clientservice.balance}</TableCell>
+                      </TableRow>
+                    </>
+                  )}
                 </TableBody>
               </Table>
             </TableContainer>

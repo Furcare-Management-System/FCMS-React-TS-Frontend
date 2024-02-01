@@ -16,6 +16,7 @@ import {
 import { useEffect, useState } from "react";
 import axiosClient from "../axios-client";
 import { DeleteForever, RestoreFromTrash } from "@mui/icons-material";
+import { format } from "date-fns";
 
 export default function VetArchives() {
   const columns = [
@@ -148,7 +149,12 @@ export default function VetArchives() {
                           <TableRow hover role="checkbox" key={po.id}>
                             <TableCell>{po.id}</TableCell>
                             <TableCell>{po.fullname}</TableCell>
-                            <TableCell>{po.deleted_at}</TableCell>
+                            <TableCell>
+                              {format(
+                                new Date(po.deleted_at),
+                                "MMMM d, yyyy h:mm a"
+                              )}
+                            </TableCell>
                             <TableCell>
                               <Stack direction="row" spacing={2}>
                                 <Button

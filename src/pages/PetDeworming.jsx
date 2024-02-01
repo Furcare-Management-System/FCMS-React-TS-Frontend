@@ -52,6 +52,7 @@ export default function PetDeworming() {
     administered: "",
     return: "",
     pet_id: null,
+    date:null,
   });
   const [pet, setPet] = useState([]);
   const [vets, setVets] = useState([]);

@@ -12,6 +12,8 @@ import {
   InputAdornment,
   Paper,
   CircularProgress,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import Swal from "sweetalert2";
 
@@ -133,6 +135,12 @@ export default function StaffForm() {
     setSelectedZipcode(event.target.value);
   };
 
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleCheckboxChange = () => {
+    setShowPassword(!showPassword);
+  };
+
   const getStepContent = (step) => {
     switch (step) {
       case 0:
@@ -142,7 +150,6 @@ export default function StaffForm() {
               width: "70%",
               display: "flex",
               flexDirection: "column",
-              alignItems: "center",
               "& > :not(style)": { m: 1 },
               margin: "auto",
             }}
@@ -173,7 +180,7 @@ export default function StaffForm() {
               id="Password"
               size="small"
               label="Password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               required
               fullWidth
               value={staff.password}
@@ -194,7 +201,7 @@ export default function StaffForm() {
               size="small"
               fullWidth
               required
-              type="password"
+              type={showPassword ? "text" : "password"}
               value={staff.password_confirmation}
               onChange={(ev) =>
                 setStaff({
@@ -203,6 +210,16 @@ export default function StaffForm() {
                 })
               }
               error={errors && errors.password ? true : false}
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={showPassword}
+                  onChange={handleCheckboxChange}
+                  color="primary"
+                />
+              }
+              label="Show Password"
             />
           </Box>
         );
@@ -386,11 +403,13 @@ export default function StaffForm() {
               style={{ alignItems: "center" }}
             >
               {getStepContent(activeStep)}
-              <Box  sx={{
+              <Box
+                sx={{
                   padding: "10px",
                   display: "flex",
                   justifyContent: "center",
-                }}>
+                }}
+              >
                 <Button disabled={activeStep === 0} onClick={handlePrev}>
                   Back
                 </Button>

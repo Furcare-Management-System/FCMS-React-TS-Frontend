@@ -132,13 +132,13 @@ export default function EditAppointment(props) {
                 />
 
                 <FormControl sx={{ m: 1, width: "100%" }}>
-                  <InputLabel>Services</InputLabel>
+                  <InputLabel>Multi Select Services</InputLabel>
                   <Select
                     required
                     multiple
                     value={selectedServices}
                     onChange={(e) => setSelectedServices(e.target.value)}
-                    input={<OutlinedInput label="Multiple Select" />}
+                    input={<OutlinedInput label="Multi Select Services" />}
                     renderValue={(selected) => (
                       <Stack gap={1} direction="row" flexWrap="wrap">
                         {selected.map((value) => (
@@ -226,7 +226,7 @@ export default function EditAppointment(props) {
                       onChange={handleRemarksChange}
                     />
                   }
-                  label="Remarks"
+                  label="Add Remarks"
                 />
 
                 {withRemarks && (
