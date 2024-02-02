@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Paper,
   Table,
   TableBody,
@@ -18,8 +19,8 @@ export default function Payments() {
   //for table
   const columns = [
     { id: "id", name: "ID" },
-    { id: "Client", name: "Client" },
     { id: "Date", name: "Date" },
+    { id: "Client", name: "Client" },
     { id: "Ref #", name: "Ref #" },
     { id: "Type", name: "Type" },
     { id: "Total", name: "Total" },
@@ -60,6 +61,38 @@ export default function Payments() {
         setLoading(false);
       });
   };
+  const [date, setDate] = useState(new Date());
+
+  const paymentsPDF = async () => {
+    try {
+      // Fetch PDF content
+      const response = await axiosClient.get(`/paymentrecords-daily`, {
+        responseType: "blob",
+        headers: {
+          "Content-Type": "application/pdf",
+        },
+      });
+
+      const pdfBlob = response.data;
+
+      const url = window.URL.createObjectURL(new Blob([pdfBlob]));
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute(
+        "download",
+        `ChargeSlip_Records-${date}.pdf`
+      );
+      document.body.appendChild(link);
+
+      // Trigger the download
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      alert("Error fetching PDF:", error);
+    }
+  };
+
 
   useEffect(() => {
     getPayments();
@@ -79,9 +112,16 @@ export default function Payments() {
           justifyContent="space-between"
         >
           <Typography variant="h5">Payment Records</Typography>
+          <Button
+            variant="contained"
+            onClick={paymentsPDF}
+            color="success"
+          >
+            print
+          </Button>
         </Box>
 
-        <TableContainer sx={{ height: "!00%" }}>
+        <TableContainer sx={{ height: "100%" }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
@@ -129,10 +169,10 @@ export default function Payments() {
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
                         <TableCell>{r.id}</TableCell>
-                        <TableCell>{`${r.clientdeposit.petowner.firstname} ${r.clientdeposit.petowner.lastname}`}</TableCell>
                         <TableCell>
                           {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
                         </TableCell>
+                        <TableCell>{`${r.clientdeposit.petowner.firstname} ${r.clientdeposit.petowner.lastname}`}</TableCell>
                         <TableCell>{r.chargeslip_ref_no}</TableCell>
                         <TableCell>
                           {r.type === "Cash"

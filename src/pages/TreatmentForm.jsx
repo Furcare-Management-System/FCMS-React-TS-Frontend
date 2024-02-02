@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import PetConditionAdmission from "./PetConditionAdmission";
 import PetMedicationAdmission from "./PetMedicationAdmission";
-import { ToastContainer, toast } from "react-toastify";
 import { format } from "date-fns";
 
 export default function TreatmentForm() {
@@ -150,7 +149,6 @@ export default function TreatmentForm() {
       <Backdrop open={loading} style={{ zIndex: 999 }}>
         <CircularProgress color="inherit" />
       </Backdrop>
-      {/* <ToastContainer></ToastContainer> */}
       <Stack
         sx={{
           display: "flex",

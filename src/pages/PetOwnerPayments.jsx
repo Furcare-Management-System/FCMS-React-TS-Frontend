@@ -183,6 +183,7 @@ export default function PetOwnerPayments() {
     total: null,
     amount: null,
     change: 0,
+    amounts_payable:null
   });
 
   const calculateTotal = () => {
@@ -197,16 +198,18 @@ export default function PetOwnerPayments() {
   };
 
   const calculateBalance = () => {
-    const totalCost = paymentrecord.total || 0;
+    // const totalCost = paymentrecord.total || 0;
     const balance = clientservice.balance || 0;
-    const deposit = clientservice.deposit || 0;
+    // const deposit = clientservice.deposit || 0;
     const amount = paymentrecord.amount || 0;
-    const currentbalance = totalCost + balance - deposit;
+    // const currentbalance = totalCost + balance - deposit;
 
-    const final = currentbalance - amount;
+    const final = balance - amount;
     if (final < 0) {
       return 0;
     }
+
+    payment.amounts_payable = final;
 
     return final;
   };
@@ -223,23 +226,24 @@ export default function PetOwnerPayments() {
     ev.preventDefault();
     setOpenpayment(false);
     setBackdrop(true);
+    setPaymentRecord({type:"Cash"})
 
     try {
       if (clientservice.status === "Pending") {
         const updatedClientService = {
           ...clientservice,
           balance: calculateBalance() || 0,
+          ...paymentrecord,
+          amounts_payable: calculateBalance()
         };
         await axiosClient.put(
           `/clientdeposits/${clientservice.id}`,
           updatedClientService
-        );
+        ) .then((response) => {
+          setClientservice(response.data)
+          console.log(response.data)
+        });
       }
-
-      await axiosClient.post(
-        `/paymentrecords/clientdeposits/${clientservice.id}`,
-        paymentrecord
-      );
 
       setBackdrop(false);
 
@@ -270,7 +274,7 @@ export default function PetOwnerPayments() {
     try {
       // Fetch PDF content
       const response = await axiosClient.get(
-        `/clientdeposits/${clientservice.id}/generate-chargeslip/balancepaid`,
+        `/clientdeposits/${clientservice.id}/generate-chargeslip`,
         {
           responseType: "blob",
           headers: {

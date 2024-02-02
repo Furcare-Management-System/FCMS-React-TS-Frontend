@@ -135,7 +135,7 @@ export default function PetOwnerPaymentRecords() {
                             : r.total - r.clientdeposit.deposit}</TableCell>
                         <TableCell>{r.amount.toFixed(2)}</TableCell>
                         <TableCell>{r.change.toFixed(2)}</TableCell>
-                        <TableCell>{r.clientdeposit.balance.toFixed(2)}</TableCell>
+                        <TableCell>{r.amounts_payable.toFixed(2)}</TableCell>
                       </TableRow>
                     ))}
               </TableBody>

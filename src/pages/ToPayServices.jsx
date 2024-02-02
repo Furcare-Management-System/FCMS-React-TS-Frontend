@@ -17,6 +17,7 @@ import { Link, useParams } from "react-router-dom";
 import axiosClient from "../axios-client";
 import Swal from "sweetalert2";
 import PaymentModal from "../components/modals/PaymentModal";
+import { format } from "date-fns";
 
 export default function ToPayServices() {
   //for table
@@ -49,6 +50,7 @@ export default function ToPayServices() {
     total: null,
     amount: null,
     change: null,
+    amounts_payable:null
   });
   const [openpayment, setOpenpayment] = useState(false);
   const [backdrop, setBackdrop] = useState(false);
@@ -187,15 +189,14 @@ export default function ToPayServices() {
         const updatedClientService = {
           ...clientservice,
           balance: calculateBalance() || 0,
+          ...paymentrecord,
+          client_deposit_id: clientservice.id,
+          amounts_payable: calculateBalance()
         };
 
         await axiosClient.put(
           `/clientdeposits/${clientservice.id}`,
           updatedClientService
-        );
-        await axiosClient.post(
-          `/paymentrecords/clientdeposits/${clientservice.id}`,
-          paymentrecord
         );
 
         setBackdrop(false);
@@ -316,7 +317,9 @@ export default function ToPayServices() {
                     .slice(page * rowperpage, page * rowperpage + rowperpage)
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
-                        <TableCell>{r.date}</TableCell>
+                        <TableCell>
+                          {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
+                        </TableCell>
                         <TableCell>{r.pet.name}</TableCell>
                         <TableCell>{r.service.service}</TableCell>
                         <TableCell>{r.quantity}</TableCell>
