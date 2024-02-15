@@ -1,6 +1,8 @@
 import {
+  Backdrop,
   Box,
   Button,
+  CircularProgress,
   Paper,
   Table,
   TableBody,
@@ -41,6 +43,7 @@ export default function Payments() {
 
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [printing, setPrinting] = useState(false);
   const [message, setMessage] = useState(null);
 
   const getPayments = () => {
@@ -64,6 +67,7 @@ export default function Payments() {
   const [date, setDate] = useState(new Date());
 
   const paymentsPDF = async () => {
+    setPrinting(true);
     try {
       // Fetch PDF content
       const response = await axiosClient.get(`/paymentrecords-daily`, {
@@ -79,20 +83,18 @@ export default function Payments() {
 
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute(
-        "download",
-        `ChargeSlip_Records-${date}.pdf`
-      );
+      link.setAttribute("download", `ChargeSlip_Records-${date}.pdf`);
       document.body.appendChild(link);
 
       // Trigger the download
       link.click();
       document.body.removeChild(link);
+      setPrinting(false);
     } catch (error) {
+      setPrinting(false);
       alert("Error fetching PDF:", error);
     }
   };
-
 
   useEffect(() => {
     getPayments();
@@ -100,6 +102,9 @@ export default function Payments() {
 
   return (
     <>
+      <Backdrop open={printing} style={{ zIndex: 999 }}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Paper
         sx={{
           padding: "10px",
@@ -112,11 +117,7 @@ export default function Payments() {
           justifyContent="space-between"
         >
           <Typography variant="h5">Payment Records</Typography>
-          <Button
-            variant="contained"
-            onClick={paymentsPDF}
-            color="success"
-          >
+          <Button variant="contained" onClick={paymentsPDF} color="success">
             print
           </Button>
         </Box>

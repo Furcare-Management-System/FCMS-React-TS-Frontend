@@ -3,6 +3,7 @@ import {
   Backdrop,
   Box,
   Button,
+  CircularProgress,
   Divider,
   Table,
   TableBody,
@@ -54,6 +55,7 @@ export default function ToPayServices() {
   });
   const [openpayment, setOpenpayment] = useState(false);
   const [backdrop, setBackdrop] = useState(false);
+  const [printing, setPrinting] = useState(false);
 
   const getServices = () => {
     setServicesavailed([]);
@@ -129,6 +131,7 @@ export default function ToPayServices() {
   };
 
   const windowOpenPDFforPrint = async () => {
+    setPrinting(true);
     try {
       // Fetch PDF content
       const response = await axiosClient.get(
@@ -158,8 +161,10 @@ export default function ToPayServices() {
       // Trigger the download
       link.click();
       document.body.removeChild(link);
+      setPrinting(false);
     } catch (error) {
       alert("Error fetching PDF:", error);
+      setPrinting(false);
     }
   };
 
@@ -231,6 +236,9 @@ export default function ToPayServices() {
 
   return (
     <>
+     <Backdrop open={printing} style={{ zIndex: 999 }}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Box
         flex={5}
         sx={{

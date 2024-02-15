@@ -41,6 +41,7 @@ export default function TreatmentForm() {
   const [pet, setPet] = useState([]);
   const [breed, setBreed] = useState([]);
   const [edittreatment, setEdittreatment] = useState(false);
+  const [printing, setPrinting] = useState(false);
 
   const getCurrentTreatment = () => {
     setErrors(null);
@@ -104,6 +105,7 @@ export default function TreatmentForm() {
   };
 
   const treatmentPDF = async () => {
+    setPrinting(true);
     try {
       // Fetch PDF content
       const response = await axiosClient.get(`/treatments/${id}/generatePDF`, {
@@ -128,8 +130,10 @@ export default function TreatmentForm() {
       // Trigger the download
       link.click();
       document.body.removeChild(link);
+      setPrinting(false);
     } catch (error) {
       alert("Error fetching PDF:", error);
+      setPrinting(false);
     }
   };
 
@@ -147,6 +151,9 @@ export default function TreatmentForm() {
       }}
     >
       <Backdrop open={loading} style={{ zIndex: 999 }}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      <Backdrop open={printing} style={{ zIndex: 999 }}>
         <CircularProgress color="inherit" />
       </Backdrop>
       <Stack
