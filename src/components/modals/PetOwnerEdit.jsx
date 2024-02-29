@@ -31,7 +31,7 @@ export default function PetOwnerEdit(props) {
     selectedZipcode,
     handleZipcodeChange,
     zipcodeerror,
-    zipcodeloading
+    zipcodeloading,
   } = props;
 
   const handleFieldChange = (fieldName, value) => {
@@ -107,7 +107,6 @@ export default function PetOwnerEdit(props) {
                   label="Zone"
                   value={petowner.zone || ""}
                   onChange={(ev) => handleFieldChange("zone", ev.target.value)}
-                  required
                 />
                 <TextField
                   variant="outlined"

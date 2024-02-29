@@ -50,6 +50,18 @@ export default function PetOwnerForm() {
 
   const [activeStep, setActiveStep] = useState(0);
 
+  const confirmPassword = (ev) => {
+    ev.preventDefault();
+    if (petowner.password === petowner.password_confirmation) {
+      setActiveStep((prevStep) => prevStep + 1);
+    } else {
+      Swal.fire({
+        text: "Password did not match!",
+        icon: "error",
+      });
+    }
+  };
+
   const onSubmit = (ev) => {
     ev.preventDefault();
     setErrors(null);
@@ -86,6 +98,13 @@ export default function PetOwnerForm() {
 
   const handleNext = (e) => {
     e.preventDefault();
+    if (activeStep === 0) {
+      confirmPassword(e);
+      // setActiveStep(1);
+      return true;
+    }
+    // setActiveStep((prevStep) => prevStep + 1);
+
     if (activeStep === 1) {
       onSubmit(e);
       return true;
@@ -172,7 +191,7 @@ export default function PetOwnerForm() {
               size="small"
               type="email"
               fullWidth
-              value={petowner.email}
+              value={petowner.email || ""}
               onChange={(ev) =>
                 setPetowner({ ...petowner, email: ev.target.value })
               }
@@ -190,10 +209,10 @@ export default function PetOwnerForm() {
               id="Password"
               size="small"
               label="Password"
-             type={showPassword ? "text" : "password"}
+              type={showPassword ? "text" : "password"}
               required
               fullWidth
-              value={petowner.password}
+              value={petowner.password || ""}
               onChange={(ev) =>
                 setPetowner({ ...petowner, password: ev.target.value })
               }
@@ -211,8 +230,8 @@ export default function PetOwnerForm() {
               size="small"
               fullWidth
               required
-             type={showPassword ? "text" : "password"}
-              value={petowner.password_confirmation}
+              type={showPassword ? "text" : "password"}
+              value={petowner.password_confirmation || ""}
               onChange={(ev) =>
                 setPetowner({
                   ...petowner,
@@ -221,7 +240,7 @@ export default function PetOwnerForm() {
               }
               error={errors && errors.password ? true : false}
             />
-              <FormControlLabel
+            <FormControlLabel
               control={
                 <Checkbox
                   checked={showPassword}
@@ -306,11 +325,10 @@ export default function PetOwnerForm() {
               size="small"
               label="Zone/Block/Street"
               fullWidth
-              value={petowner.zone}
+              value={petowner.zone || ""}
               onChange={(ev) =>
                 setPetowner({ ...petowner, zone: ev.target.value })
               }
-              required
               error={errors && errors.zone ? true : false}
               helperText={errors && errors.zone}
             />

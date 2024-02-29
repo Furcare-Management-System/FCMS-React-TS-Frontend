@@ -141,7 +141,6 @@ export default function PetsModal(props) {
                       max: new Date().toISOString().split("T")[0],
                     }}
                     InputLabelProps={{ shrink: true }}
-                    required
                   />
 
                   <FormControl>
@@ -156,7 +155,7 @@ export default function PetsModal(props) {
                       onChange={(ev) =>
                         handleFieldChange("gender", ev.target.value)
                       }
-                      required
+                      // required
                     >
                       <FormControlLabel
                         value="Female"
@@ -228,7 +227,7 @@ export default function PetsModal(props) {
                       label="Color"
                       value={selectedOption || ""}
                       onChange={handleDropdownChange}
-                      required
+                      // required
                     >
                       {colors.map((item) => (
                         <MenuItem key={item.id} value={item.id}>

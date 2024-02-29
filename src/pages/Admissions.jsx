@@ -109,7 +109,7 @@ export default function Admissions() {
     body_condition_score: "",
     fluid_rate: "",
     comments: "",
-    unit_price: null,
+    // unit_price: null,
   });
   const [pets, setPets] = useState([]);
   const [openmodal, setOpenmodal] = useState(false);

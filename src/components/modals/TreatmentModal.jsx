@@ -61,7 +61,7 @@ export default function TreatmentModal(props) {
           )}
           <form onSubmit={(e) => onSubmit(e)}>
             <Stack spacing={2} margin={2}>
-              {!isUpdate && (
+              {/* {!isUpdate && (
                 <TextField
                   label="Treatment Cost"
                   type="number"
@@ -78,7 +78,7 @@ export default function TreatmentModal(props) {
                   required
                   fullWidth
                 />
-              )}
+              )} */}
               <TextField
                 value={formattedDate}
                 label="Date"

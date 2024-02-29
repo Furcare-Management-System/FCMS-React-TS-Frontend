@@ -184,7 +184,11 @@ export default function TreatmentForm() {
               ))}
             </div>
           )}
-          {treatment.date && <Typography variant="body1">Date: {format(new Date(treatment.date), "MMMM d, yyyy h:mm a")}</Typography>}
+          {treatment.date && (
+            <Typography variant="body1">
+              Date: {format(new Date(treatment.date), "MMMM d, yyyy h:mm a")}
+            </Typography>
+          )}
           <Typography variant="body1">Day: {treatment.day} </Typography>
           <Box
             sx={{

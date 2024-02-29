@@ -62,7 +62,7 @@ export default function AdmissionModal(props) {
             )}
             <form onSubmit={(e) => onSubmit(e)}>
               <Stack spacing={2} margin={2}>
-                {isUpdate ? (
+                {isUpdate && clientservice.date ? (
                   <TextField
                     variant="outlined"
                     id="Date"
@@ -108,6 +108,7 @@ export default function AdmissionModal(props) {
                       <InputAdornment position="start">₱</InputAdornment>
                     ),
                   }}
+                  inputProps={{ min: "1" }}
                   value={clientservice.deposit || ""}
                   onChange={(ev) =>
                     handleFieldChange("deposit", ev.target.value)
