@@ -47,7 +47,7 @@ export default function PetMedicationAdmission({ pid }) {
 
   const getTreatmentPetMedication = () => {
     setMessage("");
-    setMedications([])
+    setMedications([]);
     setLoading(true);
     axiosClient
       .get(`/treatments/${id}/medications`)
@@ -69,10 +69,11 @@ export default function PetMedicationAdmission({ pid }) {
   const [medication, setMedication] = useState({
     id: null,
     medcat_id: null,
-    name: "",
+    medicine_name: "",
     unit_price: null,
     description: "",
     quantity: null,
+    unit: "",
     dosage: "",
     price: null,
   });
@@ -128,9 +129,8 @@ export default function PetMedicationAdmission({ pid }) {
       if (result.isConfirmed) {
         axiosClient.delete(`/medications/${u.id}/archive`).then(() => {
           Swal.fire({
-            // title: "Service was archived!",
+            text: "Medication was deleted.",
             icon: "success",
-            // confirmButtonColor: "black",
           }).then(() => {
             getTreatmentPetMedication();
           });
@@ -199,7 +199,7 @@ export default function PetMedicationAdmission({ pid }) {
           <Typography variant="body1" fontWeight={"bold"}>
             Pet Medication:
           </Typography>
-          {admission.status !== "Completed" && (
+          {/* {admission.status !== "Completed" && (
             <IconButton
               color="success"
               variant="contained"
@@ -207,7 +207,14 @@ export default function PetMedicationAdmission({ pid }) {
             >
               <Add />
             </IconButton>
-          )}
+          )} */}
+          <IconButton
+            color="success"
+            variant="contained"
+            onClick={addMedication}
+          >
+            <Add />
+          </IconButton>
         </Box>
 
         <MedicationModal
@@ -222,7 +229,7 @@ export default function PetMedicationAdmission({ pid }) {
           category={category}
           isUpdate={medication.id}
         />
-        <TableContainer >
+        <TableContainer>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
@@ -231,9 +238,10 @@ export default function PetMedicationAdmission({ pid }) {
                     {column.name}
                   </TableCell>
                 ))}
-                {admission.status !== "Completed" && (
+                {/* {admission.status !== "Completed" && (
                   <TableCell size="small">Actions</TableCell>
-                )}
+                )} */}
+                <TableCell size="small">Actions</TableCell>
               </TableRow>
             </TableHead>
             {loading && (
@@ -260,14 +268,14 @@ export default function PetMedicationAdmission({ pid }) {
                 {medications &&
                   medications.map((r) => (
                     <TableRow hover role="checkbox" key={r.id}>
-                      <TableCell>{r.medicine.name}</TableCell>
+                      <TableCell>{r.medicine_name}</TableCell>
                       <TableCell>{r.quantity}</TableCell>
                       <TableCell>{r.dosage}</TableCell>
                       <TableCell>{r.description}</TableCell>
-                      {admission.status !== "Completed" && (
-                        <TableCell>
-                          <Stack direction="row">
-                            {/* <IconButton
+                      {/* {admission.status !== "Completed" && ( */}
+                      <TableCell>
+                        <Stack direction="row">
+                          {/* <IconButton
                               variant="contained"
                               size="small"
                               color="info"
@@ -275,17 +283,17 @@ export default function PetMedicationAdmission({ pid }) {
                             >
                               <Edit fontSize="small" />
                             </IconButton> */}
-                            <IconButton
-                              variant="contained"
-                              color="error"
-                              size="small"
-                              onClick={() => onArchive(r)}
-                            >
-                              <Delete fontSize="small" />
-                            </IconButton>
-                          </Stack>
-                        </TableCell>
-                      )}
+                          <IconButton
+                            variant="contained"
+                            color="error"
+                            size="small"
+                            onClick={() => onArchive(r)}
+                          >
+                            <Delete fontSize="small" />
+                          </IconButton>
+                        </Stack>
+                      </TableCell>
+                      {/* )} */}
                     </TableRow>
                   ))}
               </TableBody>

@@ -372,7 +372,7 @@ export default function TreatmentForm() {
             rows={2}
             fullWidth
           />
-          {admission.status !== "Completed" && (
+          {/* {admission.status !== "Completed" && ( */}
             <Box display="flex" justifyContent={"right"}>
               {edittreatment && (
                 <>
@@ -408,7 +408,7 @@ export default function TreatmentForm() {
                 </Button>
               )}{" "}
             </Box>
-          )}
+          {/* )} */}
         </form>
       </Stack>
       {/* <Divider sx={{ mt: 1 }} /> */}

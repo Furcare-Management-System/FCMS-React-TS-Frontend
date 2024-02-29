@@ -25,7 +25,7 @@ export default function ToPayServices() {
   const columns = [
     { id: "Date", name: "Date" },
     { id: "Pet", name: "Pet" },
-    { id: "Service", name: "Service" },
+    { id: "Service", name: "Product/Service" },
     { id: "Quantity", name: "Quantity" },
     { id: "Unit", name: "Unit" },
     { id: "Unit Price", name: "Unit Price" },
@@ -41,6 +41,7 @@ export default function ToPayServices() {
   const [servicesavailed, setServicesavailed] = useState([]);
   const [clientservice, setClientservice] = useState([]);
   const [petowner, setPetowner] = useState([]);
+  const [meds, setMeds] = useState([]);
   const [pastbalance, setPastbalance] = useState([]);
 
   const [paymentrecord, setPaymentRecord] = useState({
@@ -51,7 +52,7 @@ export default function ToPayServices() {
     total: null,
     amount: null,
     change: null,
-    amounts_payable:null
+    amounts_payable: null,
   });
   const [openpayment, setOpenpayment] = useState(false);
   const [backdrop, setBackdrop] = useState(false);
@@ -68,6 +69,7 @@ export default function ToPayServices() {
         setServicesavailed(data.data);
         setClientservice(data.clientdeposit);
         setPetowner(data.clientdeposit.petowner);
+        setMeds(data.meds);
       })
       .catch((mes) => {
         const response = mes.response;
@@ -196,7 +198,7 @@ export default function ToPayServices() {
           balance: calculateBalance() || 0,
           ...paymentrecord,
           client_deposit_id: clientservice.id,
-          amounts_payable: calculateBalance()
+          amounts_payable: calculateBalance(),
         };
 
         await axiosClient.put(
@@ -236,7 +238,7 @@ export default function ToPayServices() {
 
   return (
     <>
-     <Backdrop open={printing} style={{ zIndex: 999 }}>
+      <Backdrop open={printing} style={{ zIndex: 999 }}>
         <CircularProgress color="inherit" />
       </Backdrop>
       <Box
@@ -329,9 +331,20 @@ export default function ToPayServices() {
                           {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
                         </TableCell>
                         <TableCell>{r.pet.name}</TableCell>
-                        <TableCell>{r.service.service}</TableCell>
+                        <TableCell>
+                          {meds.map((m) =>
+                            r.id === m.services_availed_id ? (
+                              <span key={m.id}>{m.medicine_name}</span>
+                            ) : null
+                          )}
+                          {r.service.service !== "Medicine"
+                            ? r.service.service
+                            : null}
+                        </TableCell>
+
                         <TableCell>{r.quantity}</TableCell>
                         <TableCell>{r.unit}</TableCell>
+
                         <TableCell>
                           {r.unit_price ? r.unit_price.toFixed(2) : 0}
                         </TableCell>

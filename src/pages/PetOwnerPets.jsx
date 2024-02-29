@@ -27,13 +27,14 @@ import {
 import { Link, useParams } from "react-router-dom";
 import axiosClient from "../axios-client";
 import PetsModal from "../components/modals/PetsModal";
+import { differenceInYears, differenceInMonths } from "date-fns";
 
 export default function PetOwnerPets() {
   //for table
   const columns = [
     { id: "Photo", name: "Photo" },
     { id: "name", name: "Pet Name" },
-    { id: "Birthdate", name: "Birthdate" },
+    { id: "Age", name: "Age" },
     { id: "Gender", name: "Gender" },
     { id: "breed", name: "Breed" },
     { id: "Color", name: "Color" },
@@ -217,6 +218,11 @@ export default function PetOwnerPets() {
     getPets();
   }, []);
 
+  const currentDate = new Date();
+  const birthdate = new Date(pet.birthdate);
+  const years = differenceInYears(currentDate, birthdate);
+  const months = differenceInMonths(currentDate, birthdate) % 12;
+
   return (
     <>
       <Box
@@ -326,7 +332,47 @@ export default function PetOwnerPets() {
                           )}
                         </TableCell>
                         <TableCell>{r.name}</TableCell>
-                        <TableCell>{r.birthdate}</TableCell>
+                        {r.birthdate ? (
+                          <TableCell>
+                            {differenceInYears(
+                              currentDate,
+                              new Date(r.birthdate)
+                            ) !== 0
+                              ? `${differenceInYears(
+                                  currentDate,
+                                  new Date(r.birthdate)
+                                )} year${
+                                  differenceInYears(
+                                    currentDate,
+                                    r.birthdate
+                                  ) !== 1
+                                    ? "s"
+                                    : ""
+                                } `
+                              : ""}
+                            {differenceInMonths(
+                              currentDate,
+                              new Date(r.birthdate)
+                            ) %
+                              12 !==
+                              0 &&
+                              `${
+                                differenceInMonths(
+                                  currentDate,
+                                  new Date(r.birthdate)
+                                ) % 12
+                              } month${
+                                differenceInMonths(
+                                  currentDate,
+                                  new Date(r.birthdate)
+                                ) %
+                                  12 !==
+                                1
+                                  ? "s"
+                                  : ""
+                              }`}
+                          </TableCell>
+                        ):<TableCell></TableCell>}
                         <TableCell>{r.gender}</TableCell>
                         <TableCell>{r.breed.breed}</TableCell>
                         <TableCell>{r.color}</TableCell>

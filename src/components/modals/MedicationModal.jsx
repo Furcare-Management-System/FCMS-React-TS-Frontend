@@ -16,6 +16,10 @@ import {
   DialogActions,
   FormControl,
   InputLabel,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 
@@ -91,8 +95,8 @@ export default function MedicationModal(props) {
               </FormControl>}
 
               <TextField
-                value={medication.name || ""}
-                onChange={(ev) => handleFieldChange("name", ev.target.value)}
+                value={medication.medicine_name || ""}
+                onChange={(ev) => handleFieldChange("medicine_name", ev.target.value)}
                 label="Medicine Name"
                 required
               />
@@ -119,12 +123,43 @@ export default function MedicationModal(props) {
                 type="number"
                 required
               />
+                  <FormControl>
+                    <FormLabel id="unit-radio-btn">
+                      Unit
+                    </FormLabel>
+                    <RadioGroup
+                      row
+                      value={medication.unit || ``}
+                      onChange={(ev) =>
+                        handleFieldChange("unit", ev.target.value)
+                      }
+                      // required
+                    >
+                      <FormControlLabel
+                        value="Shot"
+                        control={<Radio />}
+                        label="Shot"
+                      />
+                      <FormControlLabel
+                        value="Piece"
+                        control={<Radio />}
+                        label="Piece"
+                      />
+                      <FormControlLabel
+                        value="Set"
+                        control={<Radio />}
+                        label="Set"
+                      />
+                    </RadioGroup>
+                  </FormControl>
+
               <TextField
                 value={medication.dosage || ""}
                 onChange={(ev) => handleFieldChange("dosage", ev.target.value)}
                 label="Dosage"
                 required
               />
+
               <TextField
                 value={medication.description || ""}
                 onChange={(ev) =>

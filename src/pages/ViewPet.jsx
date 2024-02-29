@@ -21,7 +21,7 @@ import QRCode from "qrcode";
 import CryptoJS from "crypto-js";
 import { useStateContext } from "../contexts/ContextProvider";
 import PetImageModal from "../components/modals/PetImageModal";
-import { format } from "date-fns";
+import { format, differenceInYears, differenceInMonths } from "date-fns";
 
 export default function ViewPet() {
   const { id } = useParams();
@@ -294,6 +294,11 @@ export default function ViewPet() {
     }
   }, [selectedSpecie]);
 
+  const currentDate = new Date();
+  const birthdate = new Date(pet.birthdate);
+  const years = differenceInYears(currentDate, birthdate);
+  const months = differenceInMonths(currentDate, birthdate) % 12;
+
   return (
     <div>
       <Paper mt={1} sx={{ padding: "15px", margin: "10px" }}>
@@ -344,10 +349,24 @@ export default function ViewPet() {
             <Stack flexDirection="row">
               <Stack sx={{ marginRight: "10px" }}>
                 <Typography>Pet Name: {pet.name}</Typography>
-                {pet.birthdate && (
+                {pet.birthdate ? (
                   <Typography>
                     Birthdate: {format(new Date(pet.birthdate), "MMMM d, yyyy")}
                   </Typography>
+                ) : (
+                  <Typography>Birthdate:</Typography>
+                )}
+                {pet.birthdate ? (
+                  <Typography>
+                    Age:{" "}
+                    {years !== 0
+                      ? `${years} year${years !== 1 ? "s" : ""} `
+                      : ""}
+                    {months !== 0 &&
+                      `${months} month${months !== 1 ? "s" : ""}`}
+                  </Typography>
+                ) : (
+                  <Typography>Age:</Typography>
                 )}
                 <Typography>Gender: {pet.gender}</Typography>
               </Stack>

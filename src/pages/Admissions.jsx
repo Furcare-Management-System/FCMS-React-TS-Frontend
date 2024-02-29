@@ -30,7 +30,6 @@ export default function Admissions() {
     { id: "Day", name: "Day" },
     { id: "Pet", name: "Pet" },
     { id: "diagnosis", name: "Diagnosis" },
-    { id: "Status", name: "Status" },
     { id: "Actions", name: "Actions" },
   ];
 
@@ -327,7 +326,6 @@ export default function Admissions() {
                         <TableCell>{r.treatment.day}</TableCell>
                         <TableCell>{r.treatment.pet.name}</TableCell>
                         <TableCell>{r.treatment.diagnosis}</TableCell>
-                        <TableCell>{r.servicesavailed.status}</TableCell>
                         <TableCell>
                           <Stack direction="row" spacing={2}>
                             <Button

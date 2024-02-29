@@ -171,7 +171,7 @@ export default function PetConditionAdmission() {
           <Typography variant="body1" fontWeight={"bold"}>
             Pet Condition:
           </Typography>
-          {admission.status !== "Completed" && (
+          {/* {admission.status !== "Completed" && (
             <IconButton
               color="success"
               variant="contained"
@@ -179,7 +179,14 @@ export default function PetConditionAdmission() {
             >
               <Add />
             </IconButton>
-          )}
+          )} */}
+            <IconButton
+              color="success"
+              variant="contained"
+              onClick={handlePetCondition}
+            >
+              <Add />
+            </IconButton>
         </Box>
         <TableContainer style={{ maxWidth: "sm", overflowX: "auto" }}>
           {errors && (
@@ -199,9 +206,10 @@ export default function PetConditionAdmission() {
                     {column.name}
                   </TableCell>
                 ))}
-                {admission.status !== "Completed" && (
+                {/* {admission.status !== "Completed" && (
                   <TableCell size="small">Actions</TableCell>
-                )}
+                )} */}
+                 <TableCell size="small">Actions</TableCell>
               </TableRow>
             </TableHead>
             {loading && (
@@ -240,7 +248,7 @@ export default function PetConditionAdmission() {
                       <TableCell>{r.urinated}</TableCell>
                       <TableCell>{r.vomit}</TableCell>
                       <TableCell>{r.defecated}</TableCell>
-                      {admission.status !== "Completed" && (
+                      {/* {admission.status !== "Completed" && ( */}
                         <TableCell>
                           {!addbtn && (
                             <Stack direction="row">
@@ -263,7 +271,7 @@ export default function PetConditionAdmission() {
                             </Stack>
                           )}
                         </TableCell>
-                      )}
+                      {/* )} */}
                     </TableRow>
                   ))}
               </TableBody>
@@ -327,7 +335,7 @@ export default function PetConditionAdmission() {
                       size="small"
                     />
                   </TableCell>
-                  {admission.status !== "Completed" && (
+                  {/* {admission.status !== "Completed" && ( */}
                     <TableCell>
                       <Stack direction="row">
                         <IconButton
@@ -348,7 +356,7 @@ export default function PetConditionAdmission() {
                         </IconButton>
                       </Stack>
                     </TableCell>
-                  )}
+                  {/* )} */}
                 </TableRow>
               </TableBody>
             )}
