@@ -117,8 +117,9 @@ export default function PetAdmissions() {
         sx={{
           minWidth: "90%",
           padding: "10px",
-          margin: "10px",
+          marginBottom: "-30px",
         }}
+        elevation={4}
       >
         <Box p={1} sx={{ display: "flex", justifyContent: "right" }}>
           <TextField
@@ -130,6 +131,9 @@ export default function PetAdmissions() {
             value={filterdate || ``}
             onChange={(ev) => setFilterdate(ev.target.value)}
             InputLabelProps={{ shrink: true }}
+            inputProps={{
+              max: new Date().toISOString().split("T")[0],
+            }}
             required
           />
           {filterdate && (
@@ -148,7 +152,7 @@ export default function PetAdmissions() {
         </Box>
         {notification && <Alert severity="success">{notification}</Alert>}
 
-        <TableContainer sx={{ height: 380 }}>
+        <TableContainer sx={{ height: 410 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
@@ -215,6 +219,7 @@ export default function PetAdmissions() {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-20px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}

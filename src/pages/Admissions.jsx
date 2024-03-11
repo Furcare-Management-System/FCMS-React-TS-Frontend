@@ -19,7 +19,7 @@ import { Link, useParams } from "react-router-dom";
 import AdmissionModal from "../components/modals/AdmissionModal";
 import TreatmentModal from "../components/modals/TreatmentModal";
 import Swal from "sweetalert2";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 
 export default function Admissions() {
   const { id } = useParams();
@@ -90,7 +90,7 @@ export default function Admissions() {
   const [modalloading, setModalloading] = useState(false);
   const [clientservice, setClientservice] = useState({
     id: null,
-    date:null,
+    date: null,
     deposit: null,
   });
   const [treatment, setTreatment] = useState({
@@ -230,6 +230,7 @@ export default function Admissions() {
         sx={{
           padding: "10px",
         }}
+        elevation={4}
       >
         <Box
           p={1}
@@ -279,7 +280,7 @@ export default function Admissions() {
           pets={pets}
         />
 
-        <TableContainer sx={{ height: 340 }} maxwidth="sm">
+        <TableContainer sx={{ height: 410 }} maxwidth="sm">
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
@@ -320,8 +321,11 @@ export default function Admissions() {
                     .slice(page * rowperpage, page * rowperpage + rowperpage)
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
-                       <TableCell>
-                          {format(new Date(r.treatment.date), "MMMM d, yyyy h:mm a")}
+                        <TableCell>
+                          {format(
+                            new Date(r.treatment.date),
+                            "MMMM d, yyyy h:mm a"
+                          )}
                         </TableCell>
                         <TableCell>{r.treatment.day}</TableCell>
                         <TableCell>{r.treatment.pet.name}</TableCell>
@@ -351,6 +355,7 @@ export default function Admissions() {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-20px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}

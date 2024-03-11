@@ -3,7 +3,14 @@ import axiosClient from "../axios-client";
 import {
   Alert,
   Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
   IconButton,
+  Paper,
+  Radio,
+  RadioGroup,
   Stack,
   Table,
   TableBody,
@@ -14,7 +21,15 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Add, Archive, Close, Edit, Refresh, Save } from "@mui/icons-material";
+import {
+  Add,
+  Archive,
+  Close,
+  Delete,
+  Edit,
+  Refresh,
+  Save,
+} from "@mui/icons-material";
 import { useParams } from "react-router-dom";
 
 export default function PetConditionAdmission() {
@@ -160,7 +175,15 @@ export default function PetConditionAdmission() {
   }, []);
 
   return (
-    <>
+    <Paper
+      sx={{
+        // width: "70%",
+        // margin: "auto",
+        margin: "30px",
+        padding: "15px",
+      }}
+      elevation={5}
+    >
       <Stack sx={{ margin: "5px", p: 1 }}>
         <Box
           sx={{
@@ -180,13 +203,14 @@ export default function PetConditionAdmission() {
               <Add />
             </IconButton>
           )} */}
-            <IconButton
-              color="success"
-              variant="contained"
-              onClick={handlePetCondition}
-            >
-              <Add />
-            </IconButton>
+          <Button
+            color="success"
+            variant="contained"
+            onClick={handlePetCondition}
+            size="small"
+          >
+            Add
+          </Button>
         </Box>
         <TableContainer style={{ maxWidth: "sm", overflowX: "auto" }}>
           {errors && (
@@ -209,16 +233,13 @@ export default function PetConditionAdmission() {
                 {/* {admission.status !== "Completed" && (
                   <TableCell size="small">Actions</TableCell>
                 )} */}
-                 <TableCell size="small">Actions</TableCell>
+                <TableCell size="small">Actions</TableCell>
               </TableRow>
             </TableHead>
             {loading && (
               <TableBody>
                 <TableRow>
-                  <TableCell
-                    colSpan={7}
-                    style={{ textAlign: "center" }}
-                  >
+                  <TableCell colSpan={7} style={{ textAlign: "center" }}>
                     Loading...
                   </TableCell>
                 </TableRow>
@@ -249,28 +270,28 @@ export default function PetConditionAdmission() {
                       <TableCell>{r.vomit}</TableCell>
                       <TableCell>{r.defecated}</TableCell>
                       {/* {admission.status !== "Completed" && ( */}
-                        <TableCell>
-                          {!addbtn && (
-                            <Stack direction="row">
-                              <IconButton
-                                variant="contained"
-                                size="small"
-                                color="info"
-                                onClick={() => onEdit(r)}
-                              >
-                                <Edit fontSize="small" />
-                              </IconButton>
-                              <IconButton
-                                variant="contained"
-                                color="error"
-                                size="small"
-                                onClick={() => onArchive(r)}
-                              >
-                                <Archive fontSize="small" />
-                              </IconButton>
-                            </Stack>
-                          )}
-                        </TableCell>
+                      <TableCell>
+                        {!addbtn && (
+                          <Stack direction="row">
+                            <IconButton
+                              variant="contained"
+                              size="small"
+                              color="info"
+                              onClick={() => onEdit(r)}
+                            >
+                              <Edit fontSize="small" />
+                            </IconButton>
+                            <IconButton
+                              variant="contained"
+                              color="error"
+                              size="small"
+                              onClick={() => onArchive(r)}
+                            >
+                              <Delete fontSize="small" />
+                            </IconButton>
+                          </Stack>
+                        )}
+                      </TableCell>
                       {/* )} */}
                     </TableRow>
                   ))}
@@ -279,7 +300,31 @@ export default function PetConditionAdmission() {
             {!loading && addbtn && (
               <TableBody sx={{ border: "1px solid black" }}>
                 <TableRow>
-                  <TableCell></TableCell>
+                  <TableCell>
+                    <FormControl>
+                      {/* <FormLabel id="unit-radio-btn">AM/PM</FormLabel> */}
+                      <RadioGroup
+                        row
+                        value={petcondition.is_AM_or_PM || ``}
+                        onChange={(ev) =>
+                          handleFieldChange("is_AM_or_PM", ev.target.value)
+                        }
+                        required
+                        size="small"
+                      >
+                        <FormControlLabel
+                          value="AM"
+                          control={<Radio />}
+                          label="AM"
+                        />
+                        <FormControlLabel
+                          value="PM"
+                          control={<Radio />}
+                          label="PM"
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                  </TableCell>
                   <TableCell>
                     <TextField
                       value={petcondition.eating || ""}
@@ -336,26 +381,26 @@ export default function PetConditionAdmission() {
                     />
                   </TableCell>
                   {/* {admission.status !== "Completed" && ( */}
-                    <TableCell>
-                      <Stack direction="row">
-                        <IconButton
-                          variant="contained"
-                          size="small"
-                          color="success"
-                          onClick={(e) => onSubmit(e)}
-                        >
-                          <Save fontSize="small" />
-                        </IconButton>
-                        <IconButton
-                          variant="contained"
-                          size="small"
-                          color="error"
-                          onClick={handleClose}
-                        >
-                          <Close fontSize="small" />
-                        </IconButton>
-                      </Stack>
-                    </TableCell>
+                  <TableCell>
+                    <Stack direction="row">
+                      <IconButton
+                        variant="contained"
+                        size="small"
+                        color="success"
+                        onClick={(e) => onSubmit(e)}
+                      >
+                        <Save fontSize="small" />
+                      </IconButton>
+                      <IconButton
+                        variant="contained"
+                        size="small"
+                        color="error"
+                        onClick={handleClose}
+                      >
+                        <Close fontSize="small" />
+                      </IconButton>
+                    </Stack>
+                  </TableCell>
                   {/* )} */}
                 </TableRow>
               </TableBody>
@@ -363,6 +408,6 @@ export default function PetConditionAdmission() {
           </Table>
         </TableContainer>
       </Stack>
-    </>
+    </Paper>
   );
 }

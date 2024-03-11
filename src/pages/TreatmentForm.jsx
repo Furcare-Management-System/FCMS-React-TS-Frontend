@@ -7,6 +7,7 @@ import {
   Button,
   CircularProgress,
   Divider,
+  InputAdornment,
   Paper,
   Stack,
   TextField,
@@ -15,6 +16,7 @@ import {
 import PetConditionAdmission from "./PetConditionAdmission";
 import PetMedicationAdmission from "./PetMedicationAdmission";
 import { format } from "date-fns";
+import PetProductAdmission from "./PetProductAdmission";
 
 export default function TreatmentForm() {
   const { id } = useParams();
@@ -143,236 +145,242 @@ export default function TreatmentForm() {
   }, []);
 
   return (
-    <Paper
-      sx={{
-        width: "70%",
-        margin: "auto",
-        padding: "15px",
-      }}
-    >
-      <Backdrop open={loading} style={{ zIndex: 999 }}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
-      <Backdrop open={printing} style={{ zIndex: 999 }}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
-      <Stack
+    <>
+      <Paper
         sx={{
-          display: "flex",
-          textAlign: "center",
+          // width: "70%",
+          // margin: "auto",
+          margin: "30px",
+          padding: "15px",
         }}
+        elevation={5}
       >
-        <Box flexDirection={"row"} justifyContent={"right"} display={"flex"}>
-          <Button
-            variant="contained"
-            onClick={treatmentPDF}
-            sx={{ width: "10%" }}
-            color="success"
-          >
-            print
-          </Button>
-        </Box>
-        <form onSubmit={(e) => onSubmit(e)}>
-          <Typography variant="h5" fontWeight={"bold"}>
-            Treatment Sheet{" "}
-          </Typography>
-
-          {errors && (
-            <div className="alert">
-              {Object.keys(errors).map((key) => (
-                <p key={key}>{errors[key][0]}</p>
-              ))}
-            </div>
-          )}
-          {treatment.date && (
-            <Typography variant="body1">
-              Date: {format(new Date(treatment.date), "MMMM d, yyyy h:mm a")}
-            </Typography>
-          )}
-          <Typography variant="body1">Day: {treatment.day} </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-              paddingTop: "15px",
-            }}
-          >
-            <TextField
-              sx={{ width: "48%" }}
-              value={treatment.diagnosis}
-              onChange={(ev) => handleFieldChange("diagnosis", ev.target.value)}
-              label="Diagnosis/Findings"
-              InputLabelProps={{ shrink: true }}
-              variant="standard"
-              size="small"
-              multiline
-              required
-              InputProps={{
-                readOnly: edittreatment ? false : true,
-              }}
-            />
-            <TextField
-              variant="standard"
-              sx={{ width: "48%" }}
-              value={`${pet.name} (Breed: ${breed.breed})`}
-              onChange={(ev) =>
-                handleFieldChange("body_weight", ev.target.value)
-              }
-              label="Pet"
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              required
-              InputProps={{
-                readOnly: true,
-              }}
-            />
+        {/* <Paper> */}
+        <Backdrop open={loading} style={{ zIndex: 999 }}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
+        <Backdrop open={printing} style={{ zIndex: 999 }}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
+        <Stack
+          sx={{
+            display: "flex",
+            textAlign: "center",
+          }}
+        >
+          <Box flexDirection={"row"} justifyContent={"right"} display={"flex"}>
+            <Button variant="contained" onClick={treatmentPDF} color="success">
+              print
+            </Button>
           </Box>
+          <form onSubmit={(e) => onSubmit(e)}>
+            <Typography variant="h5" fontWeight={"bold"}>
+              Treatment Sheet{" "}
+            </Typography>
 
-          <Stack flexDirection={"row"} justifyContent={"space-between"}>
-            <Stack display={"flex"} flexDirection={"column"} padding={"10px"}>
+            {errors && (
+              <div className="alert">
+                {Object.keys(errors).map((key) => (
+                  <p key={key}>{errors[key][0]}</p>
+                ))}
+              </div>
+            )}
+            {treatment.date && (
+              <Typography variant="body1">
+                Date: {format(new Date(treatment.date), "MMMM d, yyyy h:mm a")}
+              </Typography>
+            )}
+            <Typography variant="body1">Day: {treatment.day} </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-evenly",
+                paddingTop: "15px",
+              }}
+            >
               <TextField
-                value={treatment.body_weight}
+                sx={{ width: "48%" }}
+                value={treatment.diagnosis}
+                onChange={(ev) =>
+                  handleFieldChange("diagnosis", ev.target.value)
+                }
+                label="Diagnosis/Findings"
+                InputLabelProps={{ shrink: true }}
+                variant="standard"
+                size="small"
+                multiline
+                required
+                InputProps={{
+                  readOnly: edittreatment ? false : true,
+                }}
+              />
+              <TextField
+                variant="standard"
+                sx={{ width: "48%" }}
+                value={`${pet.name} (Breed: ${breed.breed})`}
                 onChange={(ev) =>
                   handleFieldChange("body_weight", ev.target.value)
                 }
-                label="BW"
+                label="Pet"
                 InputLabelProps={{ shrink: true }}
-                variant="standard"
                 size="small"
                 required
-                type="number"
                 InputProps={{
-                  readOnly: edittreatment ? false : true,
+                  readOnly: true,
                 }}
               />
-              <TextField
-                value={treatment.heart_rate}
-                onChange={(ev) =>
-                  handleFieldChange("heart_rate", ev.target.value)
-                }
-                label="HR"
-                InputLabelProps={{ shrink: true }}
-                variant="standard"
-                size="small"
-                InputProps={{
-                  readOnly: edittreatment ? false : true,
-                }}
-              />
-              <TextField
-                value={treatment.mucous_membranes}
-                onChange={(ev) =>
-                  handleFieldChange("mucous_membranes", ev.target.value)
-                }
-                label="MM"
-                InputLabelProps={{ shrink: true }}
-                variant="standard"
-                size="small"
-                InputProps={{
-                  readOnly: edittreatment ? false : true,
-                }}
-              />
+            </Box>
+
+            <Stack flexDirection={"row"} justifyContent={"space-between"}>
+              <Stack display={"flex"} flexDirection={"column"} padding={"10px"}>
+                <TextField
+                  value={treatment.body_weight}
+                  onChange={(ev) =>
+                    handleFieldChange("body_weight", ev.target.value)
+                  }
+                  label="BW"
+                  InputLabelProps={{ shrink: true }}
+                  variant="standard"
+                  size="small"
+                  required
+                  type="number"
+                  InputProps={{
+                    readOnly: edittreatment ? false : true,
+                    endAdornment: (
+                      <InputAdornment position="end">kg</InputAdornment>
+                    ),
+                  }}
+                />
+                <TextField
+                  value={treatment.heart_rate}
+                  onChange={(ev) =>
+                    handleFieldChange("heart_rate", ev.target.value)
+                  }
+                  label="HR"
+                  InputLabelProps={{ shrink: true }}
+                  variant="standard"
+                  size="small"
+                  InputProps={{
+                    readOnly: edittreatment ? false : true,
+                  }}
+                />
+              </Stack>
+              <Stack display={"flex"} flexDirection={"column"} padding={"10px"}>
+                <TextField
+                  value={treatment.mucous_membranes}
+                  onChange={(ev) =>
+                    handleFieldChange("mucous_membranes", ev.target.value)
+                  }
+                  label="MM"
+                  InputLabelProps={{ shrink: true }}
+                  variant="standard"
+                  size="small"
+                  InputProps={{
+                    readOnly: edittreatment ? false : true,
+                  }}
+                />
+                <TextField
+                  value={treatment.pr_prealbumin}
+                  onChange={(ev) =>
+                    handleFieldChange("pr_prealbumin", ev.target.value)
+                  }
+                  label="PR"
+                  InputLabelProps={{ shrink: true }}
+                  variant="standard"
+                  size="small"
+                  InputProps={{
+                    readOnly: edittreatment ? false : true,
+                  }}
+                />
+              </Stack>
+              <Stack display={"flex"} flexDirection={"column"} padding={"10px"}>
+                <TextField
+                  value={treatment.temperature}
+                  onChange={(ev) =>
+                    handleFieldChange("temperature", ev.target.value)
+                  }
+                  label="Temp"
+                  InputLabelProps={{ shrink: true }}
+                  variant="standard"
+                  size="small"
+                  InputProps={{
+                    readOnly: edittreatment ? false : true,
+                  }}
+                />
+                <TextField
+                  value={treatment.respiration_rate}
+                  onChange={(ev) =>
+                    handleFieldChange("respiration_rate", ev.target.value)
+                  }
+                  label="RR"
+                  InputLabelProps={{ shrink: true }}
+                  variant="standard"
+                  size="small"
+                  InputProps={{
+                    readOnly: edittreatment ? false : true,
+                  }}
+                />
+              </Stack>
+              <Stack display={"flex"} flexDirection={"column"} padding={"10px"}>
+                <TextField
+                  value={treatment.caspillar_refill_time}
+                  onChange={(ev) =>
+                    handleFieldChange("caspillar_refill_time", ev.target.value)
+                  }
+                  label="CRT"
+                  InputLabelProps={{ shrink: true }}
+                  variant="standard"
+                  size="small"
+                  InputProps={{
+                    readOnly: edittreatment ? false : true,
+                  }}
+                />
+                <TextField
+                  value={treatment.body_condition_score}
+                  onChange={(ev) =>
+                    handleFieldChange("body_condition_score", ev.target.value)
+                  }
+                  label="BCS"
+                  InputLabelProps={{ shrink: true }}
+                  variant="standard"
+                  size="small"
+                  InputProps={{
+                    readOnly: edittreatment ? false : true,
+                  }}
+                />
+              </Stack>
             </Stack>
-            <Stack display={"flex"} flexDirection={"column"} padding={"10px"}>
-              <TextField
-                value={treatment.pr_prealbumin}
-                onChange={(ev) =>
-                  handleFieldChange("pr_prealbumin", ev.target.value)
-                }
-                label="PR"
-                InputLabelProps={{ shrink: true }}
-                variant="standard"
-                size="small"
-                InputProps={{
-                  readOnly: edittreatment ? false : true,
-                }}
-              />
-              <TextField
-                value={treatment.temperature}
-                onChange={(ev) =>
-                  handleFieldChange("temperature", ev.target.value)
-                }
-                label="Temp"
-                InputLabelProps={{ shrink: true }}
-                variant="standard"
-                size="small"
-                InputProps={{
-                  readOnly: edittreatment ? false : true,
-                }}
-              />
-              <TextField
-                value={treatment.respiration_rate}
-                onChange={(ev) =>
-                  handleFieldChange("respiration_rate", ev.target.value)
-                }
-                label="RR"
-                InputLabelProps={{ shrink: true }}
-                variant="standard"
-                size="small"
-                InputProps={{
-                  readOnly: edittreatment ? false : true,
-                }}
-              />
-            </Stack>
-            <Stack display={"flex"} flexDirection={"column"} padding={"10px"}>
-              <TextField
-                value={treatment.caspillar_refill_time}
-                onChange={(ev) =>
-                  handleFieldChange("caspillar_refill_time", ev.target.value)
-                }
-                label="CRT"
-                InputLabelProps={{ shrink: true }}
-                variant="standard"
-                size="small"
-                InputProps={{
-                  readOnly: edittreatment ? false : true,
-                }}
-              />
-              <TextField
-                value={treatment.body_condition_score}
-                onChange={(ev) =>
-                  handleFieldChange("body_condition_score", ev.target.value)
-                }
-                label="BCS"
-                InputLabelProps={{ shrink: true }}
-                variant="standard"
-                size="small"
-                InputProps={{
-                  readOnly: edittreatment ? false : true,
-                }}
-              />
-              <TextField
-                value={treatment.fluid_rate}
-                onChange={(ev) =>
-                  handleFieldChange("fluid_rate", ev.target.value)
-                }
-                label="FR"
-                InputLabelProps={{ shrink: true }}
-                variant="standard"
-                size="small"
-                InputProps={{
-                  readOnly: edittreatment ? false : true,
-                }}
-              />
-            </Stack>
-          </Stack>
-          <TextField
-            sx={{ width: "98%" }}
-            value={treatment.comments}
-            onChange={(ev) => handleFieldChange("comments", ev.target.value)}
-            label="Comments"
-            InputLabelProps={{ shrink: true }}
-            variant="standard"
-            size="small"
-            type="text"
-            InputProps={{
-              readOnly: edittreatment ? false : true,
-            }}
-            multiline
-            rows={2}
-            fullWidth
-          />
-          {/* {admission.status !== "Completed" && ( */}
+            <TextField
+              value={treatment.fluid_rate}
+              onChange={(ev) =>
+                handleFieldChange("fluid_rate", ev.target.value)
+              }
+              label="Fluid/Rate"
+              InputLabelProps={{ shrink: true }}
+              variant="standard"
+              size="small"
+              InputProps={{
+                readOnly: edittreatment ? false : true,
+              }}
+              sx={{ width: "98%", pb: 5 }}
+            />
+            <TextField
+              sx={{ width: "98%", pt: 1 }}
+              value={treatment.comments}
+              onChange={(ev) => handleFieldChange("comments", ev.target.value)}
+              label="Comments"
+              InputLabelProps={{ shrink: true }}
+              variant="standard"
+              size="small"
+              type="text"
+              InputProps={{
+                readOnly: edittreatment ? false : true,
+              }}
+              multiline
+              fullWidth
+            />
+            {/* {admission.status !== "Completed" && ( */}
             <Box display="flex" justifyContent={"right"}>
               {edittreatment && (
                 <>
@@ -408,13 +416,16 @@ export default function TreatmentForm() {
                 </Button>
               )}{" "}
             </Box>
-          {/* )} */}
-        </form>
-      </Stack>
+            {/* )} */}
+          </form>
+        </Stack>
+      </Paper>
+
       {/* <Divider sx={{ mt: 1 }} /> */}
       <PetConditionAdmission />
       {/* <Divider /> */}
       <PetMedicationAdmission pid={pet.petowner_id} />
-    </Paper>
+      {/* <PetProductAdmission pid={pet.petowner_id} /> */}
+    </>
   );
 }
