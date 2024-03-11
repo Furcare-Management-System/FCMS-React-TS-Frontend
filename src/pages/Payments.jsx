@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   CircularProgress,
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -11,11 +12,13 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  TextField,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import axiosClient from "../axios-client";
 import { format } from "date-fns";
+import { Close } from "@mui/icons-material";
 
 export default function Payments() {
   //for table
@@ -70,12 +73,15 @@ export default function Payments() {
     setPrinting(true);
     try {
       // Fetch PDF content
-      const response = await axiosClient.get(`/paymentrecords-daily`, {
-        responseType: "blob",
-        headers: {
-          "Content-Type": "application/pdf",
-        },
-      });
+      const response = await axiosClient.get(
+        `/paymentrecords/date/${filterdate}`,
+        {
+          responseType: "blob",
+          headers: {
+            "Content-Type": "application/pdf",
+          },
+        }
+      );
 
       const pdfBlob = response.data;
 
@@ -96,6 +102,28 @@ export default function Payments() {
     }
   };
 
+  //filter by date
+  const [filterdate, setFilterdate] = useState(null);
+
+  const filter = () => {
+    setPayments([]);
+    setMessage(null);
+    setLoading(true);
+    axiosClient
+      .get(`/paymentrecords/filter-date/${filterdate}`)
+      .then(({ data }) => {
+        setLoading(false);
+        setPayments(data.data);
+      })
+      .catch((mes) => {
+        const response = mes.response;
+        if (response && response.status == 404) {
+          setMessage(response.data.message);
+        }
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     getPayments();
   }, []);
@@ -109,17 +137,53 @@ export default function Payments() {
         sx={{
           padding: "10px",
         }}
+        elevation={4}
       >
         <Box
-          p={2}
+          p={1}
+          alignItems={"center"}
           display="flex"
           flexDirection="row"
           justifyContent="space-between"
         >
           <Typography variant="h5">Payment Records</Typography>
-          <Button variant="contained" onClick={paymentsPDF} color="success">
-            print
-          </Button>
+          <Box p={1} sx={{ display: "flex", justifyContent: "right" }}>
+            <TextField
+              label="Date"
+              variant="outlined"
+              id="Date"
+              type="date"
+              size="small"
+              value={filterdate || ``}
+              onChange={(ev) => setFilterdate(ev.target.value)}
+              InputLabelProps={{ shrink: true }}
+              inputProps={{
+                max: new Date().toISOString().split("T")[0],
+              }}
+              required
+            />
+            {filterdate && (
+              <IconButton variant="outlined" onClick={getPayments}>
+                <Close />
+              </IconButton>
+            )}
+            <Button
+              variant="contained"
+              size="small"
+              sx={{ mr: 1, ml: 1 }}
+              onClick={filter}
+            >
+              <Typography fontSize={"12px"}>Filter</Typography>
+            </Button>
+            <Button
+              variant="contained"
+              onClick={paymentsPDF}
+              color="success"
+              sx={{ pl: 2 }}
+            >
+              print
+            </Button>
+          </Box>
         </Box>
 
         <TableContainer sx={{ height: "100%" }}>
@@ -190,6 +254,7 @@ export default function Payments() {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-20px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}

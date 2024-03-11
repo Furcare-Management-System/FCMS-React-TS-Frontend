@@ -136,7 +136,9 @@ export default function Roles() {
       <Paper
         sx={{
           padding: "10px",
+          marginBottom: "-100px",
         }}
+        elevation={4}
       >
         <Box
           p={2}
@@ -154,12 +156,7 @@ export default function Roles() {
         </Backdrop>
 
         {!modalloading && (
-          <Dialog
-            open={open}
-            onClose={closepopup}
-            fullWidth
-            maxWidth="sm"
-          >
+          <Dialog open={open} onClose={closepopup} fullWidth maxWidth="sm">
             {role.id && (
               <DialogTitle>
                 Update Role
@@ -275,6 +272,7 @@ export default function Roles() {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-20px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}

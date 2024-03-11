@@ -139,6 +139,7 @@ export default function Species() {
         sx={{
           padding: "10px",
         }}
+        elevation={4}
       >
         {/* <ToastContainer></ToastContainer> */}
         <Box
@@ -223,6 +224,7 @@ export default function Species() {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-20px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}

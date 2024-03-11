@@ -5,6 +5,7 @@ import {
   Button,
   CircularProgress,
   Divider,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -241,14 +242,14 @@ export default function ToPayServices() {
       <Backdrop open={printing} style={{ zIndex: 999 }}>
         <CircularProgress color="inherit" />
       </Backdrop>
-      <Box
+      <Paper
         flex={5}
         sx={{
-          minWidth: "90%",
+          padding: "10px",
         }}
+        elevation={4}
       >
         <Backdrop open={backdrop} style={{ zIndex: 999 }}></Backdrop>
-        <Divider />
         <Box display={"flex"} justifyContent={"space-between"} p={1}>
           <Typography variant="h6" fontWeight={"bold"}>
             Total Amount: {calculateTotal().toFixed(2)}
@@ -279,7 +280,7 @@ export default function ToPayServices() {
           //  errors={errors}
         />
 
-        <TableContainer sx={{ height: 350 }}>
+        <TableContainer sx={{ height: 410 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
@@ -358,6 +359,7 @@ export default function ToPayServices() {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-20px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}
@@ -366,7 +368,7 @@ export default function ToPayServices() {
           onPageChange={handlechangepage}
           onRowsPerPageChange={handleRowsPerPage}
         ></TablePagination>
-      </Box>
+      </Paper>
     </>
   );
 }

@@ -166,6 +166,7 @@ export default function Breeds() {
         sx={{
           padding: "10px",
         }}
+        elevation={4}
       >
         <Box
           p={2}
@@ -244,14 +245,14 @@ export default function Breeds() {
                             >
                               <Edit fontSize="small" />
                             </Button>
-                            <Button
+                            {/* <Button
                               variant="contained"
                               color="error"
                               size="small"
                               onClick={() => onArchive(r)}
                             >
                               <Archive fontSize="small" />
-                            </Button>
+                            </Button> */}
                           </Stack>
                         </TableCell>
                       </TableRow>
@@ -261,6 +262,7 @@ export default function Breeds() {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-20px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}

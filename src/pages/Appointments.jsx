@@ -14,7 +14,16 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { Add, Close, Done, DoneAll, Edit, Launch, NavigateNext, TaskAltOutlined } from "@mui/icons-material";
+import {
+  Add,
+  Close,
+  Done,
+  DoneAll,
+  Edit,
+  Launch,
+  NavigateNext,
+  TaskAltOutlined,
+} from "@mui/icons-material";
 import EditAppointment from "../components/modals/EditAppointment";
 import DropDownButtons from "../components/DropDownButtons";
 import { SearchPetOwner } from "../components/SearchPetOwner";
@@ -22,7 +31,7 @@ import Notif from "../components/Notif";
 import { useStateContext } from "../contexts/ContextProvider";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 
 export default function Appointments() {
   const navigate = useNavigate();
@@ -350,7 +359,7 @@ export default function Appointments() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setOpenadd(false)
+    setOpenadd(false);
 
     if (appointment.id) {
       axiosClient
@@ -409,6 +418,7 @@ export default function Appointments() {
           padding: "10px",
           margin: "10px",
         }}
+        elevation={4}
       >
         <Box
           p={1}
@@ -443,12 +453,12 @@ export default function Appointments() {
               handleCloseMenu={handleCloseMenuVets}
             />
           </Box>
-            <SearchPetOwner
-              query={query}
-              setQuery={setQuery}
-              search={search}
-              getPetowners={getAppointments}
-            />
+          <SearchPetOwner
+            query={query}
+            setQuery={setQuery}
+            search={search}
+            getPetowners={getAppointments}
+          />
         </Box>
 
         <EditAppointment
@@ -531,7 +541,9 @@ export default function Appointments() {
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
                         <TableCell>{r.id}</TableCell>
-                        <TableCell>{format(new Date(r.date), "MMMM d, yyyy h:mm a")}</TableCell>
+                        <TableCell>
+                          {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
+                        </TableCell>
                         <TableCell>{`${r.petowner.firstname} ${r.petowner.lastname}`}</TableCell>
                         <TableCell>
                           {services
@@ -645,6 +657,7 @@ export default function Appointments() {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-20px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}
