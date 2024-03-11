@@ -9,17 +9,9 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-  MenuItem,
-  Select,
   Stack,
   TextField,
   DialogActions,
-  FormControl,
-  InputLabel,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 
@@ -33,9 +25,7 @@ export default function MedicationModal(props) {
     medication,
     setMedication,
     errors,
-    category,
     isUpdate,
-    medicine,
   } = props;
 
   const handleFieldChange = (fieldName, value) => {
@@ -75,28 +65,32 @@ export default function MedicationModal(props) {
               </Box>
             )}
             <Stack spacing={2} margin={2}>
-             {!isUpdate && <FormControl>
-                <InputLabel>Medicine Category</InputLabel>
-                <Select
-                  label="Medicine Category"
-                  value={medication.medcat_id || ""}
-                  onChange={(ev) =>
-                    handleFieldChange("medcat_id", ev.target.value)
-                  }
-                  required
-                  fullWidth
-                >
-                  {category.map((item) => (
-                    <MenuItem key={item.id} value={item.id}>
-                      {item.category}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>}
+              {/* {!isUpdate && (
+                <FormControl>
+                  <InputLabel>Medicine Category</InputLabel>
+                  <Select
+                    label="Medicine Category"
+                    value={medication.medcat_id || ""}
+                    onChange={(ev) =>
+                      handleFieldChange("medcat_id", ev.target.value)
+                    }
+                    required
+                    fullWidth
+                  >
+                    {category.map((item) => (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item.category}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              )} */}
 
               <TextField
                 value={medication.medicine_name || ""}
-                onChange={(ev) => handleFieldChange("medicine_name", ev.target.value)}
+                onChange={(ev) =>
+                  handleFieldChange("medicine_name", ev.target.value)
+                }
                 label="Medicine Name"
                 required
               />
@@ -107,51 +101,6 @@ export default function MedicationModal(props) {
                 type="number"
                 required
               /> */}
-             {!isUpdate && <TextField
-                value={medication.unit_price || ""}
-                onChange={(ev) => handleUnitPriceChange(ev.target.value)}
-                label="Medicine Price"
-                type="number"
-                required
-              />}
-              <TextField
-                value={medication.quantity || ""}
-                onChange={(ev) =>
-                  handleFieldChange("quantity", ev.target.value)
-                }
-                label="Quantity"
-                type="number"
-                required
-              />
-                  <FormControl>
-                    <FormLabel id="unit-radio-btn">
-                      Unit
-                    </FormLabel>
-                    <RadioGroup
-                      row
-                      value={medication.unit || ``}
-                      onChange={(ev) =>
-                        handleFieldChange("unit", ev.target.value)
-                      }
-                      // required
-                    >
-                      <FormControlLabel
-                        value="Shot"
-                        control={<Radio />}
-                        label="Shot"
-                      />
-                      <FormControlLabel
-                        value="Piece"
-                        control={<Radio />}
-                        label="Piece"
-                      />
-                      <FormControlLabel
-                        value="Set"
-                        control={<Radio />}
-                        label="Set"
-                      />
-                    </RadioGroup>
-                  </FormControl>
 
               <TextField
                 value={medication.dosage || ""}
@@ -172,7 +121,7 @@ export default function MedicationModal(props) {
             </Stack>
           </DialogContent>
 
-          <DialogActions>
+          <DialogActions sx={{ p: 2 }}>
             <Button variant="contained" onClick={onSubmit} color="success">
               {isUpdate ? "save" : "add"}
             </Button>

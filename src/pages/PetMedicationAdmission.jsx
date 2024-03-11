@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import axiosClient from "../axios-client";
 import {
   Box,
+  Button,
   IconButton,
+  Paper,
   Stack,
   Table,
   TableBody,
@@ -21,7 +23,6 @@ export default function PetMedicationAdmission({ pid }) {
   //for table
   const columns = [
     { id: "Medicine", name: "Medicine" },
-    { id: "Quantity", name: "Quantity" },
     { id: "Dosage", name: "Dosage" },
     { id: "Description", name: "Description" },
   ];
@@ -68,7 +69,7 @@ export default function PetMedicationAdmission({ pid }) {
   const [errors, setErrors] = useState(null);
   const [medication, setMedication] = useState({
     id: null,
-    medcat_id: null,
+    // medcat_id: null,
     medicine_name: "",
     unit_price: null,
     description: "",
@@ -96,12 +97,6 @@ export default function PetMedicationAdmission({ pid }) {
       .get(`/medications/${r.id}`)
       .then(({ data }) => {
         setMedication(data);
-        setMedication((prev) => ({
-          ...prev,
-          medcat_id: data.medicine.medcat_id,
-          name: data.medicine.name,
-          unit_price: data.medicine.price,
-        }));
         setModalloading(false);
       })
       .catch(() => {
@@ -181,6 +176,7 @@ export default function PetMedicationAdmission({ pid }) {
   const closeModal = () => {
     setOpen(false);
   };
+  
 
   useEffect(() => {
     getTreatmentPetMedication();
@@ -188,7 +184,13 @@ export default function PetMedicationAdmission({ pid }) {
   }, []);
 
   return (
-    <>
+    <Paper
+      sx={{
+        margin: "30px",
+        padding: "15px",
+      }}
+      elevation={5}
+    >
       <Stack sx={{ margin: "5px", p: 1 }}>
         <Box
           sx={{
@@ -208,13 +210,15 @@ export default function PetMedicationAdmission({ pid }) {
               <Add />
             </IconButton>
           )} */}
-          <IconButton
+
+          <Button
             color="success"
             variant="contained"
             onClick={addMedication}
+            size="small"
           >
-            <Add />
-          </IconButton>
+            Add
+          </Button>
         </Box>
 
         <MedicationModal
@@ -269,20 +273,19 @@ export default function PetMedicationAdmission({ pid }) {
                   medications.map((r) => (
                     <TableRow hover role="checkbox" key={r.id}>
                       <TableCell>{r.medicine_name}</TableCell>
-                      <TableCell>{r.quantity}</TableCell>
                       <TableCell>{r.dosage}</TableCell>
                       <TableCell>{r.description}</TableCell>
                       {/* {admission.status !== "Completed" && ( */}
                       <TableCell>
                         <Stack direction="row">
-                          {/* <IconButton
+                          <IconButton
                               variant="contained"
                               size="small"
                               color="info"
                               onClick={() => onEdit(r)}
                             >
                               <Edit fontSize="small" />
-                            </IconButton> */}
+                            </IconButton>
                           <IconButton
                             variant="contained"
                             color="error"
@@ -301,6 +304,6 @@ export default function PetMedicationAdmission({ pid }) {
           </Table>
         </TableContainer>
       </Stack>
-    </>
+    </Paper>
   );
 }
