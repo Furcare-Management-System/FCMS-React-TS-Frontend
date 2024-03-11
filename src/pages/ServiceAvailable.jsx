@@ -60,7 +60,7 @@ export default function ServiceAvaileble() {
       .put(`/services/${r.id}/isAvailable`)
       .then(({ data }) => {
         setbtnLoading(false);
-        getServices()
+        getServices();
       })
       .catch(() => {
         setbtnLoading(false);
@@ -132,7 +132,7 @@ export default function ServiceAvaileble() {
                                 color="success"
                                 disabled={btnloading}
                                 onClick={() => isAvailable(r)}
-                                sx={{width:"130px"}}
+                                sx={{ width: "130px" }}
                               >
                                 AVAILABLE
                               </Button>
@@ -142,10 +142,10 @@ export default function ServiceAvaileble() {
                                 size="small"
                                 color="error"
                                 disabled={btnloading}
-                                sx={{width:"130px"}}
+                                sx={{ width: "130px" }}
                                 onClick={() => isAvailable(r)}
                               >
-                               NOT AVAILABLE
+                                NOT AVAILABLE
                               </Button>
                             )}
                           </Stack>
@@ -157,6 +157,7 @@ export default function ServiceAvaileble() {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-20px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}

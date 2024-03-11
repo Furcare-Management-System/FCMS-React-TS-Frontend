@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   Box,
   Divider,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -18,8 +19,9 @@ export default function AllServicesAvailed() {
   //for table
   const columns = [
     { id: "Date", name: "Date" },
-    { id: "Service", name: "Service" },
+    { id: "Product/Service", name: "Product/Service" },
     { id: "Pet", name: "Pet" },
+    { id: "Quantity", name: "Quantity" },
     { id: "Price", name: "Price" },
     { id: "Total", name: "Total" },
     { id: "Status", name: "Status" },
@@ -65,15 +67,14 @@ export default function AllServicesAvailed() {
 
   return (
     <>
-      <Box
-        flex={5}
+      <Paper
         sx={{
-          minWidth: "90%",
-          padding: "20px",
+          padding: "10px",
         }}
+        elevation={4}
       >
         <Divider />
-        <TableContainer sx={{ height: 350 }}>
+        <TableContainer sx={{ height: 450 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
@@ -126,6 +127,7 @@ export default function AllServicesAvailed() {
                         </TableCell>
                         <TableCell>{r.service.service}</TableCell>
                         <TableCell>{r.pet.name}</TableCell>
+                        <TableCell>{r.quantity}</TableCell>
                         <TableCell>
                           {r.unit_price ? r.unit_price.toFixed(2) : 0}
                         </TableCell>
@@ -140,6 +142,7 @@ export default function AllServicesAvailed() {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-20px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}
@@ -148,7 +151,7 @@ export default function AllServicesAvailed() {
           onPageChange={handlechangepage}
           onRowsPerPageChange={handleRowsPerPage}
         ></TablePagination>
-      </Box>
+      </Paper>
     </>
   );
 }

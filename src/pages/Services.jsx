@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import axiosClient from "../axios-client";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 
 export default function Services() {
   //for table
@@ -22,7 +22,8 @@ export default function Services() {
     { id: "Date", name: "Date" },
     { id: "Client", name: "Client" },
     { id: "Pet", name: "Pet" },
-    { id: "Service", name: "Service" },
+    { id: "Product/Service", name: "Product/Service" },
+    { id: "Quantity", name: "Quantity" },
     { id: "Price", name: "Price" },
     { id: "Total", name: "Total" },
     { id: "Status", name: "Status" },
@@ -38,13 +39,12 @@ export default function Services() {
   const getServices = () => {
     setMessage(null);
     setLoading(true);
-    setServicesavailed([])
+    setServicesavailed([]);
     axiosClient
       .get(`/servicesavailed`)
       .then(({ data }) => {
         setLoading(false);
         setServicesavailed(data.data);
-        
       })
       .catch((mes) => {
         const response = mes.response;
@@ -143,12 +143,13 @@ export default function Services() {
                     .slice(page * rowperpage, page * rowperpage + rowperpage)
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
-                         <TableCell>
+                        <TableCell>
                           {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
                         </TableCell>
                         <TableCell>{`${r.clientservice.petowner.firstname} ${r.clientservice.petowner.lastname}`}</TableCell>
                         <TableCell>{r.pet.name}</TableCell>
                         <TableCell>{r.service.service}</TableCell>
+                        <TableCell>{r.quantity}</TableCell>
                         <TableCell>
                           {r.unit_price ? r.unit_price.toFixed(2) : 0}
                         </TableCell>
@@ -163,6 +164,7 @@ export default function Services() {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-50px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}
