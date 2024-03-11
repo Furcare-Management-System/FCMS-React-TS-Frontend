@@ -182,7 +182,8 @@ export default function VetArchives() {
               </Table>
             </TableContainer>
             <TablePagination
-              rowsPerPageOptions={[10, 15, 25]}
+          sx={{ marginBottom: "-20px" }}
+          rowsPerPageOptions={[10, 15, 25]}
               rowsPerPage={rowperpage}
               page={page}
               count={vets.length}

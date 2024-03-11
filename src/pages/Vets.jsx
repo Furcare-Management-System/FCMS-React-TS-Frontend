@@ -51,8 +51,8 @@ export default function Vets() {
 
   const getVets = () => {
     setLoading(true);
-    setVets([])
-    setMessage(null)
+    setVets([]);
+    setMessage(null);
     axiosClient
       .get("/vets")
       .then(({ data }) => {
@@ -166,6 +166,7 @@ export default function Vets() {
         sx={{
           padding: "10px",
         }}
+        elevation={4}
       >
         <Box
           p={2}
@@ -230,11 +231,7 @@ export default function Vets() {
                     }
                     required
                   />
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    type="submit"
-                  >
+                  <Button color="primary" variant="contained" type="submit">
                     Save
                   </Button>
                 </Stack>
@@ -314,6 +311,7 @@ export default function Vets() {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-20px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}
