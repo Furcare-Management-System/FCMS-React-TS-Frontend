@@ -187,10 +187,12 @@ export default function PetConsultations({ sid }) {
   return (
     <>
       <Paper
-        sx={{
-          minWidth: "90%",
-          padding: "10px",
-        }}
+       sx={{
+        minWidth: "90%",
+        padding: "10px",
+        marginBottom: "-30px",
+      }}
+        elevation={4}
       >
         <Box p={1} sx={{ display: "flex", justifyContent: "right" }}>
           <TextField
@@ -305,6 +307,7 @@ export default function PetConsultations({ sid }) {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-20px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}

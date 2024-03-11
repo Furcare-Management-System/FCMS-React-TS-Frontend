@@ -13,7 +13,6 @@ import {
   TableRow,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { Add, Archive } from "@mui/icons-material";
 import ServiceAvailModal from "../components/modals/ServiceAvailModal";
 import Swal from "sweetalert2";
 import { format } from "date-fns";
@@ -152,8 +151,8 @@ export default function PetServiceAvail({ sid, title }) {
         sx={{
           minWidth: "90%",
           padding: "10px",
-          margin: "10px",
         }}
+        elevation={4}
       >
         <ServiceAvailModal
           open={open}
@@ -220,6 +219,7 @@ export default function PetServiceAvail({ sid, title }) {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-20px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}

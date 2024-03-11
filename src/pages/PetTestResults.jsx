@@ -47,8 +47,8 @@ export default function PetTestResults({ sid, sname }) {
   const [error, setError] = useState(null);
 
   const getTestresults = () => {
-    setError(null)
-    setFilterdate(null)
+    setError(null);
+    setFilterdate(null);
     setTestresults([]);
     setMessage(null);
     setLoading(true);
@@ -294,8 +294,6 @@ export default function PetTestResults({ sid, sname }) {
       });
   };
 
- 
-
   useEffect(() => {
     getTestresults();
   }, []);
@@ -306,8 +304,9 @@ export default function PetTestResults({ sid, sname }) {
         sx={{
           minWidth: "90%",
           padding: "10px",
-          margin: "10px",
+          marginBottom: "-30px",
         }}
+        elevation={4}
       >
         <Box p={1} sx={{ display: "flex", justifyContent: "right" }}>
           <TextField
@@ -319,11 +318,16 @@ export default function PetTestResults({ sid, sname }) {
             value={filterdate || ``}
             onChange={(ev) => setFilterdate(ev.target.value)}
             InputLabelProps={{ shrink: true }}
+            inputProps={{
+              max: new Date().toISOString().split("T")[0],
+            }}
             required
           />
-          {filterdate && <IconButton variant="outlined" onClick={getTestresults}>
-             <Close/>
-          </IconButton>}
+          {filterdate && (
+            <IconButton variant="outlined" onClick={getTestresults}>
+              <Close />
+            </IconButton>
+          )}
           <Button
             variant="contained"
             size="small"
@@ -415,7 +419,10 @@ export default function PetTestResults({ sid, sname }) {
                           <TableCell>{r.date}</TableCell>
                           <TableCell>
                             <img
-                              src={`${import.meta.env.VITE_API_BASE_URL}/` + r.attachment}
+                              src={
+                                `${import.meta.env.VITE_API_BASE_URL}/` +
+                                r.attachment
+                              }
                               height="50"
                               width="50"
                               onClick={() => toggleImage(r)}
@@ -459,6 +466,7 @@ export default function PetTestResults({ sid, sname }) {
             </Table>
           </TableContainer>
           <TablePagination
+            sx={{ marginBottom: "-20px" }}
             rowsPerPageOptions={[10, 15, 25]}
             rowsPerPage={rowperpage}
             page={page}

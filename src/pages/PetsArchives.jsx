@@ -101,7 +101,9 @@ export default function PetsArchives() {
               padding: "10px",
             }}
           >
-            <Typography variant="h5" p={1}>Archived Pets</Typography>{" "}
+            <Typography variant="h5" p={1}>
+              Archived Pets
+            </Typography>{" "}
             {notification && <Alert severity="success">{notification}</Alert>}
             <TableContainer sx={{ height: 380 }}>
               <Table stickyHeader aria-label="sticky table">
@@ -179,6 +181,7 @@ export default function PetsArchives() {
               </Table>
             </TableContainer>
             <TablePagination
+              sx={{ marginBottom: "-20px" }}
               rowsPerPageOptions={[10, 15, 25]}
               rowsPerPage={rowperpage}
               page={page}

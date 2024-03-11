@@ -52,7 +52,7 @@ export default function PetDeworming() {
     administered: "",
     return: "",
     pet_id: null,
-    date:null,
+    date: null,
   });
   const [pet, setPet] = useState([]);
   const [vets, setVets] = useState([]);
@@ -151,6 +151,7 @@ export default function PetDeworming() {
           minWidth: "90%",
           padding: "10px",
         }}
+        elevation={4}
       >
         <DewormingLogsModal
           open={open}
@@ -258,6 +259,7 @@ export default function PetDeworming() {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-20px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}

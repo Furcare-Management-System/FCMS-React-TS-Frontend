@@ -26,6 +26,7 @@ import { Link } from "react-router-dom";
 import axiosClient from "../axios-client";
 import DropDownButtons from "../components/DropDownButtons";
 import { SearchPetOwner } from "../components/SearchPetOwner";
+import { differenceInMonths, differenceInYears } from "date-fns";
 
 export default function Pets() {
   const [loading, setLoading] = useState(false);
@@ -57,6 +58,7 @@ export default function Pets() {
   const columns = [
     { id: "Photo", name: "Photo" },
     { id: "name", name: "Pet Name" },
+    { id: "age", name: "Age" },
     { id: "email", name: "Gender" },
     { id: "breed", name: "Breed" },
     { id: "Color", name: "Color" },
@@ -105,6 +107,8 @@ export default function Pets() {
         });
     }
   };
+
+  const currentDate = new Date();
 
   useEffect(() => {
     if (!query) {
@@ -187,7 +191,8 @@ export default function Pets() {
                             <Avatar
                               alt="pet-photo"
                               src={
-                                `${import.meta.env.VITE_API_BASE_URL}/` + r.photo
+                                `${import.meta.env.VITE_API_BASE_URL}/` +
+                                r.photo
                               }
                               sx={{ width: 50, height: 50 }}
                               variant="rounded"
@@ -204,8 +209,56 @@ export default function Pets() {
                           )}
                         </TableCell>
                         <TableCell>{r.name}</TableCell>
+                        {r.birthdate ? (
+                          <TableCell>
+                            {differenceInYears(
+                              currentDate,
+                              new Date(r.birthdate)
+                            ) !== 0
+                              ? `${differenceInYears(
+                                  currentDate,
+                                  new Date(r.birthdate)
+                                )} year${
+                                  differenceInYears(
+                                    currentDate,
+                                    r.birthdate
+                                  ) !== 1
+                                    ? "s"
+                                    : ""
+                                } `
+                              : ""}
+                            {differenceInMonths(
+                              currentDate,
+                              new Date(r.birthdate)
+                            ) %
+                              12 !==
+                              0 &&
+                              `${
+                                differenceInMonths(
+                                  currentDate,
+                                  new Date(r.birthdate)
+                                ) % 12
+                              } month${
+                                differenceInMonths(
+                                  currentDate,
+                                  new Date(r.birthdate)
+                                ) %
+                                  12 !==
+                                1
+                                  ? "s"
+                                  : ""
+                              }`}{" "}
+                            old
+                          </TableCell>
+                        ) : (
+                          <TableCell></TableCell>
+                        )}
                         <TableCell>{r.gender}</TableCell>
-                        <TableCell>{r.breed.breed}</TableCell>
+                        {r.breed !== null ? (
+                          <TableCell>{r.breed.breed}</TableCell>
+                        ) : (
+                          <TableCell></TableCell>
+                        )}
                         <TableCell>{r.color}</TableCell>
                         <TableCell>
                           <Stack direction="row" spacing={2}>
@@ -235,6 +288,7 @@ export default function Pets() {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-20px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}

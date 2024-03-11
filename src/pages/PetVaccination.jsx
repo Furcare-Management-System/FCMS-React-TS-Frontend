@@ -170,6 +170,7 @@ export default function PetVaccination() {
           minWidth: "90%",
           padding: "10px",
         }}
+      elevation={4}
       >
         <Box sx={{ minWidth: "90%" }}>
           <VaccinationLogsModal
@@ -274,7 +275,8 @@ export default function PetVaccination() {
             </Table>
           </TableContainer>
           <TablePagination
-            rowsPerPageOptions={[10, 15, 25]}
+          sx={{ marginBottom: "-20px" }}
+          rowsPerPageOptions={[10, 15, 25]}
             rowsPerPage={rowsPerPage}
             page={page}
             count={vaccinationlogs.length}
