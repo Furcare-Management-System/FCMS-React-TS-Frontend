@@ -177,6 +177,11 @@ export default function PetsModal(props) {
                         control={<Radio />}
                         label="Male/Castrated"
                       />
+                      <FormControlLabel
+                        value=" "
+                        control={<Radio />}
+                        label="N/A"
+                      />
                     </RadioGroup>
                   </FormControl>
 
@@ -186,8 +191,8 @@ export default function PetsModal(props) {
                       label="Specie"
                       value={selectedSpecie || ""}
                       onChange={handleSpecieChange}
-                      required
                       fullWidth
+                      required
                       sx={{ maxHeight: "200px", overflowY: "auto" }}
                     >
                       {species.map((item) => (
@@ -207,9 +212,9 @@ export default function PetsModal(props) {
                       onChange={(ev) =>
                         handleFieldChange("breed_id", ev.target.value)
                       }
-                      required
                       disabled={selectedSpecie ? false : true}
                       fullWidth
+                      required
                       sx={{ maxHeight: "200px", overflowY: "auto" }}
                     >
                       {breeds.map((item) => (

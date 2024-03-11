@@ -17,7 +17,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 
 export default function TreatmentModal(props) {
   const {
@@ -83,7 +83,6 @@ export default function TreatmentModal(props) {
                 value={formattedDate}
                 label="Date"
                 variant="outlined"
-                size="small"
                 required
                 fullWidth
                 InputProps={{
@@ -96,7 +95,6 @@ export default function TreatmentModal(props) {
                 onChange={(ev) => handleFieldChange("day", ev.target.value)}
                 label="Day"
                 variant="outlined"
-                size="small"
                 type="number"
                 required
                 fullWidth
@@ -112,13 +110,11 @@ export default function TreatmentModal(props) {
                 multiline
                 required
                 rows={2}
-                size="small"
               />
               <FormControl fullWidth>
                 <InputLabel>Pet*</InputLabel>
                 <Select
                   label="Pet"
-                  size="small"
                   value={treatment.pet_id || ""}
                   onChange={(ev) =>
                     handleFieldChange("pet_id", ev.target.value)
@@ -148,6 +144,11 @@ export default function TreatmentModal(props) {
                     size="small"
                     type="number"
                     required
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">kg</InputAdornment>
+                      ),
+                    }}
                   />
                   <TextField
                     value={treatment.heart_rate || ""}

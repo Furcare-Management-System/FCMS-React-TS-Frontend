@@ -106,31 +106,6 @@ export default function PaymentModal(props) {
                 <Stack spacing={2} margin={1}>
                   <TextField
                     variant="outlined"
-                    id="Date"
-                    label="Date"
-                    value={dateToday}
-                    InputLabelProps={{ shrink: true }}
-                    InputProps={{
-                      readOnly: true,
-                      "aria-readonly": true,
-                    }}
-                    size="small"
-                    required
-                  />
-                  <TextField
-                    variant="outlined"
-                    id="Referrence No."
-                    label="Referrence No."
-                    value={payment.chargeslip_ref_no || ``}
-                    onChange={(ev) =>
-                      handleFieldChange("chargeslip_ref_no", ev.target.value)
-                    }
-                    required
-                    size="small"
-                    type="number"
-                  />
-                  <TextField
-                    variant="outlined"
                     id="Total"
                     label="Total"
                     value={payment.total || ``}
@@ -190,6 +165,31 @@ export default function PaymentModal(props) {
                     onMouseLeave={() => setIsHovered(false)}
                   />
                   <Divider />
+                  <TextField
+                    variant="outlined"
+                    id="Date"
+                    label="Date"
+                    value={dateToday}
+                    InputLabelProps={{ shrink: true }}
+                    InputProps={{
+                      readOnly: true,
+                      "aria-readonly": true,
+                    }}
+                    size="small"
+                    required
+                  />
+                  <TextField
+                    variant="outlined"
+                    id="Referrence No."
+                    label="Referrence No."
+                    value={payment.chargeslip_ref_no || ``}
+                    onChange={(ev) =>
+                      handleFieldChange("chargeslip_ref_no", ev.target.value)
+                    }
+                    required
+                    size="small"
+                    type="number"
+                  />
                   <FormControl>
                     <InputLabel>Type of Payment</InputLabel>
                     <Select
@@ -217,7 +217,7 @@ export default function PaymentModal(props) {
                       size="small"
                     />
                   )}
-                  {clientservice.deposit < payment.total ? 
+                  {clientservice.deposit < payment.total ? (
                     <TextField
                       label="Amount"
                       variant="outlined"
@@ -235,26 +235,26 @@ export default function PaymentModal(props) {
                       inputProps={{ min: "1" }}
                       size="small"
                       type="number"
-                    /> 
-                    :
+                    />
+                  ) : (
                     <TextField
-                    label="Amount"
-                    variant="outlined"
-                    id="Amount"
-                    value={payment.amount || ``}
-                    onChange={(ev) =>
-                      handleFieldChange("amount", ev.target.value)
-                    }
-                    required
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">₱</InputAdornment>
-                      ),
-                    }}
-                    size="small"
-                    type="number"
-                  />
-                  }
+                      label="Amount"
+                      variant="outlined"
+                      id="Amount"
+                      value={payment.amount || ``}
+                      onChange={(ev) =>
+                        handleFieldChange("amount", ev.target.value)
+                      }
+                      required
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">₱</InputAdornment>
+                        ),
+                      }}
+                      size="small"
+                      type="number"
+                    />
+                  )}
                   <TextField
                     label="Change"
                     variant="outlined"
