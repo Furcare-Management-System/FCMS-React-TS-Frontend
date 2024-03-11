@@ -220,15 +220,14 @@ export default function PetOwnerPets() {
 
   const currentDate = new Date();
   const birthdate = new Date(pet.birthdate);
-  const years = differenceInYears(currentDate, birthdate);
-  const months = differenceInMonths(currentDate, birthdate) % 12;
 
   return (
     <>
-      <Box
+      <Paper
         sx={{
-          minWidth: "90%",
+          padding: "10px",
         }}
+        elevation={4}
       >
         <Box
           p={2}
@@ -242,7 +241,7 @@ export default function PetOwnerPets() {
             size="small"
             color="success"
           >
-            <Add />
+            add
           </Button>
         </Box>
         {notification && <Alert severity="success">{notification}</Alert>}
@@ -268,7 +267,7 @@ export default function PetOwnerPets() {
           submitloading={submitloading}
         />
         <Divider />
-        <TableContainer sx={{ height: 350 }}>
+        <TableContainer sx={{ height: 390 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
@@ -370,11 +369,19 @@ export default function PetOwnerPets() {
                                 1
                                   ? "s"
                                   : ""
-                              }`}
+                              }`}{" "}
+                            old
                           </TableCell>
-                        ):<TableCell></TableCell>}
+                        ) : (
+                          <TableCell></TableCell>
+                        )}
                         <TableCell>{r.gender}</TableCell>
-                        <TableCell>{r.breed.breed}</TableCell>
+                        {r.breed !== null ? (
+                          <TableCell>{r.breed.breed}</TableCell>
+                        ) : (
+                          <TableCell></TableCell>
+                        )}
+
                         <TableCell>{r.color}</TableCell>
                         <TableCell>
                           <Stack direction="row" spacing={2}>
@@ -404,6 +411,7 @@ export default function PetOwnerPets() {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-20px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}
@@ -412,7 +420,7 @@ export default function PetOwnerPets() {
           onPageChange={handlechangepage}
           onRowsPerPageChange={handleRowsPerPage}
         ></TablePagination>
-      </Box>
+      </Paper>
     </>
   );
 }

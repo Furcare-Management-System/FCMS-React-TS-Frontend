@@ -48,7 +48,7 @@ export default function PetOwnerArchives() {
   const getPetOwnerArchives = () => {
     setMessage(null);
     setLoading(true);
-    setPetowners([])
+    setPetowners([]);
     axiosClient
       .get("/archives/petowners")
       .then(({ data }) => {
@@ -80,7 +80,7 @@ export default function PetOwnerArchives() {
       return;
     }
 
-    axiosClient.delete(`/archives/${po.id}/forcedelete`).then(() => {
+    axiosClient.delete(`/petowners/archives/${po.id}/forcedelete`).then(() => {
       setNotification("Pet Owner was permanently deleted");
       getPetOwnerArchives();
     });
@@ -154,8 +154,8 @@ export default function PetOwnerArchives() {
                             <TableCell>{`${po.firstname} ${po.lastname}`}</TableCell>
                             <TableCell>{po.contact_num}</TableCell>
                             <TableCell>
-                              {po.address.zone}, {po.address.barangay},{" "}
-                              {po.address.zipcode.area}
+                              {po.zone}, {po.barangay},{" "}
+                              {po.zipcode.area}
                             </TableCell>
                             <TableCell>{po.deleted_at}</TableCell>
                             <TableCell>
@@ -185,6 +185,7 @@ export default function PetOwnerArchives() {
               </Table>
             </TableContainer>
             <TablePagination
+              sx={{ marginBottom: "-20px" }}
               rowsPerPageOptions={[10, 15, 25]}
               rowsPerPage={rowperpage}
               page={page}

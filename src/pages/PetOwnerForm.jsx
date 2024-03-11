@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import Swal from "sweetalert2";
 import { LoadingButton } from "@mui/lab";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function PetOwnerForm() {
   const navigate = useNavigate();
@@ -55,6 +56,10 @@ export default function PetOwnerForm() {
     if (petowner.password === petowner.password_confirmation) {
       setActiveStep((prevStep) => prevStep + 1);
     } else {
+      // toast.error("Password did not match.", {
+      //   position: "bottom-right",
+      //   theme: "colored",
+      // });
       Swal.fire({
         text: "Password did not match!",
         icon: "error",
@@ -100,10 +105,8 @@ export default function PetOwnerForm() {
     e.preventDefault();
     if (activeStep === 0) {
       confirmPassword(e);
-      // setActiveStep(1);
       return true;
     }
-    // setActiveStep((prevStep) => prevStep + 1);
 
     if (activeStep === 1) {
       onSubmit(e);
@@ -175,9 +178,10 @@ export default function PetOwnerForm() {
         return (
           <Box
             sx={{
-              width: "70%",
+              width: "80%",
               display: "flex",
               flexDirection: "column",
+              alignItems: "center",
               "& > :not(style)": { m: 1 },
               margin: "auto",
             }}
@@ -241,6 +245,7 @@ export default function PetOwnerForm() {
               error={errors && errors.password ? true : false}
             />
             <FormControlLabel
+              sx={{ width: "100%" }}
               control={
                 <Checkbox
                   checked={showPassword}
@@ -256,9 +261,10 @@ export default function PetOwnerForm() {
         return (
           <Box
             sx={{
-              width: "90%",
+              width: "80%",
               display: "flex",
               flexDirection: "column",
+              alignItems: "center",
               "& > :not(style)": { m: 1 },
               margin: "auto",
             }}
@@ -407,13 +413,15 @@ export default function PetOwnerForm() {
   return (
     <Paper
       sx={{
-        width: "60%",
-        margin: "auto",
-        marginTop: "50px",
+        width: "70%",
+        // marginLeft: "auto",
+        marginLeft: "5%",
+        marginTop: "3%",
         padding: "20px",
-        border: "1px solid black",
+        border: "2px solid black",
       }}
     >
+      <ToastContainer />
       <Stepper activeStep={activeStep}>
         {steps.map((label, index) => (
           <Step key={label}>

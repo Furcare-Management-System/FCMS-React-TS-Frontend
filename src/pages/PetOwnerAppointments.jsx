@@ -26,7 +26,7 @@ import {
 } from "@mui/icons-material";
 import EditAppointment from "../components/modals/EditAppointment";
 import Swal from "sweetalert2";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 
 export default function PetOwnerAppointments({ petowner }) {
   //for table
@@ -276,13 +276,14 @@ export default function PetOwnerAppointments({ petowner }) {
 
   return (
     <>
-      <Box
+      <Paper
         sx={{
-          minWidth: "90%",
+          padding: "10px",
         }}
+        elevation={4}
       >
         <Box
-          p={2}
+          p={1}
           display="flex"
           flexDirection="row"
           justifyContent="space-between"
@@ -293,7 +294,7 @@ export default function PetOwnerAppointments({ petowner }) {
             color="success"
             size="small"
           >
-            <Add />
+            add
           </Button>
         </Box>
         {notification && <Alert severity="success">{notification}</Alert>}
@@ -316,7 +317,7 @@ export default function PetOwnerAppointments({ petowner }) {
           setSelectedServices={setSelectedServices}
         />
 
-        <TableContainer sx={{ height: 350 }}>
+        <TableContainer sx={{ height: 400 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
@@ -363,7 +364,9 @@ export default function PetOwnerAppointments({ petowner }) {
                     .slice(page * rowperpage, page * rowperpage + rowperpage)
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
-                        <TableCell>{format(new Date(r.date), "MMMM d, yyyy h:mm a")}</TableCell>
+                        <TableCell>
+                          {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
+                        </TableCell>
                         <TableCell>
                           {services
                             .filter((service) =>
@@ -447,6 +450,7 @@ export default function PetOwnerAppointments({ petowner }) {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-20px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}
@@ -455,7 +459,7 @@ export default function PetOwnerAppointments({ petowner }) {
           onPageChange={handlechangepage}
           onRowsPerPageChange={handleRowsPerPage}
         ></TablePagination>
-      </Box>
+      </Paper>
     </>
   );
 }

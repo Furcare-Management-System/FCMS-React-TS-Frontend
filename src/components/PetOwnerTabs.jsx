@@ -21,9 +21,21 @@ export default function PetOWnerTabs({ petowner }) {
   };
 
   return (
-    <Box sx={{ width: "100%", typography: "body1" }}>
+    <Box
+      sx={{
+        width: "100%",
+        typography: "body1",
+        // height: "600px",
+      }}
+    >
       <TabContext value={value}>
-        <Box sx={{ borderBottom: 1, borderColor: "gray" }}>
+        <Box
+          sx={{
+            borderBottom: 1,
+            borderColor: "gray",
+            width: "100%",
+          }}
+        >
           <TabList onChange={handleChange} aria-label="lab API tabs example">
             <Tab label="Pets" value="1" />
             <Tab label="Services" value="6" />

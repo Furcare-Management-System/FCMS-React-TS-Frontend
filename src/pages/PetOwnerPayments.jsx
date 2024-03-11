@@ -5,6 +5,7 @@ import {
   Box,
   Button,
   Divider,
+  Paper,
   Stack,
   Table,
   TableBody,
@@ -183,7 +184,7 @@ export default function PetOwnerPayments() {
     total: null,
     amount: null,
     change: 0,
-    amounts_payable:null
+    amounts_payable: null,
   });
 
   const calculateTotal = () => {
@@ -217,7 +218,7 @@ export default function PetOwnerPayments() {
   const toPay = (r) => {
     setOpenpayment(true);
     setClientservice(r);
-    setPetowner(r.petowner)
+    setPetowner(r.petowner);
   };
 
   const [backdrop, setBackdrop] = useState(false);
@@ -226,7 +227,7 @@ export default function PetOwnerPayments() {
     ev.preventDefault();
     setOpenpayment(false);
     setBackdrop(true);
-    setPaymentRecord({type:"Cash"})
+    setPaymentRecord({ type: "Cash" });
 
     try {
       if (clientservice.status === "Pending") {
@@ -234,15 +235,14 @@ export default function PetOwnerPayments() {
           ...clientservice,
           balance: calculateBalance() || 0,
           ...paymentrecord,
-          amounts_payable: calculateBalance()
+          amounts_payable: calculateBalance(),
         };
-        await axiosClient.put(
-          `/clientdeposits/${clientservice.id}`,
-          updatedClientService
-        ) .then((response) => {
-          setClientservice(response.data)
-          console.log(response.data)
-        });
+        await axiosClient
+          .put(`/clientdeposits/${clientservice.id}`, updatedClientService)
+          .then((response) => {
+            setClientservice(response.data);
+            console.log(response.data);
+          });
       }
 
       setBackdrop(false);
@@ -291,7 +291,8 @@ export default function PetOwnerPayments() {
       link.href = url;
       link.setAttribute(
         "download",
-        `ChargeSlip-${clientservice.date
+        `ChargeSlip-${
+          clientservice.date
         }-${`${petowner.firstname}_${petowner.lastname}`}-.pdf`
       );
       document.body.appendChild(link);
@@ -310,12 +311,11 @@ export default function PetOwnerPayments() {
 
   return (
     <>
-      <Box
-        flex={5}
+      <Paper
         sx={{
-          minWidth: "90%",
-          padding: "20px",
+          padding: "10px",
         }}
+        elevation={4}
       >
         <Backdrop open={backdrop} style={{ zIndex: 999 }}></Backdrop>
 
@@ -355,11 +355,11 @@ export default function PetOwnerPayments() {
           clientservice={clientservice}
           // pastbalance={pastbalance}
           calculateBalance={calculateBalance}
-        //  errors={errors}
+          //  errors={errors}
         />
 
         <Divider />
-        <TableContainer sx={{ height: 350 }}>
+        <TableContainer sx={{ height: 450 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
@@ -407,7 +407,9 @@ export default function PetOwnerPayments() {
                     .slice(page * rowperpage, page * rowperpage + rowperpage)
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
-                        <TableCell>{format(new Date(r.date), "MMMM d, yyyy h:mm a")}</TableCell>
+                        <TableCell>
+                          {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
+                        </TableCell>
                         <TableCell>{r.deposit.toFixed(2)}</TableCell>
                         <TableCell>{r.balance.toFixed(2)}</TableCell>
                         <TableCell>{r.status}</TableCell>
@@ -450,6 +452,7 @@ export default function PetOwnerPayments() {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-20px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}
@@ -458,7 +461,7 @@ export default function PetOwnerPayments() {
           onPageChange={handlechangepage}
           onRowsPerPageChange={handleRowsPerPage}
         ></TablePagination>
-      </Box>
+      </Paper>
     </>
   );
 }

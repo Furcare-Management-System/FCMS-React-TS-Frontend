@@ -70,9 +70,13 @@ export default function PetOwnerPaymentRecords() {
 
   return (
     <>
-      <Box
+      <Paper
+        sx={{
+          padding: "10px",
+        }}
+        elevation={4}
       >
-        <TableContainer sx={{ height: "!00%" }}>
+        <TableContainer sx={{ height: 460 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
@@ -129,10 +133,15 @@ export default function PetOwnerPaymentRecords() {
                             : `${r.type} ${r.type_ref_no}`}
                         </TableCell>
                         <TableCell>{r.total.toFixed(2)}</TableCell>
-                        <TableCell>{r.clientdeposit.deposit.toFixed(2)}</TableCell>
-                        <TableCell> {r.total < r.clientdeposit.deposit
+                        <TableCell>
+                          {r.clientdeposit.deposit.toFixed(2)}
+                        </TableCell>
+                        <TableCell>
+                          {" "}
+                          {r.total < r.clientdeposit.deposit
                             ? 0
-                            : r.total - r.clientdeposit.deposit}</TableCell>
+                            : r.total - r.clientdeposit.deposit}
+                        </TableCell>
                         <TableCell>{r.amount.toFixed(2)}</TableCell>
                         <TableCell>{r.change.toFixed(2)}</TableCell>
                         <TableCell>{r.amounts_payable.toFixed(2)}</TableCell>
@@ -143,6 +152,7 @@ export default function PetOwnerPaymentRecords() {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-20px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}
@@ -151,7 +161,7 @@ export default function PetOwnerPaymentRecords() {
           onPageChange={handlechangepage}
           onRowsPerPageChange={handleRowsPerPage}
         ></TablePagination>
-      </Box>
+      </Paper>
     </>
   );
 }
