@@ -47,6 +47,22 @@ export default function StaffForm() {
 
   const [activeStep, setActiveStep] = useState(0);
 
+  const confirmPassword = (ev) => {
+    ev.preventDefault();
+    if (staff.password === staff.password_confirmation) {
+      setActiveStep((prevStep) => prevStep + 1);
+    } else {
+      // toast.error("Password did not match.", {
+      //   position: "bottom-right",
+      //   theme: "colored",
+      // });
+      Swal.fire({
+        text: "Password did not match!",
+        icon: "error",
+      });
+    }
+  };
+
   const onSubmit = (ev) => {
     ev.preventDefault();
     setErrors(null);
@@ -79,6 +95,11 @@ export default function StaffForm() {
 
   const handleNext = (e) => {
     e.preventDefault();
+
+    if (activeStep === 0) {
+      confirmPassword(e);
+      return true;
+    }
     if (activeStep === 1) {
       onSubmit(e);
       return true;
@@ -147,8 +168,9 @@ export default function StaffForm() {
         return (
           <Box
             sx={{
-              width: "70%",
+              width: "80%",
               display: "flex",
+              alignItems: "center",
               flexDirection: "column",
               "& > :not(style)": { m: 1 },
               margin: "auto",
@@ -212,6 +234,7 @@ export default function StaffForm() {
               error={errors && errors.password ? true : false}
             />
             <FormControlLabel
+              sx={{ width: "100%" }}
               control={
                 <Checkbox
                   checked={showPassword}
@@ -228,7 +251,7 @@ export default function StaffForm() {
         return (
           <Box
             sx={{
-              width: "70%",
+              width: "80%",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -377,11 +400,11 @@ export default function StaffForm() {
   return (
     <Paper
       sx={{
-        width: "60%",
+        width: "70%",
         margin: "auto",
         marginTop: "3%",
         padding: "20px",
-        border: "1px solid black",
+        border: "2px solid black",
       }}
     >
       <Stepper activeStep={activeStep}>

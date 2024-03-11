@@ -46,8 +46,8 @@ export default function Staffs() {
 
   const getStaffs = () => {
     setLoading(true);
-    setStaffs([])
-    setMessage("")
+    setStaffs([]);
+    setMessage("");
     axiosClient
       .get("/staffs")
       .then(({ data }) => {
@@ -96,6 +96,7 @@ export default function Staffs() {
           minWidth: "90%",
           padding: "10px",
         }}
+        elevation={4}
       >
         <Box
           p={2}
@@ -139,7 +140,7 @@ export default function Staffs() {
                 </TableRow>
               </TableBody>
             )}
-             {!loading && message && (
+            {!loading && message && (
               <TableBody>
                 <TableRow>
                   <TableCell
@@ -163,8 +164,7 @@ export default function Staffs() {
                         <TableCell>{`${r.firstname} ${r.lastname}`}</TableCell>
                         <TableCell>0{r.contact_num}</TableCell>
                         <TableCell>
-                          {r.zone}, {r.barangay},{" "}
-                          {r.zipcode.area}
+                          {r.zone}, {r.barangay}, {r.zipcode.area}
                         </TableCell>
                         <TableCell>
                           <Stack direction="row" spacing={2}>
@@ -195,6 +195,7 @@ export default function Staffs() {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-20px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}

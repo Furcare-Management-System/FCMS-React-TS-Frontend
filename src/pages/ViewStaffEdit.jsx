@@ -203,6 +203,7 @@ export default function ViewStaffEdit() {
         padding: "10px",
         margin: "10px",
       }}
+      elevation={4}
     >
       <Stack flexDirection="row">
         <Stack p={2}>
