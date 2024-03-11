@@ -3,6 +3,8 @@ import {
   Home,
   ListAlt,
   ListRounded,
+  Money,
+  Paid,
   People,
   Pets,
   Settings,
@@ -65,19 +67,18 @@ export default function Sidebar() {
 
   return (
     <>
-    
       <Drawer
         sx={{
-          // width: "240px",
+          width: 240,
           flexShrink: 0,
+          zIndex: 999,
+          borderRightWidth: "1px",
+          display: { xs: "none", sm: "block", md: "block" },
           "& .MuiDrawer-paper": {
             width: "240px",
             boxSizing: "border-box",
-            marginTop: "75px",
+            marginTop: "65px",
           },
-          display: { xs: 'none',sm:'block', md: 'block' },
-          width: 240,
-          zIndex: 999,
         }}
         variant="permanent"
         anchor="left"
@@ -138,6 +139,33 @@ export default function Sidebar() {
               </ListItemIcon>
             </ListItemButton>
           </ListItem>
+
+          <ListItem>
+            <ListItemButton
+              selected={selectedIndex === 11}
+              onClick={() => handleListItemClick(11)}
+              component={Link}
+              to="/admin/vaccinations"
+            >
+              <ListItemText primary="Vaccination Records"></ListItemText>
+              <ListItemIcon>
+                <Vaccines />
+              </ListItemIcon>
+            </ListItemButton>
+          </ListItem>
+          <ListItem>
+            <ListItemButton
+              selected={selectedIndex === 13}
+              onClick={() => handleListItemClick(13)}
+              component={Link}
+              to="/admin/deworming"
+            >
+              <ListItemText primary="Deworming Records"></ListItemText>
+              <ListItemIcon>
+                <Vaccines />
+              </ListItemIcon>
+            </ListItemButton>
+          </ListItem>
           <ListItem>
             <ListItemButton
               selected={selectedIndex === 10}
@@ -153,14 +181,14 @@ export default function Sidebar() {
           </ListItem>
           <ListItem>
             <ListItemButton
-              selected={selectedIndex === 11}
-              onClick={() => handleListItemClick(11)}
+              selected={selectedIndex === 12}
+              onClick={() => handleListItemClick(12)}
               component={Link}
-              to="/admin/vaccinations"
+              to="/admin/paymentrecords"
             >
-              <ListItemText primary="Vaccination Records"></ListItemText>
+              <ListItemText primary="Payment Records"></ListItemText>
               <ListItemIcon>
-                <Vaccines />
+                <Paid />
               </ListItemIcon>
             </ListItemButton>
           </ListItem>

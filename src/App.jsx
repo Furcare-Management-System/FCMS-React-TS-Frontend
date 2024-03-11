@@ -42,6 +42,8 @@ import PetOwnerPaymentsHistory from "./pages/PetownerPages/PetOwnerPaymentsHisto
 import PetOwnerServicesAvailed from "./pages/PetownerPages/PetOwnerServicesAvailed";
 import ServiceAvaileble from "./pages/ServiceAvailable";
 import ForgotPassword from "./pages/ForgotPassword";
+import VaccinationReturn from "./pages/VaccinationReturn";
+import DewormingReturn from "./pages/DewormingReturn";
 
 const roles = {
   ADMIN: "1",
@@ -50,10 +52,9 @@ const roles = {
 };
 
 function App() {
-
   return (
     <>
-      <Routes >
+      <Routes>
         {/* Authenticated Routes */}
 
         <Route path="/" element={<MainLayout />}>
@@ -93,7 +94,8 @@ function App() {
             <Route path="treatment/:id" element={<TreatmentForm />} />
             <Route path="paymentrecords" element={<Payments />} />
             <Route path="availed-services" element={<Services />} />
-            <Route path="vaccinations" element={<VDTabs />} />
+            <Route path="vaccinations" element={<VaccinationReturn />} />
+            <Route path="deworming" element={<DewormingReturn />} />
 
             <Route path="myprofile" element={<ViewStaffEdit />} />
             <Route path="services" element={<ServiceAvaileble />} />
