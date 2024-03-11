@@ -3,7 +3,14 @@ import Box from "@mui/material/Box";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import { Button, Divider, Skeleton, Tab, Typography } from "@mui/material";
+import {
+  Button,
+  Divider,
+  Paper,
+  Skeleton,
+  Tab,
+  Typography,
+} from "@mui/material";
 import axiosClient from "../axios-client";
 import Consultation from "../pages/Services/Consultation";
 import ServiceAvail from "../pages/Services/ServiceAvail";
@@ -15,8 +22,11 @@ import {
   ContentCut,
   ControlPointDuplicate,
   FolderCopy,
+  FoodBank,
+  GifBoxSharp,
   Healing,
   Home,
+  Inventory,
   LocalHospital,
   MedicalServices,
   Medication,
@@ -26,6 +36,7 @@ import Vaccination from "../pages/Services/Vaccination";
 import Admissions from "../pages/Admissions";
 import Medicines from "../pages/Services/Medicines";
 import OtherTestResults from "../pages/Services/4DXTestResults";
+import Others from "../pages/Services/Others";
 
 export default function ServiceCatBtns() {
   const [servicesCat, setServicesCat] = useState([]);
@@ -36,7 +47,25 @@ export default function ServiceCatBtns() {
 
   useEffect(() => {
     getServices();
+    getCategory();
   }, []);
+
+  const getCategory = () => {
+    setLoading(true);
+    axiosClient
+      .get("/services/category")
+      .then(({ data }) => {
+        const uniqueCategories = Array.from(
+          new Set(data.data.map((service) => service.category))
+        );
+        setServicesCat(uniqueCategories);
+        setLoading(false);
+      })
+      .catch((error) => {
+        alert("Error fetching data:", error);
+        setLoading(false);
+      });
+  };
 
   const getServices = () => {
     setLoading(true);
@@ -44,10 +73,10 @@ export default function ServiceCatBtns() {
       .get("/services/modified")
       .then(({ data }) => {
         setServices(data.data);
-        const uniqueCategories = Array.from(
-          new Set(data.data.map((service) => service.category.category))
-        );
-        setServicesCat(uniqueCategories);
+        // const uniqueCategories = Array.from(
+        //   new Set(data.data.map((service) => service.category.category))
+        // );
+        // setServicesCat(uniqueCategories);
         setLoading(false);
       })
       .catch((error) => {
@@ -69,6 +98,7 @@ export default function ServiceCatBtns() {
     "Tick/Flea Treatment": <Medication />,
     Admission: <LocalHospital />,
     Others: <ControlPointDuplicate />,
+    Product: <Inventory />,
   };
 
   const handleChange = (event, newValue) => {
@@ -80,6 +110,7 @@ export default function ServiceCatBtns() {
     setValue("0");
   };
 
+  console.log(selectedCategory);
   return (
     <>
       {loading && (
@@ -189,10 +220,13 @@ export default function ServiceCatBtns() {
               {category}
             </Button>
           ))}
-
           {selectedCategory && (
             <Box
-              sx={{ width: "100%", borderColor: "divider", marginTop: "10px" }}
+              sx={{
+                width: "100%",
+                borderColor: "divider",
+                marginTop: "20px",
+              }}
             >
               <Divider />
               <TabContext value={value}>
@@ -326,22 +360,54 @@ export default function ServiceCatBtns() {
                       {service.service == "Leptospirosis Test" && (
                         <TestResults sid={service.id} sname={service.service} />
                       )}
-                      {service.service == "Medicine" && (
-                        <Medicines title="Medicines" sid={service.id} />
-                      )}
+
                       {service.service == "Tick/Flea Treatment" && (
                         <ServiceAvail
                           title="Tick/Flea Treatment"
                           sid={service.id}
                         />
                       )}
-                      {service.service == "Admission" && (
-                        <Admissions sid={service.id} />
-                      )}
                     </TabPanel>
                   ))}
               </TabContext>
+              {selectedCategory === "Medicines" && (
+                <TabContext value="100">
+                  <TabList value="100" onChange={handleChange}>
+                    <Tab
+                      label="Medicines"
+                      value={"100"}
+                      onClick={() => setValue("100")}
+                    />
+                  </TabList>
+
+                  <TabPanel value="100">
+                    <Medicines title="Medicines" />
+                  </TabPanel>
+                </TabContext>
+              )}
             </Box>
+          )}
+
+          {selectedCategory === "Others" && (
+            <TabContext value="101">
+              <TabList
+                value="101"
+                onChange={handleChange}
+                variant="scrollable"
+                scrollButtons="auto"
+                aria-label="lab API tabs"
+              >
+                <Tab
+                  label="Others"
+                  value={"101"}
+                  onClick={() => setValue("101")}
+                />
+              </TabList>
+
+              <TabPanel value="101">
+                <Others title="Others" />
+              </TabPanel>
+            </TabContext>
           )}
         </Box>
       )}

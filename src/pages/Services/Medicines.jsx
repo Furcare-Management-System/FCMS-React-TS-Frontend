@@ -18,19 +18,20 @@ import {
 import { Add, Archive, Edit } from "@mui/icons-material";
 import { useStateContext } from "../../contexts/ContextProvider";
 import MedicationModal from "../../components/modals/MedicationModal";
+import MedicineModal from "../../components/modals/MedicineModal";
 
 export default function Medicines({ sid }) {
   const { notification, setNotification } = useStateContext();
 
   const columns = [
     { id: "date", name: "Date" },
-    { id: "Category", name: "Category" },
+    { id: "Pet", name: "Pet" },
     { id: "Medicine", name: "Medicine" },
+    { id: "Quantity", name: "Quantity" },
+    { id: "Unit", name: "Unit" },
     { id: "Price", name: "Price" },
-    { id: "Dosage", name: "Dosage" },
-    { id: "Description", name: "Description" },
     { id: "Status", name: "Status" },
-    { id: "Actions", name: "Actions" },
+    // { id: "Actions", name: "Actions" },
   ];
 
   const [page, setPage] = useState(0);
@@ -41,16 +42,15 @@ export default function Medicines({ sid }) {
   const [medications, setMedications] = useState([]);
   const [medication, setMedication] = useState({
     id: null,
-    medcat_id: null,
-    name: "",
-    price: null,
-    description: "",
+    service: "",
     quantity: null,
-    dosage: "",
+    unit: "",
+    pet_id: null,
   });
   const [category, setCategory] = useState([]);
   const [openAdd, setOpenAdd] = useState(false);
   const [modalloading, setModalloading] = useState(false);
+  const [pets, setPets] = useState([]);
 
   const { id } = useParams();
 
@@ -63,12 +63,20 @@ export default function Medicines({ sid }) {
     setPage(0);
   };
 
+  const getPets = () => {
+    axiosClient
+      .get(`/petowners/${id}/pets`)
+      .then(({ data }) => {
+        setPets(data.data);
+      })
+      .catch(() => {});
+  };
   const getMedications = () => {
     setMedications([]);
     setMessage(null);
     setLoading(true);
     axiosClient
-      .get(`/medications/petowner/${id}/service/${sid}`)
+      .get(`/servicesavailed/medicines/petowner/${id}`)
       .then(({ data }) => {
         setLoading(false);
         setMedications(data.data);
@@ -91,10 +99,11 @@ export default function Medicines({ sid }) {
       .catch(() => {});
   };
 
-  const handleOpenAddModal = () => {
+  const addModal = () => {
     setOpenAdd(true);
     setMedication({});
     setErrors(null);
+    getPets();
   };
 
   const handleCloseModal = () => {
@@ -124,7 +133,7 @@ export default function Medicines({ sid }) {
         setMedication(data);
         setMedication((prev) => ({
           ...prev,
-          medcat_id:data.medicine.medcat_id,
+          medcat_id: data.medicine.medcat_id,
           name: data.medicine.name,
           price: data.medicine.price,
         }));
@@ -154,7 +163,7 @@ export default function Medicines({ sid }) {
         });
     } else {
       axiosClient
-        .post(`/medications/petowner/${id}/service/${sid}`, medication)
+        .post(`/servicesavailed/store-medicine/petowner/${id}`, medication)
         .then(() => {
           setOpenAdd(false);
           getMedications();
@@ -176,21 +185,38 @@ export default function Medicines({ sid }) {
     <>
       <Paper
         sx={{
-          minWidth: "90%",
+          width: "105%",
           padding: "10px",
+          marginBottom: "-40px",
+          marginLeft: "-25px",
         }}
+        elevation={4}
       >
+        <Box
+          padding={1}
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-between"
+        >
+          <Button
+            onClick={addModal}
+            variant="contained"
+            color="success"
+            size="small"
+          >
+            Add
+          </Button>
+        </Box>
         <Box sx={{ minWidth: "90%" }}>
           {sid && (
             <Box
-              p={2}
               display="flex"
               flexDirection="row"
               justifyContent="space-between"
             ></Box>
           )}
 
-          <MedicationModal
+          <MedicineModal
             open={openAdd}
             onClose={handleCloseModal}
             onClick={handleCloseModal}
@@ -201,6 +227,7 @@ export default function Medicines({ sid }) {
             errors={errors}
             category={category}
             isUpdate={medication.id}
+            pets={pets}
           />
 
           {notification && <Alert severity="success">{notification}</Alert>}
@@ -256,15 +283,13 @@ export default function Medicines({ sid }) {
                       .map((record) => (
                         <TableRow hover role="checkbox" key={record.id}>
                           <TableCell>{record.date}</TableCell>
-                          <TableCell>
-                            {record.medicine.category.category}
-                          </TableCell>
-                          <TableCell>{record.medicine.name}</TableCell>
+                          <TableCell>{record.pet.name}</TableCell>
+                          <TableCell>{record.service.service}</TableCell>
                           <TableCell>{record.quantity}</TableCell>
-                          <TableCell>{record.dosage}</TableCell>
-                          <TableCell>{record.description}</TableCell>
-                          <TableCell>{record.servicesavailed.status}</TableCell>
-                          <TableCell>
+                          <TableCell>{record.unit}</TableCell>
+                          <TableCell>{record.unit_price}</TableCell>
+                          <TableCell>{record.status}</TableCell>
+                          {/* <TableCell>
                             <Stack direction="row" spacing={2}>
                               <Button
                                 variant="contained"
@@ -284,7 +309,7 @@ export default function Medicines({ sid }) {
                                 <Archive fontSize="small" />
                               </Button>
                             </Stack>
-                          </TableCell>
+                          </TableCell> */}
                         </TableRow>
                       ))}
                 </TableBody>
@@ -292,6 +317,7 @@ export default function Medicines({ sid }) {
             </Table>
           </TableContainer>
           <TablePagination
+            sx={{ marginBottom: "-10px" }}
             rowsPerPageOptions={[10, 15, 25]}
             rowsPerPage={rowsPerPage}
             page={page}

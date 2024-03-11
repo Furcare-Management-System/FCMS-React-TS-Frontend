@@ -4,7 +4,6 @@ import {
   Backdrop,
   Box,
   Button,
-  CircularProgress,
   Divider,
   IconButton,
   Paper,
@@ -21,12 +20,10 @@ import {
 import { Add, Archive, Edit } from "@mui/icons-material";
 import { Link, useParams } from "react-router-dom";
 import axiosClient from "../../axios-client";
-import TestResultModal from "../../components/modals/TestResultModal";
-import EnlargeImageModal from "../../components/modals/EnlargeImageModal";
-import AttachmentModal from "../../components/modals/AttachmentModal";
 import { format } from "date-fns";
+import OthersModal from "../../components/modals/OthersModal";
 
-export default function OtherTestResults({ sid, sname }) {
+export default function Others({ sname }) {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
@@ -41,20 +38,18 @@ export default function OtherTestResults({ sid, sname }) {
   const [testresult, setTestresult] = useState({
     id: null,
     pet_id: null,
-    attachment: null,
-    description: "",
     unit_price: null,
     service_id: null,
   });
 
   const [error, setError] = useState(null);
 
-  const getTestresults = () => {
+  const getOthers = () => {
     setTestresults([]);
     setMessage(null);
     setLoading(true);
     axiosClient
-      .get(`/testresults/petowner/${id}/others`)
+      .get(`/servicesavailed/others/petowner/${id}`)
       .then(({ data }) => {
         setLoading(false);
         setTestresults(data.data);
@@ -82,12 +77,12 @@ export default function OtherTestResults({ sid, sname }) {
       });
   };
 
-  const get4DXtests = () => {
+  const getOtherServices = () => {
     setOthertests([]);
     setMessage(null);
     setLoading(true);
     axiosClient
-      .get(`/services/4dx`)
+      .get(`/services/others`)
       .then(({ data }) => {
         setLoading(false);
         setOthertests(data.data);
@@ -105,11 +100,8 @@ export default function OtherTestResults({ sid, sname }) {
   const columns = [
     { id: "Date", name: "Date" },
     { id: "Pet", name: "Pet" },
-    { id: "Type", name: "Type" },
-    { id: "Attachment", name: "Attachment" },
-    { id: "Description", name: "Description" },
+    { id: "Service", name: "Service" },
     { id: "Status", name: "Status" },
-    { id: "Actions", name: "Actions" },
   ];
 
   const [page, pagechange] = useState(0);
@@ -132,7 +124,7 @@ export default function OtherTestResults({ sid, sname }) {
   const openModal = () => {
     setTestresult({});
     getPets();
-    get4DXtests();
+    getOtherServices();
     openchange(true);
     setErrors(null);
     setError(null);
@@ -146,7 +138,7 @@ export default function OtherTestResults({ sid, sname }) {
   // onClicks
   const onEdit = (r) => {
     getPets();
-    get4DXtests();
+    getOtherServices();
     setModalloading(true);
     axiosClient
       .get(`/testresults/${r.id}`)
@@ -161,11 +153,6 @@ export default function OtherTestResults({ sid, sname }) {
     openchange(true);
   };
 
-  const onEditAttachment = (r) => {
-    setUpload(true);
-    setTrid(r.id);
-  };
-
   const onArchive = (r) => {
     if (!window.confirm("Are you sure to archive this test result?")) {
       return;
@@ -173,7 +160,7 @@ export default function OtherTestResults({ sid, sname }) {
 
     axiosClient.delete(`/testresults/${r.id}/archive`).then(() => {
       setNotification("Test result was archived.");
-      getTestresults();
+      getOthers();
     });
   };
 
@@ -186,7 +173,7 @@ export default function OtherTestResults({ sid, sname }) {
         .then(() => {
           setNotification("Test result was successfully updated.");
           openchange(false);
-          getTestresults();
+          getOthers();
         })
         .catch((err) => {
           const response = err.response;
@@ -195,29 +182,16 @@ export default function OtherTestResults({ sid, sname }) {
           }
         });
     } else {
-      if (!testresult.attachment) {
-        setError("Please select an image attachment to upload.");
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append("attachment", testresult.attachment);
-
       axiosClient
         .post(
-          `/testresults/petowner/${id}/service/${testresult.service_id}`,
-          testresult,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
+          `/servicesavailed/petowner/${id}/service/${testresult.service_id}`,
+          testresult
         )
         .then(() => {
           setNotification("Test result was successfully saved.");
           openchange(false);
           setTestresult({});
-          getTestresults();
+          getOthers();
         })
         .catch((err) => {
           const response = err.response;
@@ -228,99 +202,19 @@ export default function OtherTestResults({ sid, sname }) {
     }
   };
 
-  const handleImage = (e) => {
-    const selectedFile = e.currentTarget.files?.[0];
-
-    if (selectedFile) {
-      // Validate the file type
-      const allowedTypes = [
-        "image/jpeg",
-        "image/png",
-        "image/gif",
-        "image/svg+xml",
-      ];
-      if (allowedTypes.includes(selectedFile.type)) {
-        setTestresult((prevImage) => ({
-          ...prevImage,
-          attachment: selectedFile,
-        }));
-        setResult((prevImage) => ({
-          ...prevImage,
-          attachment: selectedFile,
-        }));
-        setError(null);
-        setUploadError(null);
-      } else {
-        setError(
-          "The selected file must be of type: jpg, png, jpeg, gif, svg."
-        );
-        setUploadError(
-          "The selected file must be of type: jpg, png, jpeg, gif, svg."
-        );
-      }
-    }
-  };
-
-  //view attachment
-  const [showImage, setShowImage] = useState(false);
-  const [image, setImage] = useState(null);
-
-  const toggleImage = (r) => {
-    setShowImage(!showImage);
-    setImage(r.attachment);
-  };
-
-  //upload new attachment
-  const [uploadError, setUploadError] = useState(null);
-  const [result, setResult] = useState({
-    attachment: null,
-  });
-
-  const submitImage = (e) => {
-    e.preventDefault();
-
-    if (!result.attachment) {
-      setUploadError("Please select an image attachment to upload.");
-      return;
-    }
-
-    try {
-      const formData = new FormData();
-      formData.append("attachment", result.attachment);
-
-      axiosClient
-        .post(`/testresults/${trid}/upload-attachment`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((response) => {
-          setNotification(response.data.success);
-          setUpload(false);
-          setResult({});
-          getTestresults();
-        })
-        .catch((response) => {
-          setUploadError(response.data.message);
-        });
-    } catch (error) {
-      setUploadError("Failed to upload the attachment.");
-    }
-  };
-
   useEffect(() => {
-    getTestresults();
+    getOthers();
   }, []);
 
   return (
     <>
       <Paper
-        sx={{
-          width: "105%",
-          padding: "10px",
+       sx={{
+        width: "105%",
+        padding: "10px",
           marginBottom: "-40px",
           marginLeft: "-25px",
-        }}
+      }}
         elevation={4}
       >
         <Box
@@ -345,7 +239,7 @@ export default function OtherTestResults({ sid, sname }) {
           </Box>
           {notification && <Alert severity="success">{notification}</Alert>}
 
-          <TestResultModal
+          <OthersModal
             open={open}
             onClick={closeModal}
             onClose={closeModal}
@@ -357,26 +251,12 @@ export default function OtherTestResults({ sid, sname }) {
             setTestresult={setTestresult}
             isUpdate={testresult.id}
             petid={null}
-            handleImage={handleImage}
             error={error}
             servicename={sname}
             errormessage={errormessage}
             othertests={othertests}
           />
-          <AttachmentModal
-            open={upload}
-            onClick={closeModal}
-            onClose={closeModal}
-            handleImage={handleImage}
-            submitImage={submitImage}
-            uploadError={uploadError}
-          />
-          <EnlargeImageModal
-            open={showImage}
-            onClose={toggleImage}
-            title="Test Result Attachment"
-            image={image}
-          />
+
           <Divider />
           <TableContainer sx={{ height: 380 }}>
             <Table stickyHeader aria-label="sticky table">
@@ -423,30 +303,9 @@ export default function OtherTestResults({ sid, sname }) {
                             {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
                           </TableCell>
                           <TableCell>{r.pet.name}</TableCell>
-                          <TableCell>
-                            {r.servicesavailed.service.service}
-                          </TableCell>
-                          <TableCell>
-                            <img
-                              src={
-                                `${import.meta.env.VITE_API_BASE_URL}/` +
-                                r.attachment
-                              }
-                              height="50"
-                              width="50"
-                              onClick={() => toggleImage(r)}
-                              style={{ cursor: "pointer" }}
-                            />
-                            <IconButton
-                              color="primary"
-                              onClick={() => onEditAttachment(r)}
-                            >
-                              <Edit fontSize="small" />{" "}
-                            </IconButton>
-                          </TableCell>
-                          <TableCell>{r.description}</TableCell>
-                          <TableCell>{r.servicesavailed.status}</TableCell>
-                          <TableCell>
+                          <TableCell>{r.service.service}</TableCell>
+                          <TableCell>{r.status}</TableCell>
+                          {/* <TableCell>
                             <Stack direction="row" spacing={2}>
                               <Button
                                 variant="contained"
@@ -465,7 +324,7 @@ export default function OtherTestResults({ sid, sname }) {
                                 <Archive fontSize="small" />
                               </Button>
                             </Stack>
-                          </TableCell>
+                          </TableCell> */}
                         </TableRow>
                       ))}
                 </TableBody>
@@ -473,8 +332,8 @@ export default function OtherTestResults({ sid, sname }) {
             </Table>
           </TableContainer>
           <TablePagination
-            sx={{ marginBottom: "-10px" }}
-            rowsPerPageOptions={[10, 15, 25]}
+          sx={{ marginBottom: "-10px" }}
+          rowsPerPageOptions={[10, 15, 25]}
             rowsPerPage={rowperpage}
             page={page}
             count={testresults.length}

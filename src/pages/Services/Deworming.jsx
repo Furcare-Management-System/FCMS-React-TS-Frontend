@@ -5,6 +5,7 @@ import {
   Alert,
   Box,
   Button,
+  Paper,
   Stack,
   Table,
   TableBody,
@@ -17,7 +18,7 @@ import {
 import { Add, Archive, Edit } from "@mui/icons-material";
 import DewormingLogsModal from "../../components/modals/DewormingLogsModal";
 import { useStateContext } from "../../contexts/ContextProvider";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 
 export default function Deworming({ sid }) {
   const { notification, setNotification } = useStateContext();
@@ -52,14 +53,13 @@ export default function Deworming({ sid }) {
   const [deworminglogs, setDeworminglogs] = useState([]);
   const [deworminglog, setDeworminglog] = useState({
     id: null,
-    date:null,
+    date: null,
     weight: "",
     description: "",
     return: "",
     pet_id: null,
     vet_id: null,
     unit_price: null,
-
   });
   const [pets, setPets] = useState([]);
   const [vets, setVets] = useState([]);
@@ -186,13 +186,17 @@ export default function Deworming({ sid }) {
 
   return (
     <>
-      <Box
-        sx={{
-          minWidth: "90%",
-        }}
+      <Paper
+       sx={{
+        width: "105%",
+        padding: "10px",
+          marginBottom: "-40px",
+          marginLeft: "-25px",
+      }}
+        elevation={4}
       >
-        <Box
-          p={2}
+         <Box
+          padding={1}
           display="flex"
           flexDirection="row"
           justifyContent="space-between"
@@ -203,7 +207,7 @@ export default function Deworming({ sid }) {
             color="success"
             size="small"
           >
-            <Add />
+            add
           </Button>
         </Box>
 
@@ -275,7 +279,7 @@ export default function Deworming({ sid }) {
                     .slice(page * rowperpage, page * rowperpage + rowperpage)
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
-                       <TableCell>
+                        <TableCell>
                           {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
                         </TableCell>
                         <TableCell>{r.pet.name}</TableCell>
@@ -314,6 +318,7 @@ export default function Deworming({ sid }) {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-10px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}
@@ -322,7 +327,7 @@ export default function Deworming({ sid }) {
           onPageChange={handlechangepage}
           onRowsPerPageChange={handleRowsPerPage}
         ></TablePagination>
-      </Box>
+      </Paper>
     </>
   );
 }

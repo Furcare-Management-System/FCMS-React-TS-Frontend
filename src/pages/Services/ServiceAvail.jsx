@@ -16,7 +16,7 @@ import { useParams } from "react-router-dom";
 import { Add, Archive } from "@mui/icons-material";
 import ServiceAvailModal from "../../components/modals/ServiceAvailModal";
 import Swal from "sweetalert2";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 
 export default function ServiceAvail({ sid, title }) {
   const { id } = useParams();
@@ -80,6 +80,8 @@ export default function ServiceAvail({ sid, title }) {
     id: null,
     pet_id: null,
     unit_price: null,
+    quantity: null,
+    unit: "",
   });
 
   const [open, openServiceavail] = useState(false);
@@ -89,6 +91,12 @@ export default function ServiceAvail({ sid, title }) {
     getPets();
     setServiceavail({});
     setErrors(null);
+    if (sid === 3) {
+      setServiceavail((prevServiceavail) => ({
+        ...prevServiceavail,
+        unit: "day/s",
+      }));
+    }
   };
 
   const closeModal = () => {
@@ -151,17 +159,19 @@ export default function ServiceAvail({ sid, title }) {
   return (
     <>
       <Paper
-        sx={{
-          minWidth: "90%",
-          padding: "10px",
-          margin: "10px",
-        }}
+       sx={{
+        width: "105%",
+        padding: "10px",
+          marginBottom: "-40px",
+          marginLeft: "-25px",
+      }}
+        elevation={4}
       >
-        <Box
+         <Box
+          padding={1}
           display="flex"
           flexDirection="row"
           justifyContent="space-between"
-          padding={1}
         >
           <Button
             onClick={addModal}
@@ -169,7 +179,7 @@ export default function ServiceAvail({ sid, title }) {
             color="success"
             size="small"
           >
-            <Add />
+            Add
           </Button>
         </Box>
 
@@ -184,6 +194,7 @@ export default function ServiceAvail({ sid, title }) {
           serviceavail={service}
           setServiceavail={setServiceavail}
           errors={errors}
+          sid={sid}
         />
 
         <TableContainer sx={{ height: 380 }}>
@@ -249,6 +260,7 @@ export default function ServiceAvail({ sid, title }) {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-20px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}

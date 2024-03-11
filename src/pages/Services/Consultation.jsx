@@ -17,7 +17,7 @@ import {
 import { useParams } from "react-router-dom";
 import DiagnosisModal from "../../components/modals/DiagnosisModal";
 import { Add, Archive, Delete, Edit } from "@mui/icons-material";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 
 export default function Consultation({ sid }) {
   const { id } = useParams();
@@ -174,21 +174,28 @@ export default function Consultation({ sid }) {
     <>
       <Paper
         sx={{
-          minWidth: "90%",
+          width: "105%",
           padding: "10px",
+          marginLeft: "-25px",
+          marginBottom: "-40px",
         }}
+        elevation={4}
       >
-        <Box display="flex" flexDirection="row" justifyContent="space-between">
+        <Box
+          padding={1}
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-between"
+        >
           <Button
             onClick={addModal}
             variant="contained"
             color="success"
             size="small"
           >
-            <Add />
+            Add
           </Button>
         </Box>
-        <br></br>
 
         <DiagnosisModal
           open={open}
@@ -266,14 +273,16 @@ export default function Consultation({ sid }) {
                               <Edit fontSize="small" />
                             </Button>
 
-                           {r.servicesavailed.status !== "Completed" && <Button
-                              variant="contained"
-                              size="small"
-                              color="error"
-                              onClick={() => onDelete(r)}
-                            >
-                              <Delete fontSize="small" />
-                            </Button>}
+                            {r.servicesavailed.status !== "Completed" && (
+                              <Button
+                                variant="contained"
+                                size="small"
+                                color="error"
+                                onClick={() => onDelete(r)}
+                              >
+                                <Delete fontSize="small" />
+                              </Button>
+                            )}
                           </Stack>
                         </TableCell>
                       </TableRow>
@@ -283,6 +292,7 @@ export default function Consultation({ sid }) {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-20px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}

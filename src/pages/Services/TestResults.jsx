@@ -289,30 +289,32 @@ export default function TestResults({ sid, sname }) {
   return (
     <>
       <Paper
-        sx={{
-          minWidth: "90%",
-          padding: "10px",
-          margin: "10px",
-        }}
+       sx={{
+        width: "105%",
+        padding: "10px",
+          marginBottom: "-40px",
+          marginLeft: "-25px",
+      }}
+        elevation={4}
       >
         <Box
           sx={{
             minWidth: "90%",
           }}
         >
-          <Box
-            p={2}
-            display="flex"
-            flexDirection="row"
-            justifyContent="space-between"
-          >
+           <Box
+          padding={1}
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-between"
+        >
             <Button
-              onClick={openModal}
+            onClick={openModal}
               variant="contained"
               color="success"
               size="small"
             >
-              <Add />
+              add
             </Button>
           </Box>
           {notification && <Alert severity="success">{notification}</Alert>}
@@ -349,7 +351,7 @@ export default function TestResults({ sid, sname }) {
             image={image}
           />
           <Divider />
-          <TableContainer sx={{ height: 350 }}>
+          <TableContainer sx={{ height: 380 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
@@ -441,7 +443,8 @@ export default function TestResults({ sid, sname }) {
             </Table>
           </TableContainer>
           <TablePagination
-            rowsPerPageOptions={[10, 15, 25]}
+          sx={{ marginBottom: "-10px" }}
+          rowsPerPageOptions={[10, 15, 25]}
             rowsPerPage={rowperpage}
             page={page}
             count={testresults.length}

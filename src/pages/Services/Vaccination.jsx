@@ -208,14 +208,17 @@ export default function Vaccination({ sid, sname }) {
     <>
       <Paper
         sx={{
-          minWidth: "90%",
+          width: "105%",
           padding: "10px",
+          marginBottom: "-40px",
+          marginLeft: "-25px",
         }}
+        elevation={4}
       >
-        <Box sx={{ minWidth: "90%" }}>
+        <Box>
           {sid && (
             <Box
-              p={2}
+              padding={1}
               display="flex"
               flexDirection="row"
               justifyContent="space-between"
@@ -226,7 +229,7 @@ export default function Vaccination({ sid, sname }) {
                 color="success"
                 size="small"
               >
-                <Add />
+                Add
               </Button>
             </Box>
           )}
@@ -339,7 +342,8 @@ export default function Vaccination({ sid, sname }) {
             </Table>
           </TableContainer>
           <TablePagination
-            rowsPerPageOptions={[10, 15, 25]}
+          sx={{ marginBottom: "-10px" }}
+          rowsPerPageOptions={[10, 15, 25]}
             rowsPerPage={rowsPerPage}
             page={page}
             count={vaccinationlogs.length}
