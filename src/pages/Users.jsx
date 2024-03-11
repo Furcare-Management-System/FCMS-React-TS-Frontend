@@ -187,6 +187,7 @@ export default function Users() {
         sx={{
           padding: "10px",
         }}
+        elevation={4}
       >
         <Box
           p={2}
@@ -290,6 +291,7 @@ export default function Users() {
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ marginBottom: "-20px" }}
           rowsPerPageOptions={[10, 15, 25]}
           rowsPerPage={rowperpage}
           page={page}

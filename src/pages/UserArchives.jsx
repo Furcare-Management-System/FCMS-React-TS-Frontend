@@ -77,7 +77,7 @@ export default function UserArchives() {
       return;
     }
 
-    axiosClient.delete(`/archives/${r.id}/forcedelete`).then(() => {
+    axiosClient.delete(`/users/archives/${r.id}/forcedelete`).then(() => {
       setNotification("User was permanently deleted");
       getArchivedUsers();
     });
@@ -96,6 +96,7 @@ export default function UserArchives() {
               minWidth: "90%",
               padding: "10px",
             }}
+            elevation={4}
           >
             <Typography p={1} variant="h5">
               Archived Users
@@ -185,6 +186,7 @@ export default function UserArchives() {
               </Table>
             </TableContainer>
             <TablePagination
+              sx={{ marginBottom: "-20px" }}
               rowsPerPageOptions={[10, 15, 25]}
               rowsPerPage={rowperpage}
               page={page}
