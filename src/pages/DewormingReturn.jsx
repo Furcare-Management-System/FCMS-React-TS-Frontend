@@ -17,7 +17,6 @@ import DropDownButtons from "../components/DropDownButtons";
 import { format } from "date-fns";
 
 export default function DewormingReturn() {
-
   const columns = [
     { id: "Return Date", name: "Return Date" },
     { id: "Client", name: "Client" },
@@ -107,8 +106,13 @@ export default function DewormingReturn() {
         sx={{
           minWidth: "90%",
           padding: "10px",
+          margin: "20px",
         }}
+        elevation={6}
       >
+        <Typography variant="h5" p={1}>
+          Deworming Returns
+        </Typography>
         <Box>
           <DropDownButtons
             title="filter"
@@ -118,14 +122,13 @@ export default function DewormingReturn() {
             handleOpenMenu={handleOpenMenu}
             handleCloseMenu={handleCloseMenu}
             optionLabel1="today"
-            optionLabel2="weekly"
-            optionLabel3="monthly"
-            optionLabel4="yearly"
+            optionLabel2="this week"
+            optionLabel3="this month"
+            optionLabel4="this year"
           />
         </Box>
         <Box sx={{ minWidth: "90%" }}>
-
-          <TableContainer sx={{ height: 380 }}>
+          <TableContainer sx={{ height: "100%" }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
@@ -199,6 +202,7 @@ export default function DewormingReturn() {
             </Table>
           </TableContainer>
           <TablePagination
+            sx={{ marginBottom: "-20px" }}
             rowsPerPageOptions={[10, 15, 25]}
             rowsPerPage={rowsPerPage}
             page={page}
