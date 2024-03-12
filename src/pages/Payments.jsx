@@ -53,6 +53,8 @@ export default function Payments() {
     setMessage(null);
     setPayments([]);
     setLoading(true);
+    setFilterdate(null);
+    setBtnclicked(false);
     axiosClient
       .get("/paymentrecords")
       .then(({ data }) => {
@@ -71,6 +73,7 @@ export default function Payments() {
 
   const paymentsPDF = async () => {
     setPrinting(true);
+    setMessage(null);
     try {
       // Fetch PDF content
       const response = await axiosClient.get(
@@ -104,6 +107,7 @@ export default function Payments() {
 
   //filter by date
   const [filterdate, setFilterdate] = useState(null);
+  const [btnclicked, setBtnclicked] = useState(false);
 
   const filter = () => {
     setPayments([]);
@@ -114,8 +118,10 @@ export default function Payments() {
       .then(({ data }) => {
         setLoading(false);
         setPayments(data.data);
+        setBtnclicked(true);
       })
       .catch((mes) => {
+        setBtnclicked(false);
         const response = mes.response;
         if (response && response.status == 404) {
           setMessage(response.data.message);
@@ -136,11 +142,11 @@ export default function Payments() {
       <Paper
         sx={{
           padding: "10px",
+          margin: "20px",
         }}
         elevation={4}
       >
         <Box
-          p={1}
           alignItems={"center"}
           display="flex"
           flexDirection="row"
@@ -172,6 +178,7 @@ export default function Payments() {
               size="small"
               sx={{ mr: 1, ml: 1 }}
               onClick={filter}
+              disabled={filterdate === null}
             >
               <Typography fontSize={"12px"}>Filter</Typography>
             </Button>
@@ -180,6 +187,7 @@ export default function Payments() {
               onClick={paymentsPDF}
               color="success"
               sx={{ pl: 2 }}
+              disabled={btnclicked === false || message !== null}
             >
               print
             </Button>

@@ -9,10 +9,14 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
+  FormControlLabel,
+  FormLabel,
   IconButton,
   InputAdornment,
   InputLabel,
   MenuItem,
+  Radio,
+  RadioGroup,
   Select,
   Stack,
   TextField,
@@ -189,7 +193,24 @@ export default function OthersModal(props) {
                       }
                     />
                   )}
-
+                  <FormControl>
+                    <FormLabel id="unit-radio-btn">Unit</FormLabel>
+                    <RadioGroup
+                      row
+                      value={testresult.unit || ``}
+                      onChange={(ev) =>
+                        handleFieldChange("unit", ev.target.value)
+                      }
+                      defaultValue={"Head"}
+                      // required
+                    >
+                      <FormControlLabel
+                        value="Head"
+                        control={<Radio />}
+                        label="Head"
+                      />
+                    </RadioGroup>
+                  </FormControl>
                   <Button color="primary" type="submit" variant="contained">
                     Save
                   </Button>
