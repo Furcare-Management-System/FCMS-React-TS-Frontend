@@ -43,7 +43,6 @@ export default function MedicineModal(props) {
     setMedication(updatedMedication);
   };
 
-
   return (
     <>
       <Backdrop open={loading} style={{ zIndex: 999 }}>
@@ -52,7 +51,7 @@ export default function MedicineModal(props) {
       {!loading && (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
           <DialogTitle>
-            Medication
+            Medicine
             <IconButton onClick={onClick} style={{ float: "right" }}>
               <Close color="primary"></Close>
             </IconButton>
@@ -88,24 +87,24 @@ export default function MedicineModal(props) {
                   </Select>
                 </FormControl>
               )} */}
-<FormControl>
-                  <InputLabel>Pet</InputLabel>
-                  <Select
-                    label="Pet"
-                    value={medication.pet_id || ""}
-                    onChange={(ev) =>
-                      handleFieldChange("pet_id", ev.target.value)
-                    }
-                    readOnly={isUpdate ? true : false}
-                    required
-                  >
-                    {pets.map((item) => (
-                      <MenuItem key={item.id} value={item.id}>
-                        {item.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+              <FormControl>
+                <InputLabel>Pet</InputLabel>
+                <Select
+                  label="Pet"
+                  value={medication.pet_id || ""}
+                  onChange={(ev) =>
+                    handleFieldChange("pet_id", ev.target.value)
+                  }
+                  readOnly={isUpdate ? true : false}
+                  required
+                >
+                  {pets.map((item) => (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
               <TextField
                 value={medication.service || ""}
                 onChange={(ev) => handleFieldChange("service", ev.target.value)}

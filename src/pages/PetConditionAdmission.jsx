@@ -54,6 +54,7 @@ export default function PetConditionAdmission() {
     setMessage("");
     setErrors(null);
     setLoading(true);
+    setPetconditions([]);
     axiosClient
       .get(`/treatments/${id}/petconditions`)
       .then(({ data }) => {
@@ -122,7 +123,7 @@ export default function PetConditionAdmission() {
       return;
     }
 
-    axiosClient.delete(`/users/${u.id}/archive`).then(() => {
+    axiosClient.delete(`/petconditions/delete/${u.id}`).then(() => {
       getTreatmentPetCondition();
     });
   };

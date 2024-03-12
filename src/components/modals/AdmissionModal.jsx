@@ -116,7 +116,7 @@ export default function AdmissionModal(props) {
                   required
                 />
 
-                <Button color="primary" variant="contained" type="submit">
+                <Button color="primary" variant="contained" type="submit" target="_blank">
                   Save
                 </Button>
               </Stack>

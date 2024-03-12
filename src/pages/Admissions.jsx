@@ -15,7 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Add, Visibility } from "@mui/icons-material";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import AdmissionModal from "../components/modals/AdmissionModal";
 import TreatmentModal from "../components/modals/TreatmentModal";
 import Swal from "sweetalert2";
@@ -142,17 +142,23 @@ export default function Admissions() {
     setOpenmodal(false);
     setOpenconsent(false);
   };
+  const navigate = useNavigate();
 
   const onSubmit = (e) => {
     e.preventDefault();
 
     axiosClient
       .post(`/treatments/petowner/${id}/service/${sid}`, treatment)
-      .then(() => {
+      .then((response) => {
         setOpenmodal(false);
         Swal.fire({
           title: "Treatment saved!",
           icon: "success",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            const createdTreatmentid = response.data.id;
+            navigate(`/admin/treatment/${createdTreatmentid}`);
+          }
         });
         getAdmissions();
       })
