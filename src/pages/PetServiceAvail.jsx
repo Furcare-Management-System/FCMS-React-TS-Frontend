@@ -22,7 +22,8 @@ export default function PetServiceAvail({ sid, title }) {
 
   const columns = [
     { id: "Date", name: "Date" },
-    { id: "Service", name: "Service" },
+    { id: "Product/Service", name: "Product/Service" },
+    { id: "Status", name: "Status" },
   ];
 
   const [message, setMessage] = useState("");
@@ -212,6 +213,7 @@ export default function PetServiceAvail({ sid, title }) {
                           {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
                         </TableCell>
                         <TableCell>{r.service.service}</TableCell>
+                        <TableCell>{r.status}</TableCell>
                       </TableRow>
                     ))}
               </TableBody>

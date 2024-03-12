@@ -36,7 +36,6 @@ import MyPets from "./pages/PetownerPages/MyPets";
 import EditProfilePetOwner from "./pages/PetownerPages/EditProfilePetOwner";
 import ViewStaffEdit from "./pages/ViewStaffEdit";
 import Services from "./pages/Services";
-import VDTabs from "./components/VDTabs";
 import ViewMyPet from "./pages/PetownerPages/ViewMyPet";
 import PetOwnerPaymentsHistory from "./pages/PetownerPages/PetOwnerPaymentsHistory";
 import PetOwnerServicesAvailed from "./pages/PetownerPages/PetOwnerServicesAvailed";

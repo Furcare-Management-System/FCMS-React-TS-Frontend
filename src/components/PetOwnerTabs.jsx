@@ -38,9 +38,9 @@ export default function PetOWnerTabs({ petowner }) {
         >
           <TabList onChange={handleChange} aria-label="lab API tabs example">
             <Tab label="Pets" value="1" />
-            <Tab label="Services" value="6" />
-            <Tab label="Admission" value="7" />
             <Tab label="Appointments" value="2" />
+            <Tab label="Admission" value="7" />
+            <Tab label="Services" value="6" />
             <Tab label="To Pay Services" value="3" />
             <Tab label="Payables" value="4" />
             <Tab label="Payment History" value="8" />
