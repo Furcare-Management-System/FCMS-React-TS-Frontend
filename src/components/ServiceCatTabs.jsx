@@ -37,6 +37,7 @@ import Admissions from "../pages/Admissions";
 import Medicines from "../pages/Services/Medicines";
 import OtherTestResults from "../pages/Services/4DXTestResults";
 import Others from "../pages/Services/Others";
+import Products from "../pages/Services/Products";
 
 export default function ServiceCatBtns() {
   const [servicesCat, setServicesCat] = useState([]);
@@ -73,10 +74,6 @@ export default function ServiceCatBtns() {
       .get("/services/modified")
       .then(({ data }) => {
         setServices(data.data);
-        // const uniqueCategories = Array.from(
-        //   new Set(data.data.map((service) => service.category.category))
-        // );
-        // setServicesCat(uniqueCategories);
         setLoading(false);
       })
       .catch((error) => {
@@ -98,7 +95,7 @@ export default function ServiceCatBtns() {
     "Tick/Flea Treatment": <Medication />,
     Admission: <LocalHospital />,
     Others: <ControlPointDuplicate />,
-    Product: <Inventory />,
+    Products: <Inventory />,
   };
 
   const handleChange = (event, newValue) => {
@@ -382,6 +379,21 @@ export default function ServiceCatBtns() {
 
                   <TabPanel value="100">
                     <Medicines title="Medicines" />
+                  </TabPanel>
+                </TabContext>
+              )}
+              {selectedCategory === "Products" && (
+                <TabContext value="102">
+                  <TabList value="102" onChange={handleChange}>
+                    <Tab
+                      label="Products"
+                      value={"102"}
+                      onClick={() => setValue("102")}
+                    />
+                  </TabList>
+
+                  <TabPanel value="102">
+                    <Products title="Products" />
                   </TabPanel>
                 </TabContext>
               )}

@@ -33,9 +33,8 @@ export default function ProductModal(props) {
     medication,
     setMedication,
     errors,
-    category,
     isUpdate,
-    medicine,
+    pets,
   } = props;
 
   const handleFieldChange = (fieldName, value) => {
@@ -59,7 +58,7 @@ export default function ProductModal(props) {
       {!loading && (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
           <DialogTitle>
-            Other Product/s
+            Product
             <IconButton onClick={onClick} style={{ float: "right" }}>
               <Close color="primary"></Close>
             </IconButton>
@@ -75,11 +74,27 @@ export default function ProductModal(props) {
               </Box>
             )}
             <Stack spacing={2} margin={2}>
+              <FormControl>
+                <InputLabel>Pet</InputLabel>
+                <Select
+                  label="Pet"
+                  value={medication.pet_id || ""}
+                  onChange={(ev) =>
+                    handleFieldChange("pet_id", ev.target.value)
+                  }
+                  readOnly={isUpdate ? true : false}
+                  required
+                >
+                  {pets.map((item) => (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
               <TextField
-                value={medication.medicine_name || ""}
-                onChange={(ev) =>
-                  handleFieldChange("medicine_name", ev.target.value)
-                }
+                value={medication.service || ""}
+                onChange={(ev) => handleFieldChange("service", ev.target.value)}
                 label="Product Name"
                 required
               />
@@ -143,9 +158,9 @@ export default function ProductModal(props) {
                     label="Kilo"
                   />
                   <FormControlLabel
-                    value="Bot"
+                    value="Bottle"
                     control={<Radio />}
-                    label="Bot"
+                    label="Bottle"
                   />
                 </RadioGroup>
               </FormControl>
