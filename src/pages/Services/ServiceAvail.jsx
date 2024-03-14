@@ -24,12 +24,15 @@ export default function ServiceAvail({ sid, title }) {
   const columns = [
     { id: "Date", name: "Date" },
     { id: "Pet", name: "Pet" },
+    { id: "Quantity", name: "Quantity" },
+    { id: "Unit", name: "Unit" },
     { id: "Status", name: "Status" },
-    { id: "Actions", name: "Actions" },
+    // { id: "Actions", name: "Actions" },
   ];
 
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [submitloading, setSubmitloading] = useState(false);
 
   const [serviceavails, setServiceavails] = useState([]);
 
@@ -117,7 +120,6 @@ export default function ServiceAvail({ sid, title }) {
           Swal.fire({
             title: "Service was archived!",
             icon: "success",
-            confirmButtonColor: "black",
           }).then(() => {
             getServiceAvailed();
           });
@@ -128,26 +130,27 @@ export default function ServiceAvail({ sid, title }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    setSubmitloading(true);
 
     axiosClient
       .post(`/servicesavailed/petowner/${id}/service/${sid}`, service)
       .then((response) => {
         openServiceavail(false);
+        setSubmitloading(false);
         Swal.fire({
           title: "Success",
           text: response.data.message,
           icon: "success",
-          confirmButtonColor: "black",
         });
         getServiceAvailed();
       })
       .catch((response) => {
         openServiceavail(false);
+        setSubmitloading(false);
         Swal.fire({
           title: "Error",
           text: response.response.data.message,
           icon: "error",
-          confirmButtonColor: "black",
         });
       });
   };
@@ -159,15 +162,15 @@ export default function ServiceAvail({ sid, title }) {
   return (
     <>
       <Paper
-       sx={{
-        width: "105%",
-        padding: "10px",
+        sx={{
+          width: "105%",
+          padding: "10px",
           marginBottom: "-40px",
           marginLeft: "-25px",
-      }}
+        }}
         elevation={4}
       >
-         <Box
+        <Box
           padding={1}
           display="flex"
           flexDirection="row"
@@ -195,6 +198,7 @@ export default function ServiceAvail({ sid, title }) {
           setServiceavail={setServiceavail}
           errors={errors}
           sid={sid}
+          submitloading={submitloading}
         />
 
         <TableContainer sx={{ height: 380 }}>
@@ -242,8 +246,10 @@ export default function ServiceAvail({ sid, title }) {
                           {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
                         </TableCell>
                         <TableCell>{r.pet.name}</TableCell>
+                        <TableCell>{r.quantity}</TableCell>
+                        <TableCell>{r.unit}</TableCell>
                         <TableCell>{r.status}</TableCell>
-                        <TableCell>
+                        {/* <TableCell>
                           <Button
                             variant="contained"
                             size="small"
@@ -252,7 +258,7 @@ export default function ServiceAvail({ sid, title }) {
                           >
                             <Archive fontSize="small" />
                           </Button>
-                        </TableCell>
+                        </TableCell> */}
                       </TableRow>
                     ))}
               </TableBody>

@@ -109,7 +109,7 @@ export default function OtherTestResults({ sid, sname }) {
     { id: "Attachment", name: "Attachment" },
     { id: "Description", name: "Description" },
     { id: "Status", name: "Status" },
-    { id: "Actions", name: "Actions" },
+    // { id: "Actions", name: "Actions" },
   ];
 
   const [page, pagechange] = useState(0);
@@ -446,7 +446,7 @@ export default function OtherTestResults({ sid, sname }) {
                           </TableCell>
                           <TableCell>{r.description}</TableCell>
                           <TableCell>{r.servicesavailed.status}</TableCell>
-                          <TableCell>
+                          {/* <TableCell>
                             <Stack direction="row" spacing={2}>
                               <Button
                                 variant="contained"
@@ -465,7 +465,7 @@ export default function OtherTestResults({ sid, sname }) {
                                 <Archive fontSize="small" />
                               </Button>
                             </Stack>
-                          </TableCell>
+                          </TableCell> */}
                         </TableRow>
                       ))}
                 </TableBody>

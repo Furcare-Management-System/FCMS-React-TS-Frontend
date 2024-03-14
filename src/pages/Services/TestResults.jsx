@@ -46,6 +46,7 @@ export default function TestResults({ sid, sname }) {
   });
 
   const [error, setError] = useState(null);
+  const [submitloading, setSubmitloading] = useState(false);
 
   const getTestresults = () => {
     setTestresults([]);
@@ -157,11 +158,13 @@ export default function TestResults({ sid, sname }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    setSubmitloading(true);
 
     if (testresult.id) {
       axiosClient
         .put(`/testresults/${testresult.id}`, testresult)
         .then(() => {
+          setSubmitloading(false);
           setNotification("Test result was successfully updated.");
           openchange(false);
           getTestresults();
@@ -171,6 +174,7 @@ export default function TestResults({ sid, sname }) {
           if (response && response.status == 422) {
             setErrors(response.data.errors);
           }
+          setSubmitloading(false);
         });
     } else {
       if (!testresult.attachment) {
@@ -188,6 +192,7 @@ export default function TestResults({ sid, sname }) {
           },
         })
         .then(() => {
+          setSubmitloading(false);
           setNotification("Test result was successfully saved.");
           openchange(false);
           setTestresult({});
@@ -198,6 +203,7 @@ export default function TestResults({ sid, sname }) {
           if (response && response.status == 422) {
             setErrors(response.data.errors);
           }
+          setSubmitloading(false);
         });
     }
   };
@@ -252,6 +258,7 @@ export default function TestResults({ sid, sname }) {
 
   const submitImage = (e) => {
     e.preventDefault();
+    setSubmitloading(true);
 
     if (!result.attachment) {
       setUploadError("Please select an image attachment to upload.");
@@ -269,6 +276,7 @@ export default function TestResults({ sid, sname }) {
           },
         })
         .then((response) => {
+          setSubmitloading(false);
           setNotification(response.data.success);
           setUpload(false);
           setResult({});
@@ -276,9 +284,11 @@ export default function TestResults({ sid, sname }) {
         })
         .catch((response) => {
           setUploadError(response.data.message);
+          setSubmitloading(false);
         });
     } catch (error) {
       setUploadError("Failed to upload the attachment.");
+      setSubmitloading(false);
     }
   };
 
@@ -289,12 +299,12 @@ export default function TestResults({ sid, sname }) {
   return (
     <>
       <Paper
-       sx={{
-        width: "105%",
-        padding: "10px",
+        sx={{
+          width: "105%",
+          padding: "10px",
           marginBottom: "-40px",
           marginLeft: "-25px",
-      }}
+        }}
         elevation={4}
       >
         <Box
@@ -302,14 +312,14 @@ export default function TestResults({ sid, sname }) {
             minWidth: "90%",
           }}
         >
-           <Box
-          padding={1}
-          display="flex"
-          flexDirection="row"
-          justifyContent="space-between"
-        >
+          <Box
+            padding={1}
+            display="flex"
+            flexDirection="row"
+            justifyContent="space-between"
+          >
             <Button
-            onClick={openModal}
+              onClick={openModal}
               variant="contained"
               color="success"
               size="small"
@@ -335,6 +345,7 @@ export default function TestResults({ sid, sname }) {
             error={error}
             servicename={sname}
             errormessage={errormessage}
+            submitloading={submitloading}
           />
           <AttachmentModal
             open={upload}
@@ -343,6 +354,7 @@ export default function TestResults({ sid, sname }) {
             handleImage={handleImage}
             submitImage={submitImage}
             uploadError={uploadError}
+            submitloading={submitloading}
           />
           <EnlargeImageModal
             open={showImage}
@@ -443,8 +455,8 @@ export default function TestResults({ sid, sname }) {
             </Table>
           </TableContainer>
           <TablePagination
-          sx={{ marginBottom: "-10px" }}
-          rowsPerPageOptions={[10, 15, 25]}
+            sx={{ marginBottom: "-10px" }}
+            rowsPerPageOptions={[10, 15, 25]}
             rowsPerPage={rowperpage}
             page={page}
             count={testresults.length}

@@ -58,6 +58,7 @@ export default function Vaccination({ sid, sname }) {
 
   const [openAdd, setOpenAdd] = useState(false);
   const [modalloading, setModalloading] = useState(false);
+  const [submitloading, setSubmitloading] = useState(false);
 
   const { id } = useParams();
 
@@ -168,11 +169,13 @@ export default function Vaccination({ sid, sname }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setSubmitloading(true);
 
     if (vaccinationlog.id) {
       axiosClient
         .put(`/vaccinationlogs/${vaccinationlog.id}`, vaccinationlog)
         .then(() => {
+          setSubmitloading(false);
           setNotification("Vaccination was successfully updated.");
           setOpenAdd(false);
           getVaccination();
@@ -182,11 +185,13 @@ export default function Vaccination({ sid, sname }) {
           if (response && response.status === 422) {
             setErrors(response.data.errors);
           }
+          setSubmitloading(false);
         });
     } else {
       axiosClient
         .post(`/vaccinationlogs/petowner/${id}/service/${sid}`, vaccinationlog)
         .then(() => {
+          setSubmitloading(false);
           setNotification("Vaccination was successfully saved.");
           setOpenAdd(false);
           getVaccination();
@@ -196,6 +201,7 @@ export default function Vaccination({ sid, sname }) {
           if (response && response.status === 422) {
             setErrors(response.data.errors);
           }
+          setSubmitloading(false);
         });
     }
   };
@@ -249,6 +255,7 @@ export default function Vaccination({ sid, sname }) {
             errors={errors}
             isUpdate={vaccinationlog.id}
             servicename={sname}
+            submitloading={submitloading}
           />
 
           {notification && <Alert severity="success">{notification}</Alert>}
@@ -325,14 +332,14 @@ export default function Vaccination({ sid, sname }) {
                                 <Edit fontSize="small" />
                               </Button>
 
-                              <Button
+                              {/* <Button
                                 variant="contained"
                                 size="small"
                                 color="error"
                                 onClick={() => handleArchive(record)}
                               >
                                 <Archive fontSize="small" />
-                              </Button>
+                              </Button> */}
                             </Stack>
                           </TableCell>
                         </TableRow>
@@ -342,8 +349,8 @@ export default function Vaccination({ sid, sname }) {
             </Table>
           </TableContainer>
           <TablePagination
-          sx={{ marginBottom: "-10px" }}
-          rowsPerPageOptions={[10, 15, 25]}
+            sx={{ marginBottom: "-10px" }}
+            rowsPerPageOptions={[10, 15, 25]}
             rowsPerPage={rowsPerPage}
             page={page}
             count={vaccinationlogs.length}

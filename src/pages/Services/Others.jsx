@@ -209,12 +209,12 @@ export default function Others({ sname }) {
   return (
     <>
       <Paper
-       sx={{
-        width: "105%",
-        padding: "10px",
+        sx={{
+          width: "105%",
+          padding: "10px",
           marginBottom: "-40px",
           marginLeft: "-25px",
-      }}
+        }}
         elevation={4}
       >
         <Box
@@ -332,8 +332,8 @@ export default function Others({ sname }) {
             </Table>
           </TableContainer>
           <TablePagination
-          sx={{ marginBottom: "-10px" }}
-          rowsPerPageOptions={[10, 15, 25]}
+            sx={{ marginBottom: "-10px" }}
+            rowsPerPageOptions={[10, 15, 25]}
             rowsPerPage={rowperpage}
             page={page}
             count={testresults.length}

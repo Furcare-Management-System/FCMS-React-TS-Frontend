@@ -67,6 +67,7 @@ export default function Deworming({ sid }) {
   const [openAdd, setOpenAdd] = useState(false);
   const [pet, setPet] = useState([]);
   const [modalloading, setModalloading] = useState(false);
+  const [submitloading, setSubmitloading] = useState(false);
 
   const getDeworming = () => {
     setMessage(null);
@@ -148,11 +149,13 @@ export default function Deworming({ sid }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    setSubmitloading(true);
 
     if (deworminglog.id) {
       axiosClient
         .put(`/deworminglogs/${deworminglog.id}`, deworminglog)
         .then(() => {
+          setSubmitloading(false);
           setNotification("Pet deworming was successfully updated.");
           setOpenAdd(false);
           getDeworming();
@@ -162,11 +165,13 @@ export default function Deworming({ sid }) {
           if (response && response.status == 422) {
             setErrors(response.data.errors);
           }
+          setSubmitloading(false);
         });
     } else {
       axiosClient
         .post(`/deworminglogs/petowner/${id}/service/${sid}`, deworminglog)
         .then(() => {
+          setSubmitloading(false);
           setNotification("Pet deworming was successfully saved.");
           setOpenAdd(false);
           getDeworming();
@@ -176,6 +181,7 @@ export default function Deworming({ sid }) {
           if (response && response.status === 422) {
             setErrors(response.data.errors);
           }
+          setSubmitloading(false);
         });
     }
   };
@@ -187,15 +193,15 @@ export default function Deworming({ sid }) {
   return (
     <>
       <Paper
-       sx={{
-        width: "105%",
-        padding: "10px",
+        sx={{
+          width: "105%",
+          padding: "10px",
           marginBottom: "-40px",
           marginLeft: "-25px",
-      }}
+        }}
         elevation={4}
       >
-         <Box
+        <Box
           padding={1}
           display="flex"
           flexDirection="row"
@@ -224,6 +230,7 @@ export default function Deworming({ sid }) {
           errors={errors}
           isUpdate={deworminglog.id}
           pet={pet}
+          submitloading={submitloading}
         />
 
         {/* <Button
@@ -301,14 +308,14 @@ export default function Deworming({ sid }) {
                               <Edit fontSize="small" />
                             </Button>
 
-                            <Button
+                            {/* <Button
                               variant="contained"
                               size="small"
                               color="error"
                               onClick={() => onArchive(r)}
                             >
                               <Archive fontSize="small" />
-                            </Button>
+                            </Button> */}
                           </Stack>
                         </TableCell>
                       </TableRow>

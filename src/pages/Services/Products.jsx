@@ -18,6 +18,7 @@ import {
 import { Add, Archive, Edit } from "@mui/icons-material";
 import { useStateContext } from "../../contexts/ContextProvider";
 import ProductModal from "../../components/modals/ProductModal";
+import { format } from "date-fns";
 
 export default function Products({ sid }) {
   const { notification, setNotification } = useStateContext();
@@ -45,11 +46,13 @@ export default function Products({ sid }) {
     quantity: null,
     unit: "",
     pet_id: null,
+    unit_price: null,
   });
   const [category, setCategory] = useState([]);
   const [openAdd, setOpenAdd] = useState(false);
   const [modalloading, setModalloading] = useState(false);
   const [pets, setPets] = useState([]);
+  const [submitloading, setSubmitloading] = useState(false);
 
   const { id } = useParams();
 
@@ -136,11 +139,13 @@ export default function Products({ sid }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setSubmitloading(true);
 
     if (medication.id) {
       axiosClient
         .put(`/medications/${medication.id}`, medication)
         .then(() => {
+          setSubmitloading(false);
           setOpenAdd(false);
           getMedications();
         })
@@ -149,11 +154,13 @@ export default function Products({ sid }) {
           if (response && response.status === 422) {
             setErrors(response.data.errors);
           }
+          setSubmitloading(false);
         });
     } else {
       axiosClient
         .post(`/servicesavailed/store-product/petowner/${id}`, medication)
         .then(() => {
+          setSubmitloading(false);
           setOpenAdd(false);
           getMedications();
         })
@@ -162,6 +169,7 @@ export default function Products({ sid }) {
           if (response && response.status === 422) {
             setErrors(response.data.errors);
           }
+          setSubmitloading(false);
         });
     }
   };
@@ -217,6 +225,7 @@ export default function Products({ sid }) {
             category={category}
             isUpdate={medication.id}
             pets={pets}
+            submitloading={submitloading}
           />
 
           {notification && <Alert severity="success">{notification}</Alert>}
@@ -271,7 +280,12 @@ export default function Products({ sid }) {
                       )
                       .map((record) => (
                         <TableRow hover role="checkbox" key={record.id}>
-                          <TableCell>{record.date}</TableCell>
+                          <TableCell>
+                            {format(
+                              new Date(record.date),
+                              "MMMM d, yyyy h:mm a"
+                            )}
+                          </TableCell>
                           <TableCell>{record.pet.name}</TableCell>
                           <TableCell>{record.service.service}</TableCell>
                           <TableCell>{record.quantity}</TableCell>

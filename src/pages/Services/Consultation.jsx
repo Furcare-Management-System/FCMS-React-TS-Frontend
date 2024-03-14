@@ -34,7 +34,7 @@ export default function Consultation({ sid }) {
   const [notification, setNotification] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [submitloading, setSubmitloading] = useState(false);
 
   const [consultations, setConsultations] = useState([]);
   const [pets, setPets] = useState([]);
@@ -132,11 +132,13 @@ export default function Consultation({ sid }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    setSubmitloading(true);
 
     if (consultation.id) {
       axiosClient
         .put(`/diagnosis/${consultation.id}`, consultation)
         .then(() => {
+          setSubmitloading(false);
           setNotification("Consultation diagnosis was successfully updated.");
           openConsultation(false);
           getConsultations();
@@ -146,11 +148,13 @@ export default function Consultation({ sid }) {
           if (response && response.status == 422) {
             setErrors(response.data.errors);
           }
+          setSubmitloading(false);
         });
     } else {
       axiosClient
         .post(`/diagnosis/petowner/${id}/avail/${sid}`, consultation)
         .then(() => {
+          setSubmitloading(false);
           setNotification("Consultation diagnosis was successfully saved.");
           openConsultation(false);
           getConsultations();
@@ -162,6 +166,7 @@ export default function Consultation({ sid }) {
           } else if (response && response.status === 404) {
             console.log(response.data.message);
           }
+          setSubmitloading(false);
         });
     }
   };
@@ -208,6 +213,7 @@ export default function Consultation({ sid }) {
           setDiagnosis={setConsultation}
           errors={errors}
           isUpdate={consultation.id}
+          submitloading={submitloading}
         />
 
         {notification && <Alert severity="success">{notification}</Alert>}
@@ -229,7 +235,10 @@ export default function Consultation({ sid }) {
             {loading && (
               <TableBody>
                 <TableRow>
-                  <TableCell colSpan={5} style={{ textAlign: "center" }}>
+                  <TableCell
+                    colSpan={columns.length}
+                    style={{ textAlign: "center" }}
+                  >
                     Loading...
                   </TableCell>
                 </TableRow>
@@ -239,7 +248,10 @@ export default function Consultation({ sid }) {
             {!loading && message && (
               <TableBody>
                 <TableRow>
-                  <TableCell colSpan={6} style={{ textAlign: "center" }}>
+                  <TableCell
+                    colSpan={columns.length}
+                    style={{ textAlign: "center" }}
+                  >
                     {message}
                   </TableCell>
                 </TableRow>
@@ -273,7 +285,7 @@ export default function Consultation({ sid }) {
                               <Edit fontSize="small" />
                             </Button>
 
-                            {r.servicesavailed.status !== "Completed" && (
+                            {/* {r.servicesavailed.status !== "Completed" && (
                               <Button
                                 variant="contained"
                                 size="small"
@@ -282,7 +294,7 @@ export default function Consultation({ sid }) {
                               >
                                 <Delete fontSize="small" />
                               </Button>
-                            )}
+                            )} */}
                           </Stack>
                         </TableCell>
                       </TableRow>
