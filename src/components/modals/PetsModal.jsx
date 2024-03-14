@@ -22,6 +22,7 @@ import {
   Select,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import { Add, Archive, Close, Delete, Edit } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
@@ -40,7 +41,6 @@ export default function PetsModal(props) {
     pet,
     setPet,
     errors,
-    isUpdate,
     submitloading,
   } = props;
 
@@ -99,8 +99,12 @@ export default function PetsModal(props) {
 
         {!loading && (
           <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-            <DialogTitle>
-              {isUpdate ? "Update Pet" : "Add Pet"}
+            <DialogTitle
+              display={"flex"}
+              justifyContent={"space-between"}
+              alignItems={"center"}
+            >
+              <Typography variant="h5">Pet</Typography>
               <IconButton onClick={onClick} style={{ float: "right" }}>
                 <Close color="primary"></Close>
               </IconButton>

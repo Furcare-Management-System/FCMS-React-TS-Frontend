@@ -20,6 +20,7 @@ import {
   Select,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { format } from "date-fns";
@@ -58,8 +59,12 @@ export default function OthersModal(props) {
 
         {!loading && (
           <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-            <DialogTitle>
-              {isUpdate ? "Update Other Services" : "Add Other Services"}
+            <DialogTitle
+              display={"flex"}
+              justifyContent={"space-between"}
+              alignItems={"center"}
+            >
+              <Typography variant="h5">Other Services</Typography>
               <IconButton onClick={onClick} style={{ float: "right" }}>
                 <Close color="primary"></Close>
               </IconButton>
@@ -94,6 +99,8 @@ export default function OthersModal(props) {
                       onChange={(ev) =>
                         handleFieldChange("unit_price", ev.target.value)
                       }
+                      required
+                      inputProps={{ min: "1" }}
                     />
                   )}
                   {isUpdate ? (

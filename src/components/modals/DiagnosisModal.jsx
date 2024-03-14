@@ -16,9 +16,11 @@ import {
   Select,
   MenuItem,
   InputAdornment,
+  Typography,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { format } from "date-fns";
+import { LoadingButton } from "@mui/lab";
 
 export default function DiagnosisModal(props) {
   const {
@@ -31,6 +33,7 @@ export default function DiagnosisModal(props) {
     errors,
     pets,
     isUpdate,
+    submitloading,
   } = props;
 
   const handleFieldChange = (fieldName, value) => {
@@ -48,8 +51,12 @@ export default function DiagnosisModal(props) {
       </Backdrop>
       {!loading && (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-          <DialogTitle>
-            Consultation
+          <DialogTitle
+            display={"flex"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+          >
+            <Typography variant="h5">Consultation</Typography>
             <IconButton onClick={onClose} style={{ float: "right" }}>
               <Close color="primary"></Close>
             </IconButton>
@@ -80,6 +87,8 @@ export default function DiagnosisModal(props) {
                     onChange={(ev) =>
                       handleFieldChange("unit_price", ev.target.value)
                     }
+                    required
+                    inputProps={{ min: "1" }}
                   />
                 )}
                 {isUpdate ? (
@@ -87,7 +96,10 @@ export default function DiagnosisModal(props) {
                     variant="outlined"
                     id="Date"
                     label="Date"
-                    value={format(new Date(diagnosis.date), "MMMM d, yyyy h:mm a")}
+                    value={format(
+                      new Date(diagnosis.date),
+                      "MMMM d, yyyy h:mm a"
+                    )}
                     InputLabelProps={{ shrink: true }}
                     InputProps={{
                       readOnly: true,
@@ -158,9 +170,13 @@ export default function DiagnosisModal(props) {
                   }} // Set minimum date to today
                   required
                 />
-                <Button color="primary" variant="contained" type="submit">
+                <LoadingButton
+                  loading={submitloading}
+                  type="submit"
+                  variant="contained"
+                >
                   Save
-                </Button>
+                </LoadingButton>
               </Stack>
             </form>
           </DialogContent>

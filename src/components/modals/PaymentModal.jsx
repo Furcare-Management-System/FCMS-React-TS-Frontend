@@ -86,8 +86,12 @@ export default function PaymentModal(props) {
 
         {!loading && (
           <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
-            <DialogTitle>
-              Payment Details
+            <DialogTitle
+              display={"flex"}
+              justifyContent={"space-between"}
+              alignItems={"center"}
+            >
+              <Typography variant="h5"> Payment Details</Typography>
               <IconButton onClick={onClick} style={{ float: "right" }}>
                 <Close color="primary"></Close>
               </IconButton>
@@ -189,6 +193,7 @@ export default function PaymentModal(props) {
                     required
                     size="small"
                     type="number"
+                    inputProps={{ min: "1" }}
                   />
                   <FormControl>
                     <InputLabel>Type of Payment</InputLabel>

@@ -20,8 +20,10 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
+  Typography,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
 
 export default function MedicineModal(props) {
   const {
@@ -35,7 +37,7 @@ export default function MedicineModal(props) {
     errors,
     pets,
     isUpdate,
-    medicine,
+    submitloading,
   } = props;
 
   const handleFieldChange = (fieldName, value) => {
@@ -50,8 +52,12 @@ export default function MedicineModal(props) {
       </Backdrop>
       {!loading && (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-          <DialogTitle>
-            Medicine
+          <DialogTitle
+              display={"flex"}
+              justifyContent={"space-between"}
+              alignItems={"center"}
+            >
+          <Typography variant="h5">Medicine</Typography>
             <IconButton onClick={onClick} style={{ float: "right" }}>
               <Close color="primary"></Close>
             </IconButton>
@@ -66,8 +72,9 @@ export default function MedicineModal(props) {
                 ))}
               </Box>
             )}
-            <Stack spacing={2} margin={2}>
-              {/* {!isUpdate && (
+            <form onSubmit={(e) => onSubmit(e)}>
+              <Stack spacing={2} margin={2}>
+                {/* {!isUpdate && (
                 <FormControl>
                   <InputLabel>Medicine Category</InputLabel>
                   <Select
@@ -87,105 +94,113 @@ export default function MedicineModal(props) {
                   </Select>
                 </FormControl>
               )} */}
-              <FormControl>
-                <InputLabel>Pet</InputLabel>
-                <Select
-                  label="Pet"
-                  value={medication.pet_id || ""}
+                <FormControl>
+                  <InputLabel>Pet</InputLabel>
+                  <Select
+                    label="Pet"
+                    value={medication.pet_id || ""}
+                    onChange={(ev) =>
+                      handleFieldChange("pet_id", ev.target.value)
+                    }
+                    readOnly={isUpdate ? true : false}
+                    required
+                  >
+                    {pets.map((item) => (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <TextField
+                  value={medication.service || ""}
                   onChange={(ev) =>
-                    handleFieldChange("pet_id", ev.target.value)
+                    handleFieldChange("service", ev.target.value)
                   }
-                  readOnly={isUpdate ? true : false}
+                  label="Medicine Name"
                   required
-                >
-                  {pets.map((item) => (
-                    <MenuItem key={item.id} value={item.id}>
-                      {item.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <TextField
-                value={medication.service || ""}
-                onChange={(ev) => handleFieldChange("service", ev.target.value)}
-                label="Medicine Name"
-                required
-              />
-              {/* <TextField
+                />
+                {/* <TextField
                 value={medication.unit_price || ""}
                 onChange={(ev) => handleFieldChange("unit_price", ev.target.value)}
                 label="Medicine Price"
                 type="number"
                 required
               /> */}
-              {!isUpdate && (
+                {!isUpdate && (
+                  <TextField
+                    value={medication.unit_price || ""}
+                    onChange={(ev) =>
+                      handleFieldChange("unit_price", ev.target.value)
+                    }
+                    label="Medicine Price"
+                    type="number"
+                    required
+                    inputProps={{ min: "1" }}
+                  />
+                )}
                 <TextField
-                  value={medication.unit_price || ""}
+                  value={medication.quantity || ""}
                   onChange={(ev) =>
-                    handleFieldChange("unit_price", ev.target.value)
+                    handleFieldChange("quantity", ev.target.value)
                   }
-                  label="Medicine Price"
+                  label="Quantity"
                   type="number"
                   required
+                  inputProps={{ min: "1" }}
                 />
-              )}
-              <TextField
-                value={medication.quantity || ""}
-                onChange={(ev) =>
-                  handleFieldChange("quantity", ev.target.value)
-                }
-                label="Quantity"
-                type="number"
-                required
-              />
-              <FormControl>
-                <FormLabel id="unit-radio-btn">Unit</FormLabel>
-                <RadioGroup
-                  row
-                  value={medication.unit || ``}
-                  onChange={(ev) => handleFieldChange("unit", ev.target.value)}
-                  // required
+                <FormControl>
+                  <FormLabel id="unit-radio-btn">Unit</FormLabel>
+                  <RadioGroup
+                    row
+                    value={medication.unit || ``}
+                    onChange={(ev) =>
+                      handleFieldChange("unit", ev.target.value)
+                    }
+                    // required
+                  >
+                    <FormControlLabel
+                      value="Shot"
+                      control={<Radio />}
+                      label="Shot"
+                    />
+                    <FormControlLabel
+                      value="Tablet"
+                      control={<Radio />}
+                      label="Tablet"
+                    />
+                    <FormControlLabel
+                      value="Capsule"
+                      control={<Radio />}
+                      label="Capsule"
+                    />
+                    <FormControlLabel
+                      value="Piece"
+                      control={<Radio />}
+                      label="Piece"
+                    />
+                    <FormControlLabel
+                      value="Set"
+                      control={<Radio />}
+                      label="Set"
+                    />
+                    <FormControlLabel
+                      value="Bottle"
+                      control={<Radio />}
+                      label="Bottle"
+                    />
+                  </RadioGroup>
+                </FormControl>
+                <LoadingButton
+                  loading={submitloading}
+                  type="submit"
+                  variant="contained"
                 >
-                  <FormControlLabel
-                    value="Shot"
-                    control={<Radio />}
-                    label="Shot"
-                  />
-                  <FormControlLabel
-                    value="Tablet"
-                    control={<Radio />}
-                    label="Tablet"
-                  />
-                  <FormControlLabel
-                    value="Capsule"
-                    control={<Radio />}
-                    label="Capsule"
-                  />
-                  <FormControlLabel
-                    value="Piece"
-                    control={<Radio />}
-                    label="Piece"
-                  />
-                  <FormControlLabel
-                    value="Set"
-                    control={<Radio />}
-                    label="Set"
-                  />
-                  <FormControlLabel
-                    value="Bottle"
-                    control={<Radio />}
-                    label="Bottle"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </Stack>
+                  Add
+                </LoadingButton>
+              </Stack>
+            </form>
           </DialogContent>
-
-          <DialogActions sx={{ p: 2 }}>
-            <Button variant="contained" onClick={onSubmit} color="success">
-              {isUpdate ? "save" : "add"}
-            </Button>
-          </DialogActions>
         </Dialog>
       )}
     </>

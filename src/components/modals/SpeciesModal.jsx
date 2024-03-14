@@ -13,6 +13,7 @@ import {
   Select,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 
@@ -43,8 +44,15 @@ export default function SpeciesModal(props) {
       </Backdrop>
       {!loading && (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-          <DialogTitle>
-            {isUpdate ? "Update Specie" : "Add Specie"}
+          <DialogTitle
+            display={"flex"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+          >
+            <Typography variant="h5">
+              {" "}
+              {isUpdate ? "Update Specie" : "Add Specie"}
+            </Typography>
             <IconButton onClick={onClick} style={{ float: "right" }}>
               <Close color="primary"></Close>
             </IconButton>

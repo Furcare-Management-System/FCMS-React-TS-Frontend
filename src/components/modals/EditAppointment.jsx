@@ -20,6 +20,7 @@ import {
   Select,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import { Cancel, Check, Close } from "@mui/icons-material";
 
@@ -63,7 +64,7 @@ export default function EditAppointment(props) {
 
   const today = new Date();
   today.setHours(8, 0, 0, 0);
-  
+
   return (
     <>
       <Backdrop open={loading} style={{ zIndex: 999 }}>
@@ -71,8 +72,15 @@ export default function EditAppointment(props) {
       </Backdrop>
       {!loading && (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-          <DialogTitle>
-            {isUpdate ? "Update Appointment" : "Create Appointment"}
+          <DialogTitle
+            display={"flex"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+          >
+            <Typography variant="h5">
+              {" "}
+              {isUpdate ? "Update Appointment" : "Create Appointment"}
+            </Typography>
             <IconButton onClick={onClick} style={{ float: "right" }}>
               <Close color="primary"></Close>
             </IconButton>
@@ -126,7 +134,7 @@ export default function EditAppointment(props) {
                   onChange={(ev) => handleFieldChange("date", ev.target.value)}
                   InputLabelProps={{ shrink: true }}
                   inputProps={{
-                    min:  new Date().toISOString().split("T")[0] + "T00:00",
+                    min: new Date().toISOString().split("T")[0] + "T00:00",
                   }}
                   required
                 />
@@ -178,13 +186,11 @@ export default function EditAppointment(props) {
                       <MenuItem
                         key={name.id}
                         value={name.id}
-                        sx={{ml:5, justifyContent: "space-between" }}
+                        sx={{ ml: 5, justifyContent: "space-between" }}
                         disabled={name.isAvailable === 0}
                       >
                         {name.service}
-                        {selectedServices.includes(name) ? (
-                          <Check  />
-                        ) : null}
+                        {selectedServices.includes(name) ? <Check /> : null}
                       </MenuItem>,
                     ])}
                   </Select>

@@ -12,6 +12,7 @@ import {
   Stack,
   TextField,
   InputAdornment,
+  Typography,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { format } from "date-fns";
@@ -44,8 +45,12 @@ export default function AdmissionModal(props) {
       </Backdrop>
       {!loading && (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-          <DialogTitle>
-            Client Deposit
+          <DialogTitle
+            display={"flex"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+          >
+            <Typography variant="h5">Client Deposit</Typography>
             <IconButton onClick={onClose} style={{ float: "right" }}>
               <Close color="primary"></Close>
             </IconButton>
@@ -67,7 +72,10 @@ export default function AdmissionModal(props) {
                     variant="outlined"
                     id="Date"
                     label="Date"
-                    value={format(new Date(clientservice.date), "MMMM d, yyyy h:mm a")}
+                    value={format(
+                      new Date(clientservice.date),
+                      "MMMM d, yyyy h:mm a"
+                    )}
                     InputLabelProps={{ shrink: true }}
                     InputProps={{
                       readOnly: true,
@@ -116,7 +124,12 @@ export default function AdmissionModal(props) {
                   required
                 />
 
-                <Button color="primary" variant="contained" type="submit" target="_blank">
+                <Button
+                  color="primary"
+                  variant="contained"
+                  type="submit"
+                  target="_blank"
+                >
                   Save
                 </Button>
               </Stack>

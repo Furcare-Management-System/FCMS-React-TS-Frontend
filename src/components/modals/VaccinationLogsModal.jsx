@@ -25,6 +25,7 @@ import {
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { format } from "date-fns";
+import { LoadingButton } from "@mui/lab";
 
 export default function VaccinationLogsModal(props) {
   const {
@@ -41,7 +42,8 @@ export default function VaccinationLogsModal(props) {
     errors,
     pet,
     isUpdate,
-    servicename
+    servicename,
+    submitloading,
   } = props;
 
   const handleFieldChange = (fieldName, value) => {
@@ -59,8 +61,12 @@ export default function VaccinationLogsModal(props) {
 
       {!loading && (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-          <DialogTitle>
-            {isUpdate ? "Update Vaccination" : "Add Vaccination"}
+          <DialogTitle
+            display={"flex"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+          >
+            <Typography variant="h5">Vaccination</Typography>
             <IconButton onClick={onClick} style={{ float: "right" }}>
               <Close color="primary"></Close>
             </IconButton>
@@ -77,28 +83,32 @@ export default function VaccinationLogsModal(props) {
             )}
             <form onSubmit={(e) => onSubmit(e)}>
               <Stack spacing={2} margin={2}>
-              {!isUpdate && (
-                    <TextField
-                      label={`${servicename} Price`}
-                      type="number"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">₱</InputAdornment>
-                        ),
-                      }}
-                      value={vaccination.unit_price || ""}
-                      onChange={(ev) =>
-                        handleFieldChange("unit_price", ev.target.value)
-                      }
-                      required
-                    />
-                  )}
-                    {isUpdate ? (
+                {!isUpdate && (
+                  <TextField
+                    label={`${servicename} Price`}
+                    type="number"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">₱</InputAdornment>
+                      ),
+                    }}
+                    value={vaccination.unit_price || ""}
+                    onChange={(ev) =>
+                      handleFieldChange("unit_price", ev.target.value)
+                    }
+                    required
+                    inputProps={{ min: "1" }}
+                  />
+                )}
+                {isUpdate ? (
                   <TextField
                     variant="outlined"
                     id="Date"
                     label="Date"
-                    value={format(new Date(vaccination.date), "MMMM d, yyyy h:mm a")}
+                    value={format(
+                      new Date(vaccination.date),
+                      "MMMM d, yyyy h:mm a"
+                    )}
                     InputLabelProps={{ shrink: true }}
                     InputProps={{
                       readOnly: true,
@@ -173,10 +183,12 @@ export default function VaccinationLogsModal(props) {
 
                 <Box border={1} p={1}>
                   <Table>
-                    <TableBody >
+                    <TableBody>
                       {againsts.map((item) => (
                         <TableRow key={item.id}>
-                          <TableCell size="small" sx={{fontWeight:"bold"}}>{item.acronym}</TableCell>
+                          <TableCell size="small" sx={{ fontWeight: "bold" }}>
+                            {item.acronym}
+                          </TableCell>
                           <TableCell size="small">{item.description}</TableCell>
                         </TableRow>
                       ))}
@@ -235,14 +247,17 @@ export default function VaccinationLogsModal(props) {
                   }
                   InputLabelProps={{ shrink: true }}
                   inputProps={{
-                    min: new Date().toISOString().split("T")[0] + "T00:00",
+                    min: new Date().toISOString().split("T")[0],
                   }} // Set minimum date to today
                   required
                 />
-
-                <Button color="primary" variant="contained" type="submit">
+                <LoadingButton
+                  loading={submitloading}
+                  type="submit"
+                  variant="contained"
+                >
                   Save
-                </Button>
+                </LoadingButton>
               </Stack>
             </form>
           </DialogContent>

@@ -16,9 +16,11 @@ import {
   Select,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { format } from "date-fns";
+import { LoadingButton } from "@mui/lab";
 
 export default function DewormingLogsModal(props) {
   const {
@@ -34,6 +36,7 @@ export default function DewormingLogsModal(props) {
     setDeworminglog,
     errors,
     isUpdate,
+    submitloading,
   } = props;
 
   const handleFieldChange = (fieldName, value) => {
@@ -52,8 +55,12 @@ export default function DewormingLogsModal(props) {
 
       {!loading && (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-          <DialogTitle>
-            {isUpdate ? "Update Deworming" : "Add Deworming"}
+          <DialogTitle
+            display={"flex"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+          >
+            <Typography variant="h5">Deworming</Typography>
             <IconButton onClick={onClick} style={{ float: "right" }}>
               <Close color="primary"></Close>
             </IconButton>
@@ -70,28 +77,32 @@ export default function DewormingLogsModal(props) {
             )}
             <form onSubmit={(e) => onSubmit(e)}>
               <Stack spacing={2} margin={2}>
-              {!isUpdate && (
-                    <TextField
-                      label={`Deworming Price`}
-                      type="number"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">₱</InputAdornment>
-                        ),
-                      }}
-                      value={deworminglog.unit_price || ""}
-                      onChange={(ev) =>
-                        handleFieldChange("unit_price", ev.target.value)
-                      }
-                      required
-                    />
-                  )}
+                {!isUpdate && (
+                  <TextField
+                    label={`Deworming Price`}
+                    type="number"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">₱</InputAdornment>
+                      ),
+                    }}
+                    value={deworminglog.unit_price || ""}
+                    onChange={(ev) =>
+                      handleFieldChange("unit_price", ev.target.value)
+                    }
+                    required
+                    inputProps={{ min: "1" }}
+                  />
+                )}
                 {isUpdate ? (
                   <TextField
                     variant="outlined"
                     id="Date"
                     label="Date"
-                    value={format(new Date(deworminglog.date), "MMMM d, yyyy h:mm a")}
+                    value={format(
+                      new Date(deworminglog.date),
+                      "MMMM d, yyyy h:mm a"
+                    )}
                     InputLabelProps={{ shrink: true }}
                     InputProps={{
                       readOnly: true,
@@ -206,10 +217,13 @@ export default function DewormingLogsModal(props) {
                   InputLabelProps={{ shrink: true }}
                   required
                 />
-
-                <Button color="primary" variant="contained" type="submit">
+                <LoadingButton
+                  loading={submitloading}
+                  type="submit"
+                  variant="contained"
+                >
                   Save
-                </Button>
+                </LoadingButton>
               </Stack>
             </form>
           </DialogContent>

@@ -16,9 +16,11 @@ import {
   Select,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { format } from "date-fns";
+import { LoadingButton } from "@mui/lab";
 
 export default function TestResultModal(props) {
   const {
@@ -37,6 +39,7 @@ export default function TestResultModal(props) {
     servicename,
     errormessage,
     othertests,
+    submitloading,
   } = props;
 
   const handleFieldChange = (fieldName, value) => {
@@ -56,12 +59,22 @@ export default function TestResultModal(props) {
 
         {!loading && (
           <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-            <DialogTitle>
-              {isUpdate ? "Update Test Result" : "Add Test Result"}
+            <DialogTitle
+              display={"flex"}
+              justifyContent={"space-between"}
+              alignItems={"center"}
+            >
+              <Typography variant="h5">Test Result</Typography>
               <IconButton onClick={onClick} style={{ float: "right" }}>
                 <Close color="primary"></Close>
               </IconButton>
             </DialogTitle>
+            {/* <DialogTitle>
+              {isUpdate ? "Update Test Result" : "Add Test Result"}
+              <IconButton onClick={onClick} style={{ float: "right" }}>
+                <Close color="primary"></Close>
+              </IconButton>
+            </DialogTitle> */}
             <DialogContent>
               {errors && (
                 <Box>
@@ -92,35 +105,40 @@ export default function TestResultModal(props) {
                       onChange={(ev) =>
                         handleFieldChange("unit_price", ev.target.value)
                       }
+                      required
+                      inputProps={{ min: "1" }}
                     />
                   )}
-                    {isUpdate ? (
-                  <TextField
-                    variant="outlined"
-                    id="Date"
-                    label="Date"
-                    value={format(new Date(testresult.date), "MMMM d, yyyy h:mm a")}
-                    InputLabelProps={{ shrink: true }}
-                    InputProps={{
-                      readOnly: true,
-                      "aria-readonly": true,
-                    }}
-                    required
-                  />
-                ) : (
-                  <TextField
-                    variant="outlined"
-                    id="Date"
-                    label="Date"
-                    value={dateToday}
-                    InputLabelProps={{ shrink: true }}
-                    InputProps={{
-                      readOnly: true,
-                      "aria-readonly": true,
-                    }}
-                    required
-                  />
-                )}
+                  {isUpdate ? (
+                    <TextField
+                      variant="outlined"
+                      id="Date"
+                      label="Date"
+                      value={format(
+                        new Date(testresult.date),
+                        "MMMM d, yyyy h:mm a"
+                      )}
+                      InputLabelProps={{ shrink: true }}
+                      InputProps={{
+                        readOnly: true,
+                        "aria-readonly": true,
+                      }}
+                      required
+                    />
+                  ) : (
+                    <TextField
+                      variant="outlined"
+                      id="Date"
+                      label="Date"
+                      value={dateToday}
+                      InputLabelProps={{ shrink: true }}
+                      InputProps={{
+                        readOnly: true,
+                        "aria-readonly": true,
+                      }}
+                      required
+                    />
+                  )}
                   {othertests && (
                     <FormControl>
                       <InputLabel>Type</InputLabel>
@@ -130,7 +148,7 @@ export default function TestResultModal(props) {
                         onChange={(ev) =>
                           handleFieldChange("service_id", ev.target.value)
                         }
-                        readOnly={isUpdate ? true : false}
+                        // readOnly={isUpdate ? true : false}
                         required
                       >
                         {othertests.map((item) => (
@@ -154,26 +172,28 @@ export default function TestResultModal(props) {
                       onChange={(ev) =>
                         handleFieldChange("unit_price", ev.target.value)
                       }
+                      inputProps={{ min: "1" }}
+                      required
                     />
                   )}
-                    <FormControl>
-                      <InputLabel>Pet</InputLabel>
-                      <Select
-                        label="Pet"
-                        value={testresult.pet_id || ""}
-                        onChange={(ev) =>
-                          handleFieldChange("pet_id", ev.target.value)
-                        }
-                        readOnly={isUpdate ? true : false}
-                        required
-                      >
-                        {pets.map((item) => (
-                          <MenuItem key={item.id} value={item.id}>
-                            {item.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
+                  <FormControl>
+                    <InputLabel>Pet</InputLabel>
+                    <Select
+                      label="Pet"
+                      value={testresult.pet_id || ""}
+                      onChange={(ev) =>
+                        handleFieldChange("pet_id", ev.target.value)
+                      }
+                      readOnly={isUpdate ? true : false}
+                      required
+                    >
+                      {pets.map((item) => (
+                        <MenuItem key={item.id} value={item.id}>
+                          {item.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                   {!isUpdate && (
                     <FormControl>
                       <TextField
@@ -201,9 +221,16 @@ export default function TestResultModal(props) {
                     }
                   />
 
-                  <Button color="primary" type="submit" variant="contained">
+                  {/* <Button color="primary" type="submit" variant="contained">
                     Save
-                  </Button>
+                  </Button> */}
+                  <LoadingButton
+                    loading={submitloading}
+                    type="submit"
+                    variant="contained"
+                  >
+                    Save
+                  </LoadingButton>
                 </Stack>
               </form>
             </DialogContent>

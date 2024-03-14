@@ -7,16 +7,35 @@ import {
   IconButton,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
 
 export default function AttachmentModal(props) {
-  const { open, onClose, onClick, handleImage, submitImage, uploadError } =
-    props;
+  const {
+    open,
+    onClose,
+    onClick,
+    handleImage,
+    submitImage,
+    uploadError,
+    submitloading,
+  } = props;
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>
+      <DialogTitle
+        display={"flex"}
+        justifyContent={"space-between"}
+        alignItems={"center"}
+      >
+        <Typography variant="h5">Upload New Attachment</Typography>
+        <IconButton onClick={onClick} style={{ float: "right" }}>
+          <Close color="primary"></Close>
+        </IconButton>
+      </DialogTitle>
+      {/* <DialogTitle>
         Upload New Attachment
         <IconButton
           onClick={onClick}
@@ -24,7 +43,7 @@ export default function AttachmentModal(props) {
         >
           <Close color="primary" />
         </IconButton>
-      </DialogTitle>
+      </DialogTitle> */}
       <DialogContent>
         <form onSubmit={submitImage}>
           <Stack spacing={2} margin={2}>
@@ -40,9 +59,13 @@ export default function AttachmentModal(props) {
               required
             />
             {uploadError && <p style={{ color: "red" }}>{uploadError}</p>}
-            <Button color="primary" variant="contained" type="submit">
+            <LoadingButton
+              loading={submitloading}
+              type="submit"
+              variant="contained"
+            >
               Upload
-            </Button>
+            </LoadingButton>
           </Stack>
         </form>
       </DialogContent>

@@ -4,7 +4,6 @@ import {
   Alert,
   Backdrop,
   Box,
-  CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -17,13 +16,10 @@ import {
   Select,
   MenuItem,
   InputAdornment,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { format } from "date-fns";
+import { LoadingButton } from "@mui/lab";
 
 export default function ServiceAvailModal(props) {
   const {
@@ -36,6 +32,7 @@ export default function ServiceAvailModal(props) {
     errors,
     pets,
     sid,
+    submitloading,
   } = props;
 
   const handleFieldChange = (fieldName, value) => {
@@ -48,8 +45,12 @@ export default function ServiceAvailModal(props) {
   return (
     <>
       <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-        <DialogTitle>
-          {title}
+        <DialogTitle
+          display={"flex"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+        >
+          <Typography variant="h5">{title}</Typography>
           <IconButton onClick={onClose} style={{ float: "right" }}>
             <Close color="primary"></Close>
           </IconButton>
@@ -78,6 +79,8 @@ export default function ServiceAvailModal(props) {
                 onChange={(ev) =>
                   handleFieldChange("unit_price", ev.target.value)
                 }
+                required
+                inputProps={{ min: "1" }}
               />
               <TextField
                 variant="outlined"
@@ -126,9 +129,13 @@ export default function ServiceAvailModal(props) {
                 />,
               ]}
 
-              <Button color="primary" variant="contained" type="submit">
+              <LoadingButton
+                loading={submitloading}
+                type="submit"
+                variant="contained"
+              >
                 Avail
-              </Button>
+              </LoadingButton>
             </Stack>
           </form>
         </DialogContent>

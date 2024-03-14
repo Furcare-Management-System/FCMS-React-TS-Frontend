@@ -44,11 +44,15 @@ export default function MedicationModal(props) {
     objectsData,
     submitloading,
     handleRemoveItem,
+    setObjectsData,
   } = props;
 
   const handleFieldChange = (fieldName, value) => {
     const updatedMedication = { ...medication, [fieldName]: value };
     setMedication(updatedMedication);
+  };
+  const removeItem = (itemId) => {
+    handleRemoveItem(itemId);
   };
 
   return (
@@ -58,27 +62,27 @@ export default function MedicationModal(props) {
       </Backdrop>
       {!loading && (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-          <form onSubmit={(e) => onSubmit(e)}>
-            <DialogTitle
-              display="flex"
-              alignItems={"center"}
-              justifyContent={"space-between"}
-            >
-              <Typography variant="h4">Medication</Typography>
-              <IconButton onClick={onClick} style={{ float: "right" }}>
-                <Close color="primary"></Close>
-              </IconButton>
-            </DialogTitle>
-            <DialogContent>
-              {errors && (
-                <Box>
-                  {Object.keys(errors).map((key) => (
-                    <Alert severity="error" key={key}>
-                      {errors[key][0]}
-                    </Alert>
-                  ))}
-                </Box>
-              )}
+          <DialogTitle
+            display="flex"
+            alignItems={"center"}
+            justifyContent={"space-between"}
+          >
+            <Typography variant="h4">Medication</Typography>
+            <IconButton onClick={onClick} style={{ float: "right" }}>
+              <Close color="primary"></Close>
+            </IconButton>
+          </DialogTitle>
+          <DialogContent>
+            {errors && (
+              <Box>
+                {Object.keys(errors).map((key) => (
+                  <Alert severity="error" key={key}>
+                    {errors[key][0]}
+                  </Alert>
+                ))}
+              </Box>
+            )}
+            <form onSubmit={(e) => handleAddObject(e)}>
               <Stack spacing={2} margin={2}>
                 <FormControl
                   style={{
@@ -124,6 +128,7 @@ export default function MedicationModal(props) {
                     }
                     label="Medicine Name"
                     multiline
+                    required
                   />
                   <TextField
                     value={medication.dosage || ""}
@@ -132,6 +137,7 @@ export default function MedicationModal(props) {
                     }
                     label="Dosage"
                     multiline
+                    required
                   />
 
                   <TextField
@@ -145,68 +151,69 @@ export default function MedicationModal(props) {
                 </Stack>
               </Stack>
               <Button
-                type="button"
-                onClick={handleAddObject}
+                // onClick={handleAddObject}
                 color="success"
                 fullWidth
                 variant="contained"
+                type="submit"
               >
                 Add Medication
               </Button>
-              <Table stickyHeader aria-label="sticky table" sx={{ p: 2 }}>
-                <TableHead>
-                  <TableRow>
-                    {columns.map((column) => (
-                      <TableCell key={column.id} size="small">
-                        {column.name}
-                      </TableCell>
-                    ))}
-                    <TableCell size="small">Actions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {objectsData &&
-                    objectsData.map((r) => (
-                      <TableRow hover role="checkbox" key={r.id}>
-                        <TableCell>{r.medicine_name}</TableCell>
-                        <TableCell>{r.dosage}</TableCell>
-                        <TableCell>{r.description}</TableCell>
-                        <TableCell>
-                          <Checkbox checked={r.am} color="primary" />
-                        </TableCell>
-                        <TableCell>
-                          <Checkbox checked={r.pm} color="primary" />
-                        </TableCell>
-                        <TableCell>
-                          <Stack direction="row">
-                            <IconButton
-                              variant="contained"
-                              color="error"
-                              size="small"
-                              onClick={() => handleRemoveItem(r.id)}
-                            >
-                              <Delete fontSize="small" />
-                            </IconButton>
-                          </Stack>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                </TableBody>
-              </Table>
-            </DialogContent>
+            </form>
 
-            <DialogActions sx={{ p: 2 }}>
-              <LoadingButton
-                loading={submitloading}
-                type="submit"
-                variant="contained"
-                color="success"
-                disabled={objectsData.length === 0}
-              >
-                Add All
-              </LoadingButton>
-            </DialogActions>
-          </form>
+            <Table stickyHeader aria-label="sticky table" sx={{ p: 2 }}>
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell key={column.id} size="small">
+                      {column.name}
+                    </TableCell>
+                  ))}
+                  <TableCell size="small">Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {objectsData &&
+                  objectsData.map((r, index) => (
+                    <TableRow hover role="checkbox" key={index}>
+                      <TableCell>{r.medicine_name}</TableCell>
+                      <TableCell>{r.dosage}</TableCell>
+                      <TableCell>{r.description}</TableCell>
+                      <TableCell>
+                        <Checkbox checked={r.am} color="primary" />
+                      </TableCell>
+                      <TableCell>
+                        <Checkbox checked={r.pm} color="primary" />
+                      </TableCell>
+                      <TableCell>
+                        <Stack direction="row">
+                          <IconButton
+                            variant="contained"
+                            color="error"
+                            size="small"
+                            onClick={() => removeItem(index)}
+                          >
+                            <Delete fontSize="small" />
+                          </IconButton>
+                        </Stack>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </DialogContent>
+
+          <DialogActions sx={{ p: 2 }}>
+            <LoadingButton
+              loading={submitloading}
+              onClick={onSubmit}
+              variant="contained"
+              color="success"
+              disabled={objectsData.length === 0}
+            >
+              Add All
+            </LoadingButton>
+          </DialogActions>
         </Dialog>
       )}
     </>
