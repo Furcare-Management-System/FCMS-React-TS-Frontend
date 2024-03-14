@@ -17,6 +17,7 @@ import {
 import { Archive, Edit } from "@mui/icons-material";
 import DewormingLogsModal from "../components/modals/DewormingLogsModal";
 import { useStateContext } from "../contexts/ContextProvider";
+import { format } from "date-fns";
 
 export default function PetDeworming() {
   const { notification, setNotification } = useStateContext();
@@ -226,11 +227,21 @@ export default function PetDeworming() {
                     .slice(page * rowperpage, page * rowperpage + rowperpage)
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
-                        <TableCell>{r.date}</TableCell>
+                         <TableCell>
+                            {format(
+                              new Date(r.date),
+                              "MMMM d, yyyy h:mm a"
+                            )}
+                          </TableCell>
                         <TableCell>{`${r.weight} kg`}</TableCell>
                         <TableCell>{r.description}</TableCell>
                         <TableCell>{r.vet.fullname}</TableCell>
-                        <TableCell>{r.return}</TableCell>
+                        <TableCell>
+                            {format(
+                              new Date(r.return),
+                              "MMMM d, yyyy h:mm a"
+                            )}
+                          </TableCell>
                         <TableCell>
                           <Stack direction="row" spacing={2}>
                             <Button

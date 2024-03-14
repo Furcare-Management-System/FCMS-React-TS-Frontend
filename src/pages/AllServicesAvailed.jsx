@@ -125,8 +125,8 @@ export default function AllServicesAvailed() {
                         <TableCell>
                           {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
                         </TableCell>
-                        <TableCell>{r.service.service}</TableCell>
                         <TableCell>{r.pet.name}</TableCell>
+                        <TableCell>{r.service.service}</TableCell>
                         <TableCell>{r.quantity}</TableCell>
                         <TableCell>
                           {r.unit_price ? r.unit_price.toFixed(2) : 0}

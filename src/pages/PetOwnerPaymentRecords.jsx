@@ -151,16 +151,16 @@ export default function PetOwnerPaymentRecords() {
             )}
           </Table>
         </TableContainer>
-        <TablePagination
+        {/* <TablePagination
           sx={{ marginBottom: "-20px" }}
-          rowsPerPageOptions={[10, 15, 25]}
-          rowsPerPage={rowperpage}
+          // rowsPerPageOptions={[10, 15, 25]}
+          // rowsPerPage={rowperpage}
           page={page}
           count={payments.length}
           component="div"
           onPageChange={handlechangepage}
           onRowsPerPageChange={handleRowsPerPage}
-        ></TablePagination>
+        ></TablePagination> */}
       </Paper>
     </>
   );

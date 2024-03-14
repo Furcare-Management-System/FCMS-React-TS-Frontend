@@ -25,6 +25,7 @@ import axiosClient from "../axios-client";
 import TestResultModal from "../components/modals/TestResultModal";
 import EnlargeImageModal from "../components/modals/EnlargeImageModal";
 import AttachmentModal from "../components/modals/AttachmentModal";
+import { format } from "date-fns";
 
 export default function PetTestResults({ sid, sname }) {
   const { id } = useParams();
@@ -416,7 +417,12 @@ export default function PetTestResults({ sid, sname }) {
                       .slice(page * rowperpage, page * rowperpage + rowperpage)
                       .map((r) => (
                         <TableRow hover role="checkbox" key={r.id}>
-                          <TableCell>{r.date}</TableCell>
+                          <TableCell>
+                            {format(
+                              new Date(r.date),
+                              "MMMM d, yyyy h:mm a"
+                            )}
+                          </TableCell>
                           <TableCell>
                             <img
                               src={
@@ -449,14 +455,14 @@ export default function PetTestResults({ sid, sname }) {
                               >
                                 <Edit fontSize="small" />
                               </Button>
-                              <Button
+                              {/* <Button
                                 variant="contained"
                                 size="small"
                                 color="error"
                                 onClick={() => onArchive(r)}
                               >
                                 <Archive fontSize="small" />
-                              </Button>
+                              </Button> */}
                             </Stack>
                           </TableCell>
                         </TableRow>

@@ -19,6 +19,7 @@ import {
 import { Add, Archive, Edit } from "@mui/icons-material";
 import VaccinationLogsModal from "../components/modals/VaccinationLogsModal";
 import { useStateContext } from "../contexts/ContextProvider";
+import { format } from "date-fns";
 
 export default function PetVaccination() {
   const { id } = useParams();
@@ -51,8 +52,7 @@ export default function PetVaccination() {
     pet_id: null,
     vet_id: null,
     unit_price: null,
-    date:null
-
+    date: null,
   });
   const [pet, setPet] = useState([]);
   const [vets, setVets] = useState([]);
@@ -170,7 +170,7 @@ export default function PetVaccination() {
           minWidth: "90%",
           padding: "10px",
         }}
-      elevation={4}
+        elevation={4}
       >
         <Box sx={{ minWidth: "90%" }}>
           <VaccinationLogsModal
@@ -240,13 +240,25 @@ export default function PetVaccination() {
                       )
                       .map((record) => (
                         <TableRow hover role="checkbox" key={record.id}>
-                          <TableCell>{record.date}</TableCell>
-                          <TableCell>{record.servicesavailed.service.service}</TableCell>
+                           <TableCell>
+                            {format(
+                              new Date(record.date),
+                              "MMMM d, yyyy h:mm a"
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            {record.servicesavailed.service.service}
+                          </TableCell>
                           <TableCell>{`${record.weight} kg`}</TableCell>
                           <TableCell>{record.va_againsts}</TableCell>
                           <TableCell>{record.description}</TableCell>
                           <TableCell>{record.vet.fullname}</TableCell>
-                          <TableCell>{record.return}</TableCell>
+                          <TableCell>
+                            {format(
+                              new Date(record.return),
+                              "MMMM d, yyyy h:mm a"
+                            )}
+                          </TableCell>
                           <TableCell>
                             <Stack direction="row" spacing={2}>
                               <Button
@@ -258,14 +270,14 @@ export default function PetVaccination() {
                                 <Edit fontSize="small" />
                               </Button>
 
-                              <Button
+                              {/* <Button
                                 variant="contained"
                                 size="small"
                                 color="error"
                                 onClick={() => handleArchive(record)}
                               >
                                 <Archive fontSize="small" />
-                              </Button>
+                              </Button> */}
                             </Stack>
                           </TableCell>
                         </TableRow>
@@ -275,8 +287,8 @@ export default function PetVaccination() {
             </Table>
           </TableContainer>
           <TablePagination
-          sx={{ marginBottom: "-20px" }}
-          rowsPerPageOptions={[10, 15, 25]}
+            sx={{ marginBottom: "-20px" }}
+            rowsPerPageOptions={[10, 15, 25]}
             rowsPerPage={rowsPerPage}
             page={page}
             count={vaccinationlogs.length}

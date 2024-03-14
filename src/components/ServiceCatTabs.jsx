@@ -22,8 +22,6 @@ import {
   ContentCut,
   ControlPointDuplicate,
   FolderCopy,
-  FoodBank,
-  GifBoxSharp,
   Healing,
   Home,
   Inventory,
@@ -33,7 +31,6 @@ import {
   Vaccines,
 } from "@mui/icons-material";
 import Vaccination from "../pages/Services/Vaccination";
-import Admissions from "../pages/Admissions";
 import Medicines from "../pages/Services/Medicines";
 import OtherTestResults from "../pages/Services/4DXTestResults";
 import Others from "../pages/Services/Others";
@@ -107,7 +104,6 @@ export default function ServiceCatBtns() {
     setValue("0");
   };
 
-  console.log(selectedCategory);
   return (
     <>
       {loading && (
@@ -321,9 +317,9 @@ export default function ServiceCatBtns() {
                       {service.service == "EHRLICHIA" && (
                         <TestResults sid={service.id} sname={service.service} />
                       )}
-                      {service.service == "HEARTWORM" && (
+                      {/* {service.service == "HEARTWORM" && (
                         <TestResults sid={service.id} sname={service.service} />
-                      )}
+                      )} */}
                       {service.service == "4DX" && (
                         <OtherTestResults
                           sid={service.id}

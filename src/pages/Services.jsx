@@ -165,7 +165,7 @@ export default function Services() {
         </TableContainer>
         <TablePagination
           sx={{ marginBottom: "-50px" }}
-          rowsPerPageOptions={[10, 15, 25]}
+          rowsPerPageOptions={[50, 100]}
           rowsPerPage={rowperpage}
           page={page}
           count={servicesavailed.length}

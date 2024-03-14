@@ -158,7 +158,7 @@ export default function PetOwnerAppointments({ petowner }) {
             title: "Appointment proceed!",
             icon: "success",
           }).then(() => {
-            navigate(`/admin/petowners/${r.petowner.id}/view`);
+            getAppointments();
           });
         });
       }

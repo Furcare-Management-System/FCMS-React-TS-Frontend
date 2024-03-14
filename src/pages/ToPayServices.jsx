@@ -212,12 +212,18 @@ export default function ToPayServices() {
         Swal.fire({
           title: "Success",
           icon: "success",
-          confirmButtonText: "GENERATE CHARGE SLIP",
-          confirmButtonColor: "black",
+          text: "Do you want to generate a charge slip?",
+          // confirmButtonText: "GENERATE CHARGE SLIP",
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes",
           allowOutsideClick: false,
+          showCancelButton: true,
         }).then((result) => {
           if (result.isConfirmed) {
             windowOpenPDFforPrint();
+            getServices();
+          } else {
             getServices();
           }
         });

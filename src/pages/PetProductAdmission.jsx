@@ -3,7 +3,6 @@ import axiosClient from "../axios-client";
 import {
   Box,
   Button,
-  Checkbox,
   IconButton,
   Paper,
   Stack,
@@ -13,23 +12,20 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
   Typography,
 } from "@mui/material";
 import { Add, Archive, Delete, Edit, Refresh } from "@mui/icons-material";
+import MedicationModal from "../components/modals/MedicationModal";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import MedicationModal from "../components/modals/MedicationModal";
-import EditMedicationModal from "../components/modals/EditMedicationModal";
+import ProductModal from "../components/modals/ProductModal";
 
-export default function PetMedicationAdmission({ pid }) {
+export default function PetProductAdmission({ pid }) {
   //for table
   const columns = [
-    { id: "Medicine", name: "Medicine" },
-    { id: "Dosage", name: "Dosage" },
-    { id: "Description", name: "Description" },
-    { id: "AM", name: "AM" },
-    { id: "PM", name: "PM" },
+    { id: "Product", name: "Product" },
+    { id: "Quantity", name: "Quantity" },
+    { id: "Unit", name: "Unit" },
   ];
 
   const { id } = useParams();
@@ -38,7 +34,6 @@ export default function PetMedicationAdmission({ pid }) {
   const [message, setMessage] = useState("");
 
   const [open, setOpen] = useState(false);
-  const [openedit, setOpenedit] = useState(false);
   const [modalloading, setModalloading] = useState(false);
 
   const [admission, setAdmission] = useState([]);
@@ -75,6 +70,7 @@ export default function PetMedicationAdmission({ pid }) {
   const [errors, setErrors] = useState(null);
   const [medication, setMedication] = useState({
     id: null,
+    medcat_id: null,
     medicine_name: "",
     unit_price: null,
     description: "",
@@ -82,40 +78,36 @@ export default function PetMedicationAdmission({ pid }) {
     unit: "",
     dosage: "",
     price: null,
-    am: null,
-    pm: null,
   });
   const [category, setCategory] = useState([]);
 
-  const [submitloading, setSubmitloading] = useState(false);
-  const [objectsData, setObjectsData] = useState([]);
-
-  const handleAddObject = (e) => {
-    e.preventDefault()
-    if (Object.keys(medication).length !== 0) {
-      setObjectsData([...objectsData, { ...medication }]);
-      setMedication({});
-    }
+  const getCategory = () => {
+    axiosClient
+      .get(`/medicinescategory`)
+      .then(({ data }) => {
+        setCategory(data.data);
+      })
+      .catch(() => {});
   };
 
-  const handleRemoveItem = (index) => {
-    const updatedData = [...objectsData.slice(0, index), ...objectsData.slice(index + 1)];
-    setObjectsData(updatedData);
-  };
-  
   const onEdit = (r) => {
     setErrors(null);
-    setOpenedit(true);
+    setOpen(true);
     setModalloading(true);
     axiosClient
       .get(`/medications/${r.id}`)
       .then(({ data }) => {
         setMedication(data);
+        setMedication((prev) => ({
+          ...prev,
+          medcat_id: data.medicine.medcat_id,
+          name: data.medicine.name,
+          unit_price: data.medicine.price,
+        }));
         setModalloading(false);
       })
       .catch(() => {
         setModalloading(false);
-        setOpenedit(false);
       });
   };
 
@@ -151,41 +143,29 @@ export default function PetMedicationAdmission({ pid }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setObjectsData([]);
-    setSubmitloading(true);
 
     if (medication.id) {
       axiosClient
         .put(`/medications/${medication.id}`, medication)
         .then(() => {
           getTreatmentPetMedication();
-          setOpenedit(false);
-          setSubmitloading(false);
+          setOpen(false);
         })
         .catch((err) => {
-          setSubmitloading(false);
           const response = err.response;
           if (response && response.status == 422) {
             setErrors(response.data.errors);
           }
         });
     } else {
-      Promise.all(
-        objectsData.map((object, index) => {
-          return axiosClient.post(
-            `/medications/petowner/${pid}/treatment/${id}`,
-            object
-          );
-        })
-      )
+      axiosClient
+        .post(`/medications/petowner/${pid}/treatment/${id}`, medication)
         .then(() => {
           getTreatmentPetMedication();
           setOpen(false);
-          setSubmitloading(false);
         })
         .catch((err) => {
           const response = err.response;
-          setSubmitloading(false);
           if (response && response.status === 422) {
             setErrors(response.data.errors);
           }
@@ -196,13 +176,12 @@ export default function PetMedicationAdmission({ pid }) {
   const addMedication = () => {
     setOpen(true);
     setErrors(null);
+    getCategory();
     setMedication({});
-    setObjectsData([]);
   };
 
   const closeModal = () => {
     setOpen(false);
-    setOpenedit(false);
   };
 
   useEffect(() => {
@@ -226,7 +205,7 @@ export default function PetMedicationAdmission({ pid }) {
           }}
         >
           <Typography variant="body1" fontWeight={"bold"}>
-            Pet Medication:
+            Other Product/s:
           </Typography>
           {/* {admission.status !== "Completed" && (
             <IconButton
@@ -237,7 +216,6 @@ export default function PetMedicationAdmission({ pid }) {
               <Add />
             </IconButton>
           )} */}
-
           <Button
             color="success"
             variant="contained"
@@ -248,7 +226,7 @@ export default function PetMedicationAdmission({ pid }) {
           </Button>
         </Box>
 
-        <MedicationModal
+        <ProductModal
           open={open}
           onClose={closeModal}
           onClick={closeModal}
@@ -259,28 +237,6 @@ export default function PetMedicationAdmission({ pid }) {
           setMedication={setMedication}
           category={category}
           isUpdate={medication.id}
-          handleAddObject={handleAddObject}
-          columns={columns}
-          objectsData={objectsData}
-          submitloading={submitloading}
-          handleRemoveItem={handleRemoveItem}
-          setObjectsData={setObjectsData}
-        />
-        <EditMedicationModal
-          openedit={openedit}
-          onClose={closeModal}
-          onClick={closeModal}
-          onSubmit={onSubmit}
-          loading={modalloading}
-          errors={errors}
-          medication={medication}
-          setMedication={setMedication}
-          category={category}
-          isUpdate={medication.id}
-          handleAddObject={handleAddObject}
-          columns={columns}
-          objectsData={objectsData}
-          submitloading={submitloading}
         />
         <TableContainer>
           <Table stickyHeader aria-label="sticky table">
@@ -322,25 +278,20 @@ export default function PetMedicationAdmission({ pid }) {
                   medications.map((r) => (
                     <TableRow hover role="checkbox" key={r.id}>
                       <TableCell>{r.medicine_name}</TableCell>
-                      <TableCell>{r.dosage}</TableCell>
-                      <TableCell>{r.description}</TableCell>
-                      <TableCell>
-                        <Checkbox checked={r.am} color="primary" />
-                      </TableCell>
-                      <TableCell>
-                        <Checkbox checked={r.pm} color="primary" />
-                      </TableCell>
+                      <TableCell>{r.quantity}</TableCell>
+                      <TableCell>{r.quantity}</TableCell>
+                      {/* <TableCell>{r.unit}</TableCell> */}
                       {/* {admission.status !== "Completed" && ( */}
                       <TableCell>
                         <Stack direction="row">
-                          <IconButton
-                            variant="contained"
-                            size="small"
-                            color="info"
-                            onClick={() => onEdit(r)}
-                          >
-                            <Edit fontSize="small" />
-                          </IconButton>
+                          {/* <IconButton
+                              variant="contained"
+                              size="small"
+                              color="info"
+                              onClick={() => onEdit(r)}
+                            >
+                              <Edit fontSize="small" />
+                            </IconButton> */}
                           <IconButton
                             variant="contained"
                             color="error"

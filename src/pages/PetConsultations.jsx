@@ -20,6 +20,7 @@ import {
 import { useParams } from "react-router-dom";
 import DiagnosisModal from "../components/modals/DiagnosisModal";
 import { Add, Archive, Close, Edit } from "@mui/icons-material";
+import { format } from "date-fns";
 
 export default function PetConsultations({ sid }) {
   const { id } = useParams();
@@ -187,11 +188,11 @@ export default function PetConsultations({ sid }) {
   return (
     <>
       <Paper
-       sx={{
-        minWidth: "90%",
-        padding: "10px",
-        marginBottom: "-30px",
-      }}
+        sx={{
+          minWidth: "90%",
+          padding: "10px",
+          marginBottom: "-30px",
+        }}
         elevation={4}
       >
         <Box p={1} sx={{ display: "flex", justifyContent: "right" }}>
@@ -276,9 +277,13 @@ export default function PetConsultations({ sid }) {
                     .slice(page * rowperpage, page * rowperpage + rowperpage)
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
-                        <TableCell>{r.date}</TableCell>
+                        <TableCell>
+                          {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
+                        </TableCell>
                         <TableCell>{r.remarks}</TableCell>
-                        <TableCell>{r.followup}</TableCell>
+                        <TableCell>
+                          {format(new Date(r.followup), "MMMM d, yyyy h:mm a")}
+                        </TableCell>
                         <TableCell>
                           <Stack direction="row" spacing={2}>
                             <Button
@@ -290,14 +295,14 @@ export default function PetConsultations({ sid }) {
                               <Edit fontSize="small" />
                             </Button>
 
-                            <Button
+                            {/* <Button
                               variant="contained"
                               size="small"
                               color="error"
                               onClick={() => onArchive(r)}
                             >
                               <Archive fontSize="small" />
-                            </Button>
+                            </Button> */}
                           </Stack>
                         </TableCell>
                       </TableRow>

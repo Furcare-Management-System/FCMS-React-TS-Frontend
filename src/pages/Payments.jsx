@@ -263,7 +263,7 @@ export default function Payments() {
         </TableContainer>
         <TablePagination
           sx={{ marginBottom: "-20px" }}
-          rowsPerPageOptions={[10, 15, 25]}
+          rowsPerPageOptions={[50,100]}
           rowsPerPage={rowperpage}
           page={page}
           count={payments.length}
