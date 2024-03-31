@@ -54,6 +54,7 @@ export default function ToPayServices() {
     amount: null,
     change: null,
     amounts_payable: null,
+    discount:null
   });
   const [openpayment, setOpenpayment] = useState(false);
   const [backdrop, setBackdrop] = useState(false);
@@ -105,7 +106,8 @@ export default function ToPayServices() {
     const balance = clientservice.balance || 0;
     const deposit = clientservice.deposit || 0;
     const amount = paymentrecord.amount || 0;
-    const currentbalance = totalCost + balance - deposit;
+    const discount = paymentrecord.discount || 0;
+    const currentbalance = totalCost + balance - deposit - discount;
 
     const final = currentbalance - amount;
     if (final < 0) {

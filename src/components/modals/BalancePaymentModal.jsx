@@ -176,6 +176,7 @@ export default function BalancePaymentModal(props) {
                     }}
                     size="small"
                     type="number"
+                    inputProps={{ min: "1" }}
                   />
                   <TextField
                     label="Change"

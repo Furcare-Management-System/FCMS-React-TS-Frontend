@@ -145,7 +145,7 @@ export default function MedicineModal(props) {
                     handleFieldChange("quantity", ev.target.value)
                   }
                   label="Quantity"
-                  type="number"
+                  type="text"
                   required
                   inputProps={{ min: "1" }}
                 />

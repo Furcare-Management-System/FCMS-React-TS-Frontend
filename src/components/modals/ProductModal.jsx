@@ -117,8 +117,8 @@ export default function ProductModal(props) {
                   onChange={(ev) =>
                     handleFieldChange("quantity", ev.target.value)
                   }
-                  label="Quantity"
-                  type="number"
+                  label="Quantity/Dosage"
+                  type="text"
                   required
                   inputProps={{ min: "1" }}
                 />
@@ -166,6 +166,11 @@ export default function ProductModal(props) {
                       value="Bottle"
                       control={<Radio />}
                       label="Bottle"
+                    />
+                    <FormControlLabel
+                      value="Set"
+                      control={<Radio />}
+                      label="Set"
                     />
                   </RadioGroup>
                 </FormControl>

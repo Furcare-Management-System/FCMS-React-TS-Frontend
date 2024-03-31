@@ -44,30 +44,35 @@ export default function PaymentModal(props) {
     const balance = clientservice.balance || 0;
     const deposit = clientservice.deposit || 0;
     const amount = payment.amount || 0;
-    const currentbalance = totalCost + balance - deposit;
-
+    const discount = payment.discount || 0;
+  
+    // Check for invalid inputs
     if (
       isNaN(deposit) ||
       isNaN(balance) ||
       isNaN(amount) ||
+      isNaN(discount) ||
       deposit === undefined ||
       balance === undefined ||
-      amount === undefined
+      amount === undefined ||
+      discount === undefined
     ) {
       return 0;
     }
-
+  
     if (totalCost !== 0) {
-      const change =
-        amount -
-        (payment.total + clientservice.balance - clientservice.deposit);
-      payment.change = change >= 0 ? change : 0;
-      return change >= 0 ? change : 0;
+      // Calculate change
+      const change = amount - ((totalCost + balance - deposit) - discount);
+      // Ensure change is non-negative
+      const actualChange = Math.max(change, 0);
+      // Update payment change
+      payment.change = actualChange;
+      return actualChange;
     } else {
       return 0;
     }
   };
-
+  
   useEffect(() => {
     calculateChange();
   }, []);
@@ -76,6 +81,30 @@ export default function PaymentModal(props) {
   const dateToday = format(date, "MMMM d, yyyy h:mm a");
 
   const [isHovered, setIsHovered] = useState(false);
+
+  const calculatePaymentValue = (
+    paymentTotal,
+    paymentDiscount,
+    clientDeposit
+  ) => {
+    if (
+      isNaN(paymentTotal) ||
+      isNaN(paymentDiscount) ||
+      isNaN(clientDeposit) ||
+      paymentTotal === undefined ||
+      paymentDiscount === undefined ||
+      clientDeposit === undefined
+    ) {
+      return (paymentDiscount = 0);
+    }
+
+    if (paymentDiscount === null) {
+      return paymentTotal;
+    }
+
+    const value = paymentTotal - paymentDiscount - clientDeposit;
+    return Math.max(value, 0);
+  };
 
   return (
     <>
@@ -110,6 +139,33 @@ export default function PaymentModal(props) {
                 <Stack spacing={2} margin={1}>
                   <TextField
                     variant="outlined"
+                    id="Date"
+                    label="Date"
+                    value={dateToday}
+                    InputLabelProps={{ shrink: true }}
+                    InputProps={{
+                      readOnly: true,
+                      "aria-readonly": true,
+                    }}
+                    size="small"
+                    required
+                  />
+                  <TextField
+                    variant="outlined"
+                    id="Referrence No."
+                    label="Referrence No."
+                    value={payment.chargeslip_ref_no || ``}
+                    onChange={(ev) =>
+                      handleFieldChange("chargeslip_ref_no", ev.target.value)
+                    }
+                    required
+                    size="small"
+                    type="number"
+                    inputProps={{ min: "1" }}
+                  />
+                  <Divider />
+                  <TextField
+                    variant="filled"
                     id="Total"
                     label="Total"
                     value={payment.total || ``}
@@ -147,14 +203,32 @@ export default function PaymentModal(props) {
                     size="small"
                   />
                   <TextField
+                    label="Discount"
+                    variant="outlined"
+                    id="Discount"
+                    value={payment.discount || ""}
+                    onChange={(ev) =>
+                      handleFieldChange("discount", ev.target.value)
+                    }
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">₱</InputAdornment>
+                      ),
+                    }}
+                    required
+                    size="small"
+                    type="number"
+                    inputProps={{ min: "0" }}
+                  />
+                  <TextField
                     variant="outlined"
                     id="Remaining Charge"
                     label="Remaining Charge"
-                    value={
-                      payment.total < clientservice.deposit
-                        ? 0
-                        : payment.total - clientservice.deposit
-                    }
+                    value={calculatePaymentValue(
+                      payment.total,
+                      payment.discount,
+                      clientservice.deposit
+                    )}
                     required
                     InputProps={{
                       readOnly: true,
@@ -169,32 +243,7 @@ export default function PaymentModal(props) {
                     onMouseLeave={() => setIsHovered(false)}
                   />
                   <Divider />
-                  <TextField
-                    variant="outlined"
-                    id="Date"
-                    label="Date"
-                    value={dateToday}
-                    InputLabelProps={{ shrink: true }}
-                    InputProps={{
-                      readOnly: true,
-                      "aria-readonly": true,
-                    }}
-                    size="small"
-                    required
-                  />
-                  <TextField
-                    variant="outlined"
-                    id="Referrence No."
-                    label="Referrence No."
-                    value={payment.chargeslip_ref_no || ``}
-                    onChange={(ev) =>
-                      handleFieldChange("chargeslip_ref_no", ev.target.value)
-                    }
-                    required
-                    size="small"
-                    type="number"
-                    inputProps={{ min: "1" }}
-                  />
+
                   <FormControl>
                     <InputLabel>Type of Payment</InputLabel>
                     <Select
@@ -222,44 +271,24 @@ export default function PaymentModal(props) {
                       size="small"
                     />
                   )}
-                  {clientservice.deposit < payment.total ? (
-                    <TextField
-                      label="Amount"
-                      variant="outlined"
-                      id="Amount"
-                      value={payment.amount || ""}
-                      onChange={(ev) =>
-                        handleFieldChange("amount", ev.target.value)
-                      }
-                      required
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">₱</InputAdornment>
-                        ),
-                      }}
-                      inputProps={{ min: "1" }}
-                      size="small"
-                      type="number"
-                    />
-                  ) : (
-                    <TextField
-                      label="Amount"
-                      variant="outlined"
-                      id="Amount"
-                      value={payment.amount || ``}
-                      onChange={(ev) =>
-                        handleFieldChange("amount", ev.target.value)
-                      }
-                      required
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">₱</InputAdornment>
-                        ),
-                      }}
-                      size="small"
-                      type="number"
-                    />
-                  )}
+                  <TextField
+                    label="Amount"
+                    variant="outlined"
+                    id="Amount"
+                    value={payment.amount || ""}
+                    onChange={(ev) =>
+                      handleFieldChange("amount", ev.target.value)
+                    }
+                    required
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">₱</InputAdornment>
+                      ),
+                    }}
+                    size="small"
+                    type="number"
+                    inputProps={{ min: "0" }}
+                  />
                   <TextField
                     label="Change"
                     variant="outlined"
