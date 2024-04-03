@@ -20,17 +20,13 @@ import axiosClient from "../axios-client";
 import { format } from "date-fns";
 import { Close } from "@mui/icons-material";
 
-export default function Payments() {
+export default function Deposits() {
   //for table
   const columns = [
     { id: "id", name: "ID" },
     { id: "Date", name: "Date" },
     { id: "Client", name: "Client" },
-    { id: "Ref #", name: "Ref #" },
-    { id: "Type", name: "Type" },
-    { id: "Total", name: "Total" },
-    { id: "Amount", name: "Amount" },
-    { id: "Change", name: "Change" },
+    { id: "Deposit", name: "Deposit" },
   ];
 
   const handlechangepage = (event, newpage) => {
@@ -56,7 +52,7 @@ export default function Payments() {
     setFilterdate(null);
     setBtnclicked(false);
     axiosClient
-      .get("/paymentrecords")
+      .get("/clientdeposits/today")
       .then(({ data }) => {
         setLoading(false);
         setPayments(data.data);
@@ -77,7 +73,7 @@ export default function Payments() {
     try {
       // Fetch PDF content
       const response = await axiosClient.get(
-        `/paymentrecords/date/${filterdate}`,
+        `/clientdeposits/date/${filterdate}`,
         {
           responseType: "blob",
           headers: {
@@ -94,7 +90,7 @@ export default function Payments() {
       link.href = url;
       link.setAttribute(
         "download",
-        `Summary-ChargeSlipRecords-${format(
+        `Summary-ClientDepositRecords-${format(
           new Date(filterdate),
           "MMMM d, yyyy"
         )}.pdf`
@@ -120,7 +116,7 @@ export default function Payments() {
     setMessage(null);
     setLoading(true);
     axiosClient
-      .get(`/paymentrecords/filter-date/${filterdate}`)
+      .get(`/clientdeposits/filter-date/${filterdate}`)
       .then(({ data }) => {
         setLoading(false);
         setPayments(data.data);
@@ -158,7 +154,7 @@ export default function Payments() {
           flexDirection="row"
           justifyContent="space-between"
         >
-          <Typography variant="h5">Payment Records</Typography>
+          <Typography variant="h5">Client Deposits</Typography>
           <Box p={1} sx={{ display: "flex", justifyContent: "right" }}>
             <TextField
               label="Date"
@@ -251,16 +247,8 @@ export default function Payments() {
                         <TableCell>
                           {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
                         </TableCell>
-                        <TableCell>{`${r.clientdeposit.petowner.firstname} ${r.clientdeposit.petowner.lastname}`}</TableCell>
-                        <TableCell>{r.chargeslip_ref_no}</TableCell>
-                        <TableCell>
-                          {r.type === "Cash"
-                            ? `${r.type}`
-                            : `${r.type} ${r.type_ref_no}`}
-                        </TableCell>
-                        <TableCell>{r.total.toFixed(2)}</TableCell>
-                        <TableCell>{r.amount.toFixed(2)}</TableCell>
-                        <TableCell>{r.change.toFixed(2)}</TableCell>
+                        <TableCell>{`${r.petowner.firstname} ${r.petowner.lastname}`}</TableCell>
+                        <TableCell>{r.deposit.toFixed(2)}</TableCell>
                       </TableRow>
                     ))}
               </TableBody>

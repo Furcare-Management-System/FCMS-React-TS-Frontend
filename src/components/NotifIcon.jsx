@@ -10,6 +10,7 @@ import {
 import axiosClient from "../axios-client";
 import { useStateContext } from "../contexts/ContextProvider";
 import { useNavigate } from "react-router-dom";
+import { format } from "date-fns";
 
 const NotifIcon = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -120,7 +121,7 @@ const NotifIcon = () => {
             // onClick={() => handleDetails(n)}
             sx={{
               backgroundColor: n.status === 1 ? "whitesmoke" : null,
-              whiteSpace: isMobile ?"normal" :null, // Word wrap
+              whiteSpace: isMobile ? "normal" : null, // Word wrap
               wordWrap: "break-word", // Word wrap
             }}
           >
@@ -134,7 +135,7 @@ const NotifIcon = () => {
               <strong>{n.type}</strong>
               <span>{n.message}</span>
               <small>
-                {n.date}{" "}
+                {format(new Date(n.date), "MMMM d, yyyy h:mm a")}
                 {n.status === 1 && <span style={{ color: "red" }}>•</span>}
               </small>
             </div>

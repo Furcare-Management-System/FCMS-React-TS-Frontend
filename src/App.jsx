@@ -43,6 +43,7 @@ import ServiceAvaileble from "./pages/ServiceAvailable";
 import ForgotPassword from "./pages/ForgotPassword";
 import VaccinationReturn from "./pages/VaccinationReturn";
 import DewormingReturn from "./pages/DewormingReturn";
+import PDTabs from "./components/PDTabs";
 
 const roles = {
   ADMIN: "1",
@@ -91,7 +92,7 @@ function App() {
 
             <Route path="appointments" element={<Appointments />} />
             <Route path="treatment/:id" element={<TreatmentForm />} />
-            <Route path="paymentrecords" element={<Payments />} />
+            <Route path="paymentrecords" element={<PDTabs />} />
             <Route path="availed-services" element={<Services />} />
             <Route path="vaccinations" element={<VaccinationReturn />} />
             <Route path="deworming" element={<DewormingReturn />} />
