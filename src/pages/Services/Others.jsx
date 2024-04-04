@@ -17,11 +17,12 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { Add, Archive, Edit } from "@mui/icons-material";
+import { Add, Archive, Delete, Edit } from "@mui/icons-material";
 import { Link, useParams } from "react-router-dom";
 import axiosClient from "../../axios-client";
 import { format } from "date-fns";
 import OthersModal from "../../components/modals/OthersModal";
+import Swal from "sweetalert2";
 
 export default function Others({ sname }) {
   const { id } = useParams();
@@ -102,6 +103,7 @@ export default function Others({ sname }) {
     { id: "Pet", name: "Pet" },
     { id: "Service", name: "Service" },
     { id: "Status", name: "Status" },
+    { id: "Action", name: "Action" },
   ];
 
   const [page, pagechange] = useState(0);
@@ -153,14 +155,25 @@ export default function Others({ sname }) {
     openchange(true);
   };
 
-  const onArchive = (r) => {
-    if (!window.confirm("Are you sure to archive this test result?")) {
-      return;
-    }
-
-    axiosClient.delete(`/testresults/${r.id}/archive`).then(() => {
-      setNotification("Test result was archived.");
-      getOthers();
+  const onDelete = (u) => {
+    Swal.fire({
+      title: "Are you sure to delete this?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosClient.delete(`/servicesavailed/${u.id}/forcedelete`).then(() => {
+          Swal.fire({
+            title: "Other service was deleted.",
+            icon: "success",
+          }).then(() => {
+            getOthers();
+          });
+        });
+      }
     });
   };
 
@@ -305,26 +318,28 @@ export default function Others({ sname }) {
                           <TableCell>{r.pet.name}</TableCell>
                           <TableCell>{r.service.service}</TableCell>
                           <TableCell>{r.status}</TableCell>
-                          {/* <TableCell>
+                          <TableCell>
                             <Stack direction="row" spacing={2}>
-                              <Button
+                              {/* <Button
                                 variant="contained"
                                 color="info"
                                 size="small"
                                 onClick={() => onEdit(r)}
                               >
                                 <Edit fontSize="small" />
-                              </Button>
-                              <Button
-                                variant="contained"
-                                size="small"
-                                color="error"
-                                onClick={() => onArchive(r)}
-                              >
-                                <Archive fontSize="small" />
-                              </Button>
+                              </Button> */}
+                              {r.status === "To Pay" && (
+                                <Button
+                                  variant="contained"
+                                  size="small"
+                                  color="error"
+                                  onClick={() => onDelete(r)}
+                                >
+                                  <Delete fontSize="small" />
+                                </Button>
+                              )}
                             </Stack>
-                          </TableCell> */}
+                          </TableCell>
                         </TableRow>
                       ))}
                 </TableBody>

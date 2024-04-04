@@ -15,10 +15,11 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
-import { Add, Archive, Edit } from "@mui/icons-material";
+import { Add, Archive, Delete, Edit } from "@mui/icons-material";
 import VaccinationLogsModal from "../../components/modals/VaccinationLogsModal";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { format } from "date-fns";
+import Swal from "sweetalert2";
 
 export default function Vaccination({ sid, sname }) {
   const { notification, setNotification } = useStateContext();
@@ -41,7 +42,6 @@ export default function Vaccination({ sid, sname }) {
   const [errors, setErrors] = useState(null);
   const [vaccinationlogs, setVaccinationlogs] = useState([]);
   const [pets, setPets] = useState([]);
-  const [againsts, setAgainsts] = useState([]);
   const [vaccinationlog, setVaccinationlog] = useState({
     id: null,
     weight: "",
@@ -105,15 +105,6 @@ export default function Vaccination({ sid, sname }) {
       });
   };
 
-  const getAgainsts = () => {
-    axiosClient
-      .get(`/againsts`)
-      .then(({ data }) => {
-        setAgainsts(data.data);
-      })
-      .catch(() => {});
-  };
-
   const getVets = () => {
     axiosClient
       .get(`/vets`)
@@ -125,7 +116,6 @@ export default function Vaccination({ sid, sname }) {
 
   const handleOpenAddModal = () => {
     getPets();
-    getAgainsts();
     getVets();
     setOpenAdd(true);
     setVaccinationlog({});
@@ -136,19 +126,31 @@ export default function Vaccination({ sid, sname }) {
     setOpenAdd(false);
   };
 
-  const handleArchive = (record) => {
-    if (!window.confirm("Are you sure to archive this?")) {
-      return;
-    }
-
-    axiosClient.delete(`/vaccinationlogs/${record.id}/archive`).then(() => {
-      setNotification("Vaccination was archived");
-      getVaccination();
+  const onDelete = (record) => {
+    Swal.fire({
+      title: "Are you sure to delete this?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosClient
+          .delete(`/vaccinationlogs/${record.id}/forcedelete`)
+          .then(() => {
+            Swal.fire({
+              title: "Vaccination log was deleted.",
+              icon: "success",
+            }).then(() => {
+              getVaccination();
+            });
+          });
+      }
     });
   };
 
   const handleEdit = (record) => {
-    getAgainsts();
     getVets();
     setErrors(null);
     setModalloading(true);
@@ -248,7 +250,6 @@ export default function Vaccination({ sid, sname }) {
             loading={modalloading}
             pet={pet}
             pets={pets}
-            againsts={againsts}
             vets={vets}
             vaccination={vaccinationlog}
             setVaccination={setVaccinationlog}
@@ -321,10 +322,7 @@ export default function Vaccination({ sid, sname }) {
                           <TableCell>{record.description}</TableCell>
                           <TableCell>{record.vet.fullname}</TableCell>
                           <TableCell>
-                            {format(
-                              new Date(record.return),
-                              "MMMM d, yyyy h:mm a"
-                            )}
+                            {format(new Date(record.return), "MMMM d, yyyy")}
                           </TableCell>
                           <TableCell>{record.servicesavailed.status}</TableCell>
                           <TableCell>
@@ -338,14 +336,16 @@ export default function Vaccination({ sid, sname }) {
                                 <Edit fontSize="small" />
                               </Button>
 
-                              {/* <Button
+                              {record.servicesavailed.status === "To Pay" && (
+                              <Button
                                 variant="contained"
                                 size="small"
                                 color="error"
-                                onClick={() => handleArchive(record)}
+                                onClick={() => onDelete(record)}
                               >
-                                <Archive fontSize="small" />
-                              </Button> */}
+                                <Delete fontSize="small" />
+                              </Button>
+                            )}
                             </Stack>
                           </TableCell>
                         </TableRow>

@@ -15,11 +15,12 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
-import { Add, Archive, Edit } from "@mui/icons-material";
+import { Add, Archive, Delete, Edit } from "@mui/icons-material";
 import { useStateContext } from "../../contexts/ContextProvider";
 import MedicationModal from "../../components/modals/MedicationModal";
 import MedicineModal from "../../components/modals/MedicineModal";
 import { format } from "date-fns";
+import Swal from "sweetalert2";
 
 export default function Medicines({ sid }) {
   const { notification, setNotification } = useStateContext();
@@ -32,7 +33,7 @@ export default function Medicines({ sid }) {
     { id: "Unit", name: "Unit" },
     { id: "Price", name: "Price" },
     { id: "Status", name: "Status" },
-    // { id: "Actions", name: "Actions" },
+    { id: "Actions", name: "Actions" },
   ];
 
   const [page, setPage] = useState(0);
@@ -120,6 +121,28 @@ export default function Medicines({ sid }) {
     axiosClient.delete(`/medications/${record.id}/archive`).then(() => {
       setNotification("Vaccination was archived");
       getMedications();
+    });
+  };
+
+  const onDelete = (u) => {
+    Swal.fire({
+      title: "Are you sure to delete this?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosClient.delete(`/servicesavailed/${u.id}/forcedelete/product`).then(() => {
+          Swal.fire({
+            title: "Medicine was deleted.",
+            icon: "success",
+          }).then(() => {
+            getMedications();
+          });
+        });
+      }
     });
   };
 
@@ -303,27 +326,29 @@ export default function Medicines({ sid }) {
                           <TableCell>{record.unit}</TableCell>
                           <TableCell>{record.unit_price}</TableCell>
                           <TableCell>{record.status}</TableCell>
-                          {/* <TableCell>
+                          <TableCell>
                             <Stack direction="row" spacing={2}>
-                              <Button
+                              {/* <Button
                                 variant="contained"
                                 size="small"
                                 color="info"
                                 onClick={() => handleEdit(record)}
                               >
                                 <Edit fontSize="small" />
-                              </Button>
+                              </Button> */}
 
-                              <Button
-                                variant="contained"
-                                size="small"
-                                color="error"
-                                onClick={() => handleArchive(record)}
-                              >
-                                <Archive fontSize="small" />
-                              </Button>
+                              {record.status === "To Pay" && (
+                                <Button
+                                  variant="contained"
+                                  size="small"
+                                  color="error"
+                                  onClick={() => onDelete(record)}
+                                >
+                                  <Delete fontSize="small" />
+                                </Button>
+                              )}
                             </Stack>
-                          </TableCell> */}
+                          </TableCell>
                         </TableRow>
                       ))}
                 </TableBody>

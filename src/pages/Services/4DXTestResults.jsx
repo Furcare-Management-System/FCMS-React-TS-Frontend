@@ -18,13 +18,14 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { Add, Archive, Edit } from "@mui/icons-material";
+import { Add, Archive, Delete, Edit } from "@mui/icons-material";
 import { Link, useParams } from "react-router-dom";
 import axiosClient from "../../axios-client";
 import TestResultModal from "../../components/modals/TestResultModal";
 import EnlargeImageModal from "../../components/modals/EnlargeImageModal";
 import AttachmentModal from "../../components/modals/AttachmentModal";
 import { format } from "date-fns";
+import Swal from "sweetalert2";
 
 export default function OtherTestResults({ sid, sname }) {
   const { id } = useParams();
@@ -109,7 +110,7 @@ export default function OtherTestResults({ sid, sname }) {
     { id: "Attachment", name: "Attachment" },
     { id: "Description", name: "Description" },
     { id: "Status", name: "Status" },
-    // { id: "Actions", name: "Actions" },
+    { id: "Actions", name: "Actions" },
   ];
 
   const [page, pagechange] = useState(0);
@@ -174,6 +175,28 @@ export default function OtherTestResults({ sid, sname }) {
     axiosClient.delete(`/testresults/${r.id}/archive`).then(() => {
       setNotification("Test result was archived.");
       getTestresults();
+    });
+  };
+
+  const onDelete = (u) => {
+    Swal.fire({
+      title: "Are you sure to delete this?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosClient.delete(`/testresults/${u.id}/forcedelete`).then(() => {
+          Swal.fire({
+            title: "Test result was deleted.",
+            icon: "success",
+          }).then(() => {
+            getTestresults();
+          });
+        });
+      }
     });
   };
 
@@ -395,7 +418,7 @@ export default function OtherTestResults({ sid, sname }) {
               {loading && (
                 <TableBody>
                   <TableRow>
-                    <TableCell colSpan={6} style={{ textAlign: "center" }}>
+                    <TableCell colSpan={columns.length} style={{ textAlign: "center" }}>
                       Loading...
                     </TableCell>
                   </TableRow>
@@ -405,7 +428,7 @@ export default function OtherTestResults({ sid, sname }) {
               {!loading && message && (
                 <TableBody>
                   <TableRow>
-                    <TableCell colSpan={6} style={{ textAlign: "center" }}>
+                    <TableCell colSpan={columns.length} style={{ textAlign: "center" }}>
                       {message}
                     </TableCell>
                   </TableRow>
@@ -446,7 +469,7 @@ export default function OtherTestResults({ sid, sname }) {
                           </TableCell>
                           <TableCell>{r.description}</TableCell>
                           <TableCell>{r.servicesavailed.status}</TableCell>
-                          {/* <TableCell>
+                          <TableCell>
                             <Stack direction="row" spacing={2}>
                               <Button
                                 variant="contained"
@@ -456,16 +479,18 @@ export default function OtherTestResults({ sid, sname }) {
                               >
                                 <Edit fontSize="small" />
                               </Button>
-                              <Button
-                                variant="contained"
-                                size="small"
-                                color="error"
-                                onClick={() => onArchive(r)}
-                              >
-                                <Archive fontSize="small" />
-                              </Button>
+                              {r.servicesavailed.status === "To Pay" && (
+                                <Button
+                                  variant="contained"
+                                  size="small"
+                                  color="error"
+                                  onClick={() => onDelete(r)}
+                                >
+                                  <Delete fontSize="small" />
+                                </Button>
+                              )}
                             </Stack>
-                          </TableCell> */}
+                          </TableCell>
                         </TableRow>
                       ))}
                 </TableBody>

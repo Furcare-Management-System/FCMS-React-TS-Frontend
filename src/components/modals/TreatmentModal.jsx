@@ -81,7 +81,7 @@ export default function TreatmentModal(props) {
               )} */}
               <TextField
                 value={formattedDate}
-                label="Date"
+                label="Date and Time"
                 variant="outlined"
                 required
                 fullWidth

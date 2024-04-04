@@ -15,10 +15,11 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
-import { Add, Archive, Edit } from "@mui/icons-material";
+import { Add, Archive, Delete, Edit } from "@mui/icons-material";
 import DewormingLogsModal from "../../components/modals/DewormingLogsModal";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { format } from "date-fns";
+import Swal from "sweetalert2";
 
 export default function Deworming({ sid }) {
   const { notification, setNotification } = useStateContext();
@@ -129,6 +130,28 @@ export default function Deworming({ sid }) {
     });
   };
 
+  const onDelete = (u) => {
+    Swal.fire({
+      title: "Are you sure to delete this?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosClient.delete(`/deworminglogs/${u.id}/forcedelete`).then(() => {
+          Swal.fire({
+            title: "Deworming log was deleted.",
+            icon: "success",
+          }).then(() => {
+            getDeworming();
+          });
+        });
+      }
+    });
+  };
+
   const onEdit = (r) => {
     getVets();
     setErrors(null);
@@ -233,16 +256,6 @@ export default function Deworming({ sid }) {
           submitloading={submitloading}
         />
 
-        {/* <Button
-            component={Link}
-            to={`/admin/deworminglogs/archives`}
-            variant="contained"
-            color="success"
-            size="small"
-          >
-            <Typography>Archives</Typography>
-          </Button> */}
-
         {notification && <Alert severity="success">{notification}</Alert>}
 
         <TableContainer sx={{ height: 380 }}>
@@ -294,7 +307,7 @@ export default function Deworming({ sid }) {
                         <TableCell>{r.description}</TableCell>
                         <TableCell>{r.vet.fullname}</TableCell>
                         <TableCell>
-                          {format(new Date(r.return), "MMMM d, yyyy h:mm a")}
+                          {format(new Date(r.return), "MMMM d, yyyy")}
                         </TableCell>
                         <TableCell>{r.servicesavailed.status}</TableCell>
                         <TableCell>
@@ -308,14 +321,16 @@ export default function Deworming({ sid }) {
                               <Edit fontSize="small" />
                             </Button>
 
-                            {/* <Button
-                              variant="contained"
-                              size="small"
-                              color="error"
-                              onClick={() => onArchive(r)}
-                            >
-                              <Archive fontSize="small" />
-                            </Button> */}
+                            {r.servicesavailed.status === "To Pay" && (
+                              <Button
+                                variant="contained"
+                                size="small"
+                                color="error"
+                                onClick={() => onDelete(r)}
+                              >
+                                <Delete fontSize="small" />
+                              </Button>
+                            )}
                           </Stack>
                         </TableCell>
                       </TableRow>

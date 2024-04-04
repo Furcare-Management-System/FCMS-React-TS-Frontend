@@ -35,15 +35,6 @@ export default function AttachmentModal(props) {
           <Close color="primary"></Close>
         </IconButton>
       </DialogTitle>
-      {/* <DialogTitle>
-        Upload New Attachment
-        <IconButton
-          onClick={onClick}
-          style={{ position: "absolute", top: 8, right: 8 }}
-        >
-          <Close color="primary" />
-        </IconButton>
-      </DialogTitle> */}
       <DialogContent>
         <form onSubmit={submitImage}>
           <Stack spacing={2} margin={2}>

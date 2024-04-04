@@ -70,8 +70,8 @@ export default function AdmissionModal(props) {
                 {isUpdate && clientservice.date ? (
                   <TextField
                     variant="outlined"
-                    id="Date"
-                    label="Date"
+                    id="Date and Time"
+                    label="Date and Time"
                     value={format(
                       new Date(clientservice.date),
                       "MMMM d, yyyy h:mm a"
@@ -86,8 +86,8 @@ export default function AdmissionModal(props) {
                 ) : (
                   <TextField
                     variant="outlined"
-                    id="Date"
-                    label="Date"
+                    id="Date and Time"
+                    label="Date and Time"
                     value={dateToday}
                     InputLabelProps={{ shrink: true }}
                     InputProps={{

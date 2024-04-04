@@ -106,8 +106,8 @@ export default function OthersModal(props) {
                   {isUpdate ? (
                     <TextField
                       variant="outlined"
-                      id="Date"
-                      label="Date"
+                      id="Date and Time"
+                    label="Date and Time"
                       value={format(
                         new Date(testresult.date),
                         "MMMM d, yyyy h:mm a"
@@ -122,8 +122,8 @@ export default function OthersModal(props) {
                   ) : (
                     <TextField
                       variant="outlined"
-                      id="Date"
-                      label="Date"
+                      id="Date and Time"
+                      label="Date and Time"
                       value={dateToday}
                       InputLabelProps={{ shrink: true }}
                       InputProps={{

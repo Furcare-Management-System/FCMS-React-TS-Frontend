@@ -18,6 +18,7 @@ import { useParams } from "react-router-dom";
 import DiagnosisModal from "../../components/modals/DiagnosisModal";
 import { Add, Archive, Delete, Edit } from "@mui/icons-material";
 import { format } from "date-fns";
+import Swal from "sweetalert2";
 
 export default function Consultation({ sid }) {
   const { id } = useParams();
@@ -120,13 +121,24 @@ export default function Consultation({ sid }) {
   };
 
   const onDelete = (u) => {
-    if (!window.confirm("Are you sure to delete this?")) {
-      return;
-    }
-
-    axiosClient.delete(`/diagnosis/${u.id}/forcedelete`).then(() => {
-      setNotification("This consultation diagnosis record was deleted.");
-      getConsultations();
+    Swal.fire({
+      title: "Are you sure to delete this?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosClient.delete(`/diagnosis/${u.id}/forcedelete`).then(() => {
+          Swal.fire({
+            title: "Consultation diagnosis record was deleted.",
+            icon: "success",
+          }).then(() => {
+            getConsultations();
+          });
+        });
+      }
     });
   };
 
@@ -285,7 +297,7 @@ export default function Consultation({ sid }) {
                               <Edit fontSize="small" />
                             </Button>
 
-                            {/* {r.servicesavailed.status !== "Completed" && (
+                            {r.servicesavailed.status === "To Pay" && (
                               <Button
                                 variant="contained"
                                 size="small"
@@ -294,7 +306,7 @@ export default function Consultation({ sid }) {
                               >
                                 <Delete fontSize="small" />
                               </Button>
-                            )} */}
+                            )}
                           </Stack>
                         </TableCell>
                       </TableRow>

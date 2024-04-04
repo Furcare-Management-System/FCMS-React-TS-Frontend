@@ -84,8 +84,8 @@ export default function ServiceAvailModal(props) {
               />
               <TextField
                 variant="outlined"
-                id="Date"
-                label="Date"
+                id="Date and Time"
+                label="Date and Time"
                 value={dateToday}
                 InputLabelProps={{ shrink: true }}
                 InputProps={{

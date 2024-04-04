@@ -37,7 +37,6 @@ export default function VaccinationLogsModal(props) {
     pets,
     vaccination,
     setVaccination,
-    againsts,
     vets,
     errors,
     pet,
@@ -103,8 +102,8 @@ export default function VaccinationLogsModal(props) {
                 {isUpdate ? (
                   <TextField
                     variant="outlined"
-                    id="Date"
-                    label="Date"
+                    id="Date and Time"
+                    label="Date and Time"
                     value={format(
                       new Date(vaccination.date),
                       "MMMM d, yyyy h:mm a"
@@ -119,8 +118,8 @@ export default function VaccinationLogsModal(props) {
                 ) : (
                   <TextField
                     variant="outlined"
-                    id="Date"
-                    label="Date"
+                    id="Date and Time"
+                    label="Date and Time"
                     value={dateToday}
                     InputLabelProps={{ shrink: true }}
                     InputProps={{
@@ -168,7 +167,7 @@ export default function VaccinationLogsModal(props) {
                   variant="outlined"
                   id="Weight"
                   label="Weight"
-                  // type="number"
+                  type="number"
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">kg</InputAdornment>
@@ -180,21 +179,6 @@ export default function VaccinationLogsModal(props) {
                   }
                   required
                 />
-
-                <Box border={1} p={1}>
-                  <Table>
-                    <TableBody>
-                      {againsts.map((item) => (
-                        <TableRow key={item.id}>
-                          <TableCell size="small" sx={{ fontWeight: "bold" }}>
-                            {item.acronym}
-                          </TableCell>
-                          <TableCell size="small">{item.description}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </Box>
 
                 <TextField
                   variant="outlined"
@@ -237,9 +221,9 @@ export default function VaccinationLogsModal(props) {
                 </FormControl>
 
                 <TextField
-                  label="Return"
+                  label="Return Date"
                   variant="outlined"
-                  id="Return"
+                  id="Return Date"
                   type="date"
                   value={vaccination.return || ``}
                   onChange={(ev) =>

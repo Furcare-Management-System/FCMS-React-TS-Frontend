@@ -25,6 +25,7 @@ import TestResultModal from "../../components/modals/TestResultModal";
 import EnlargeImageModal from "../../components/modals/EnlargeImageModal";
 import AttachmentModal from "../../components/modals/AttachmentModal";
 import { format } from "date-fns";
+import Swal from "sweetalert2";
 
 export default function TestResults({ sid, sname }) {
   const { id } = useParams();
@@ -120,6 +121,28 @@ export default function TestResults({ sid, sname }) {
   const closeModal = () => {
     openchange(false);
     setUpload(false);
+  };
+
+  const onDelete = (u) => {
+    Swal.fire({
+      title: "Are you sure to delete this?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosClient.delete(`/testresults/${u.id}/forcedelete`).then(() => {
+          Swal.fire({
+            title: "Test result was deleted.",
+            icon: "success",
+          }).then(() => {
+            getTestresults();
+          });
+        });
+      }
+    });
   };
 
   // onClicks
@@ -438,14 +461,16 @@ export default function TestResults({ sid, sname }) {
                               >
                                 <Edit fontSize="small" />
                               </Button>
-                              {/* <Button
-                                variant="contained"
-                                size="small"
-                                color="error"
-                                onClick={() => onArchive(r)}
-                              >
-                                <Delete fontSize="small" />
-                              </Button> */}
+                              {r.servicesavailed.status === "To Pay" && (
+                                <Button
+                                  variant="contained"
+                                  size="small"
+                                  color="error"
+                                  onClick={() => onDelete(r)}
+                                >
+                                  <Delete fontSize="small" />
+                                </Button>
+                              )}
                             </Stack>
                           </TableCell>
                         </TableRow>

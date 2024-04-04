@@ -112,8 +112,8 @@ export default function TestResultModal(props) {
                   {isUpdate ? (
                     <TextField
                       variant="outlined"
-                      id="Date"
-                      label="Date"
+                      id="Date and Time"
+                      label="Date and Time"
                       value={format(
                         new Date(testresult.date),
                         "MMMM d, yyyy h:mm a"
@@ -128,8 +128,8 @@ export default function TestResultModal(props) {
                   ) : (
                     <TextField
                       variant="outlined"
-                      id="Date"
-                      label="Date"
+                      id="Date and Time"
+                      label="Date and Time"
                       value={dateToday}
                       InputLabelProps={{ shrink: true }}
                       InputProps={{
@@ -139,7 +139,7 @@ export default function TestResultModal(props) {
                       required
                     />
                   )}
-                  {othertests && (
+                    {!isUpdate && othertests && (
                     <FormControl>
                       <InputLabel>Type</InputLabel>
                       <Select

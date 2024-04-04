@@ -15,10 +15,11 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
-import { Add, Archive, Edit } from "@mui/icons-material";
 import { useStateContext } from "../../contexts/ContextProvider";
 import ProductModal from "../../components/modals/ProductModal";
 import { format } from "date-fns";
+import { Delete } from "@mui/icons-material";
+import Swal from "sweetalert2";
 
 export default function Products({ sid }) {
   const { notification, setNotification } = useStateContext();
@@ -31,7 +32,7 @@ export default function Products({ sid }) {
     { id: "Unit", name: "Unit" },
     { id: "Price", name: "Price" },
     { id: "Status", name: "Status" },
-    // { id: "Actions", name: "Actions" },
+    { id: "Actions", name: "Actions" },
   ];
 
   const [page, setPage] = useState(0);
@@ -174,6 +175,28 @@ export default function Products({ sid }) {
     }
   };
 
+  const onDelete = (u) => {
+    Swal.fire({
+      title: "Are you sure to delete this?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosClient.delete(`/servicesavailed/${u.id}/forcedelete/product`).then(() => {
+          Swal.fire({
+            title: "Product was deleted.",
+            icon: "success",
+          }).then(() => {
+            getMedications();
+          });
+        });
+      }
+    });
+  };
+
   useEffect(() => {
     getMedications();
   }, []);
@@ -292,27 +315,29 @@ export default function Products({ sid }) {
                           <TableCell>{record.unit}</TableCell>
                           <TableCell>{record.unit_price}</TableCell>
                           <TableCell>{record.status}</TableCell>
-                          {/* <TableCell>
+                          <TableCell>
                             <Stack direction="row" spacing={2}>
-                              <Button
+                              {/* <Button
                                 variant="contained"
                                 size="small"
                                 color="info"
                                 onClick={() => handleEdit(record)}
                               >
                                 <Edit fontSize="small" />
-                              </Button>
+                              </Button> */}
 
-                              <Button
-                                variant="contained"
-                                size="small"
-                                color="error"
-                                onClick={() => handleArchive(record)}
-                              >
-                                <Archive fontSize="small" />
-                              </Button>
+                              {record.status === "To Pay" && (
+                                <Button
+                                  variant="contained"
+                                  size="small"
+                                  color="error"
+                                  onClick={() => onDelete(record)}
+                                >
+                                  <Delete fontSize="small" />
+                                </Button>
+                              )}
                             </Stack>
-                          </TableCell> */}
+                          </TableCell>
                         </TableRow>
                       ))}
                 </TableBody>

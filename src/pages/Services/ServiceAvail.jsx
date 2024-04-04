@@ -13,7 +13,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { Add, Archive } from "@mui/icons-material";
+import { Add, Archive, Delete } from "@mui/icons-material";
 import ServiceAvailModal from "../../components/modals/ServiceAvailModal";
 import Swal from "sweetalert2";
 import { format } from "date-fns";
@@ -27,7 +27,7 @@ export default function ServiceAvail({ sid, title }) {
     { id: "Quantity", name: "Quantity" },
     { id: "Unit", name: "Unit" },
     { id: "Status", name: "Status" },
-    // { id: "Actions", name: "Actions" },
+    { id: "Actions", name: "Actions" },
   ];
 
   const [message, setMessage] = useState("");
@@ -106,9 +106,9 @@ export default function ServiceAvail({ sid, title }) {
     openServiceavail(false);
   };
 
-  const onArchive = (u) => {
+  const onDelete = (u) => {
     Swal.fire({
-      title: "Are you sure to archive this?",
+      title: "Are you sure to delete this?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -116,9 +116,9 @@ export default function ServiceAvail({ sid, title }) {
       confirmButtonText: "Yes",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosClient.delete(`/servicesavailed/${u.id}/archive`).then(() => {
+        axiosClient.delete(`/servicesavailed/${u.id}/forcedelete`).then(() => {
           Swal.fire({
-            title: "Service was archived!",
+            title: "Service was deleted.",
             icon: "success",
           }).then(() => {
             getServiceAvailed();
@@ -218,7 +218,7 @@ export default function ServiceAvail({ sid, title }) {
             {loading && (
               <TableBody>
                 <TableRow>
-                  <TableCell colSpan={5} style={{ textAlign: "center" }}>
+                  <TableCell colSpan={columns.length} style={{ textAlign: "center" }}>
                     Loading...
                   </TableCell>
                 </TableRow>
@@ -228,7 +228,7 @@ export default function ServiceAvail({ sid, title }) {
             {!loading && message && (
               <TableBody>
                 <TableRow>
-                  <TableCell colSpan={6} style={{ textAlign: "center" }}>
+                  <TableCell colSpan={columns.length} style={{ textAlign: "center" }}>
                     {message}
                   </TableCell>
                 </TableRow>
@@ -249,16 +249,18 @@ export default function ServiceAvail({ sid, title }) {
                         <TableCell>{r.quantity}</TableCell>
                         <TableCell>{r.unit}</TableCell>
                         <TableCell>{r.status}</TableCell>
-                        {/* <TableCell>
+                        <TableCell>
+                        {r.status === "To Pay" && (
                           <Button
                             variant="contained"
                             size="small"
                             color="error"
-                            onClick={() => onArchive(r)}
+                            onClick={() => onDelete(r)}
                           >
-                            <Archive fontSize="small" />
+                            <Delete fontSize="small" />
                           </Button>
-                        </TableCell> */}
+                        )}
+                        </TableCell>
                       </TableRow>
                     ))}
               </TableBody>

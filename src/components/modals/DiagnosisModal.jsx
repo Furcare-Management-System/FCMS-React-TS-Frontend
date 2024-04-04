@@ -94,8 +94,8 @@ export default function DiagnosisModal(props) {
                 {isUpdate ? (
                   <TextField
                     variant="outlined"
-                    id="Date"
-                    label="Date"
+                    id="Date and Time"
+                    label="Date and Time"
                     value={format(
                       new Date(diagnosis.date),
                       "MMMM d, yyyy h:mm a"
@@ -110,8 +110,8 @@ export default function DiagnosisModal(props) {
                 ) : (
                   <TextField
                     variant="outlined"
-                    id="Date"
-                    label="Date"
+                    id="Date and Time"
+                    label="Date and Time"
                     value={dateToday}
                     InputLabelProps={{ shrink: true }}
                     InputProps={{

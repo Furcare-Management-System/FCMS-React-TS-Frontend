@@ -93,8 +93,8 @@ export default function BalancePaymentModal(props) {
                 <Stack spacing={2} margin={1}>
                 <TextField
                     variant="outlined"
-                    id="Date"
-                    label="Date"
+                    id="Date and Time"
+                    label="Date and Time"
                     value={dateToday}
                     InputLabelProps={{ shrink: true }}
                     InputProps={{
