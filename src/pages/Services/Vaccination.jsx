@@ -24,12 +24,12 @@ export default function Vaccination({ sid, sname }) {
   const { notification, setNotification } = useStateContext();
 
   const columns = [
-    { id: "date", name: "Date" },
+    { id: "date and Time", name: "Date and Time" },
     { id: "weight", name: "Weight" },
     { id: "Against", name: "Against" },
     { id: "Description", name: "Description" },
     { id: "Veterinarian", name: "Veterinarian" },
-    { id: "Return", name: "Return" },
+    { id: "Return Date", name: "Return Date" },
     { id: "Status", name: "Status" },
     { id: "Actions", name: "Actions" },
   ];
@@ -277,7 +277,10 @@ export default function Vaccination({ sid, sname }) {
               {loading && (
                 <TableBody>
                   <TableRow>
-                    <TableCell colSpan={7} style={{ textAlign: "center" }}>
+                    <TableCell
+                      colSpan={columns.length}
+                      style={{ textAlign: "center" }}
+                    >
                       Loading...
                     </TableCell>
                   </TableRow>
@@ -287,7 +290,10 @@ export default function Vaccination({ sid, sname }) {
               {!loading && message && (
                 <TableBody>
                   <TableRow>
-                    <TableCell colSpan={7} style={{ textAlign: "center" }}>
+                    <TableCell
+                      colSpan={columns.length}
+                      style={{ textAlign: "center" }}
+                    >
                       {message}
                     </TableCell>
                   </TableRow>

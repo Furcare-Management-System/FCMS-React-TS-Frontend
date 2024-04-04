@@ -26,9 +26,9 @@ export default function PetConsultations({ sid }) {
   const { id } = useParams();
 
   const columns = [
-    { id: "Date", name: "Date" },
+    { id: "date and Time", name: "Date and Time" },
     { id: "Diagnosis", name: "Diagnosis" },
-    { id: "Follow Up", name: "Follow Up" },
+    { id: "Follow Up Date", name: "Follow Up Date" },
     { id: "Actions", name: "Actions" },
   ];
 

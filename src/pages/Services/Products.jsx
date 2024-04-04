@@ -24,9 +24,9 @@ export default function Products({ sid }) {
   const { notification, setNotification } = useStateContext();
 
   const columns = [
-    { id: "date", name: "Date" },
+    { id: "date and Time", name: "Date and Time" },
     { id: "Pet", name: "Pet" },
-    { id: "Product", name: "Product" },
+    { id: "Product Name", name: "Product Name" },
     { id: "Quantity", name: "Quantity" },
     { id: "Unit", name: "Unit" },
     { id: "Price", name: "Price" },

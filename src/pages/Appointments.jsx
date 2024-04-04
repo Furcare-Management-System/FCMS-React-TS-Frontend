@@ -39,7 +39,7 @@ export default function Appointments() {
   //for table
   const columns = [
     { id: "ID", name: "ID" },
-    { id: "Date", name: "Date" },
+    { id: "Date and Time", name: "Date and Time" },
     { id: "client", name: "Client" },
     { id: "Services", name: "Services" },
     { id: "Purpose", name: "Purpose" },
@@ -637,8 +637,7 @@ export default function Appointments() {
                         <TableCell>{`${p.firstname} ${p.lastname}`}</TableCell>
                         <TableCell>0{p.contact_num}</TableCell>
                         <TableCell>
-                          {p.address.zone}, {p.address.barangay},{" "}
-                          {p.address.zipcode.area}
+                          {p.zone}, {p.barangay}, {p.zipcode.area}
                         </TableCell>
                         <TableCell>
                           <Button
@@ -647,7 +646,7 @@ export default function Appointments() {
                             size="small"
                             onClick={() => addModal(p)}
                           >
-                            <Add fontSize="small" />
+                            create appointment
                           </Button>
                         </TableCell>
                       </TableRow>

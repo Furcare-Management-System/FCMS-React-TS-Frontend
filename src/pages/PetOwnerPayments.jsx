@@ -26,7 +26,7 @@ import { format } from "date-fns";
 export default function PetOwnerPayments() {
   //for table
   const columns = [
-    { id: "Date", name: "Date" },
+    { id: "Date and Time", name: "Date and Time" },
     { id: "Deposit", name: "Deposit" },
     { id: "Balance", name: "Balance" },
     { id: "Status", name: "Status" },

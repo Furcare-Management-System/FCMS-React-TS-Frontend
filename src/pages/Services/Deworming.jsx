@@ -26,12 +26,12 @@ export default function Deworming({ sid }) {
 
   //for table
   const columns = [
-    { id: "date", name: "Date" },
+    { id: "date and Time", name: "Date and Time" },
     { id: "Pet", name: "Pet" },
     { id: "weight", name: "Weight" },
     { id: "Description", name: "Description" },
     { id: "Veterinarian", name: "Veterinarian" },
-    { id: "Return", name: "Return" },
+    { id: "Return Date", name: "Return Date" },
     { id: "Status", name: "Status" },
     { id: "Actions", name: "Actions" },
   ];

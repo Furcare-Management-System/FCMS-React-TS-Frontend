@@ -84,9 +84,9 @@ export default function PetTestResults({ sid, sname }) {
 
   //for table
   const columns = [
-    { id: "Date", name: "Date" },
-    { id: "Attachment", name: "Attachment" },
+    { id: "date and Time", name: "Date and Time" },
     { id: "Type", name: "Type" },
+    { id: "Attachment", name: "Attachment" },
     { id: "Description", name: "Description" },
     { id: "Actions", name: "Actions" },
   ];
@@ -418,10 +418,10 @@ export default function PetTestResults({ sid, sname }) {
                       .map((r) => (
                         <TableRow hover role="checkbox" key={r.id}>
                           <TableCell>
-                            {format(
-                              new Date(r.date),
-                              "MMMM d, yyyy h:mm a"
-                            )}
+                            {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
+                          </TableCell>
+                          <TableCell>
+                            {r.servicesavailed.service.service}
                           </TableCell>
                           <TableCell>
                             <img
@@ -440,9 +440,6 @@ export default function PetTestResults({ sid, sname }) {
                             >
                               <Edit fontSize="small" />{" "}
                             </IconButton>
-                          </TableCell>
-                          <TableCell>
-                            {r.servicesavailed.service.service}
                           </TableCell>
                           <TableCell>{r.description}</TableCell>
                           <TableCell>

@@ -22,7 +22,7 @@ export default function ServiceAvail({ sid, title }) {
   const { id } = useParams();
 
   const columns = [
-    { id: "Date", name: "Date" },
+    { id: "Date and Time", name: "Date and Time" },
     { id: "Pet", name: "Pet" },
     { id: "Quantity", name: "Quantity" },
     { id: "Unit", name: "Unit" },

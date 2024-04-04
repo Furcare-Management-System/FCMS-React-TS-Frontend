@@ -19,7 +19,7 @@ import { format } from "date-fns";
 export default function Services() {
   //for table
   const columns = [
-    { id: "Date", name: "Date" },
+    { id: "Date and Time", name: "Date and Time" },
     { id: "Client", name: "Client" },
     { id: "Pet", name: "Pet" },
     { id: "Product/Service", name: "Product/Service" },

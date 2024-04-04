@@ -25,7 +25,7 @@ export default function PetDeworming() {
 
   //for table
   const columns = [
-    { id: "date", name: "Date" },
+    { id: "date and Time", name: "Date and Time" },
     { id: "weight", name: "Weight" },
     { id: "Description", name: "Description" },
     { id: "Veterinarian", name: "Veterinarian" },
@@ -227,21 +227,15 @@ export default function PetDeworming() {
                     .slice(page * rowperpage, page * rowperpage + rowperpage)
                     .map((r) => (
                       <TableRow hover role="checkbox" key={r.id}>
-                         <TableCell>
-                            {format(
-                              new Date(r.date),
-                              "MMMM d, yyyy h:mm a"
-                            )}
-                          </TableCell>
+                        <TableCell>
+                          {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
+                        </TableCell>
                         <TableCell>{`${r.weight} kg`}</TableCell>
                         <TableCell>{r.description}</TableCell>
                         <TableCell>{r.vet.fullname}</TableCell>
                         <TableCell>
-                            {format(
-                              new Date(r.return),
-                              "MMMM d, yyyy h:mm a"
-                            )}
-                          </TableCell>
+                          {format(new Date(r.return), "MMMM d, yyyy h:mm a")}
+                        </TableCell>
                         <TableCell>
                           <Stack direction="row" spacing={2}>
                             <Button

@@ -24,7 +24,7 @@ import { format } from "date-fns";
 export default function ToPayServices() {
   //for table
   const columns = [
-    { id: "Date", name: "Date" },
+    { id: "Date and Time", name: "Date and Time" },
     { id: "Pet", name: "Pet" },
     { id: "Service", name: "Product/Service" },
     { id: "Quantity", name: "Quantity" },
@@ -54,7 +54,7 @@ export default function ToPayServices() {
     amount: null,
     change: null,
     amounts_payable: null,
-    discount:null
+    discount: null,
   });
   const [openpayment, setOpenpayment] = useState(false);
   const [backdrop, setBackdrop] = useState(false);

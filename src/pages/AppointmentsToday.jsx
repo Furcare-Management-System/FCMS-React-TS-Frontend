@@ -24,7 +24,7 @@ export default function AppointmentsToday() {
 
   //for table
   const columns = [
-    { id: "Date", name: "Date" },
+    { id: "Date and Time", name: "Date and Time" },
     { id: "client", name: "Client" },
     { id: "Services", name: "Services" },
     { id: "Purpose", name: "Purpose" },

@@ -25,9 +25,9 @@ export default function Medicines({ sid }) {
   const { notification, setNotification } = useStateContext();
 
   const columns = [
-    { id: "date", name: "Date" },
+    { id: "date and Time", name: "Date and Time" },
     { id: "Pet", name: "Pet" },
-    { id: "Medicine", name: "Medicine" },
+    { id: "Medicine Name", name: "Medicine Name" },
     { id: "Quantity", name: "Quantity" },
     { id: "Unit", name: "Unit" },
     { id: "Price", name: "Price" },

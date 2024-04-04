@@ -45,7 +45,7 @@ export default function PaymentModal(props) {
     const deposit = clientservice.deposit || 0;
     const amount = payment.amount || 0;
     const discount = payment.discount || 0;
-  
+
     // Check for invalid inputs
     if (
       isNaN(deposit) ||
@@ -59,10 +59,10 @@ export default function PaymentModal(props) {
     ) {
       return 0;
     }
-  
+
     if (totalCost !== 0) {
       // Calculate change
-      const change = amount - ((totalCost + balance - deposit) - discount);
+      const change = amount - (totalCost + balance - deposit - discount);
       // Ensure change is non-negative
       const actualChange = Math.max(change, 0);
       // Update payment change
@@ -72,7 +72,7 @@ export default function PaymentModal(props) {
       return 0;
     }
   };
-  
+
   useEffect(() => {
     calculateChange();
   }, []);
@@ -139,8 +139,8 @@ export default function PaymentModal(props) {
                 <Stack spacing={2} margin={1}>
                   <TextField
                     variant="outlined"
-                    id="Date"
-                    label="Date"
+                    id="Date and Time"
+                    label="Date and Time"
                     value={dateToday}
                     InputLabelProps={{ shrink: true }}
                     InputProps={{

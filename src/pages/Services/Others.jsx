@@ -98,7 +98,7 @@ export default function Others({ sname }) {
 
   //for table
   const columns = [
-    { id: "Date", name: "Date" },
+    { id: "Date and Time", name: "Date and Time" },
     { id: "Pet", name: "Pet" },
     { id: "Service", name: "Service" },
     { id: "Status", name: "Status" },

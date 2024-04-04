@@ -26,7 +26,7 @@ export default function PetVaccination() {
   const { notification, setNotification } = useStateContext();
 
   const columns = [
-    { id: "date", name: "Date" },
+    { id: "date and Time", name: "Date and Time" },
     { id: "Type", name: "Type" },
     { id: "weight", name: "Weight" },
     { id: "Against", name: "Against" },
@@ -240,7 +240,7 @@ export default function PetVaccination() {
                       )
                       .map((record) => (
                         <TableRow hover role="checkbox" key={record.id}>
-                           <TableCell>
+                          <TableCell>
                             {format(
                               new Date(record.date),
                               "MMMM d, yyyy h:mm a"

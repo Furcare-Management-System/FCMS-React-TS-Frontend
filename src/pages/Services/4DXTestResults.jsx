@@ -103,7 +103,7 @@ export default function OtherTestResults({ sid, sname }) {
 
   //for table
   const columns = [
-    { id: "Date", name: "Date" },
+    { id: "Date and Time", name: "Date and Time" },
     { id: "Pet", name: "Pet" },
     { id: "Type", name: "Type" },
     { id: "Attachment", name: "Attachment" },

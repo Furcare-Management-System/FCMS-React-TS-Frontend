@@ -24,7 +24,7 @@ export default function Payments() {
   //for table
   const columns = [
     { id: "id", name: "ID" },
-    { id: "Date", name: "Date" },
+    { id: "Date and Time", name: "Date and Time" },
     { id: "Client", name: "Client" },
     { id: "Ref #", name: "Ref #" },
     { id: "Type", name: "Type" },

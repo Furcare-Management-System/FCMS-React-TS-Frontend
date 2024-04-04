@@ -18,7 +18,7 @@ import { useParams } from "react-router-dom";
 export default function PetOwnerPaymentRecords() {
   //for table
   const columns = [
-    { id: "Date", name: "Date" },
+    { id: "Date and Time", name: "Date and Time" },
     { id: "Ref #", name: "Ref #" },
     { id: "Type", name: "Type" },
     { id: "Total", name: "Total" },

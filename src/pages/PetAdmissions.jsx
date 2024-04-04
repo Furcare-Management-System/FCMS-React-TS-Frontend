@@ -33,9 +33,9 @@ export default function PetAdmissions() {
   const { id } = useParams();
   //for table
   const columns = [
-    { id: "Date", name: "Date" },
+    { id: "date and Time", name: "Date and Time" },
     { id: "Day", name: "Day" },
-    { id: "diagnosis", name: "Diagnosis" },
+    { id: "diagnosis/Findings", name: "Diagnosis/Findings" },
     { id: "Actions", name: "Actions" },
   ];
 

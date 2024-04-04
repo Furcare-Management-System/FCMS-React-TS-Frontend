@@ -6,7 +6,6 @@ import {
   Box,
   Button,
   CircularProgress,
-  Divider,
   InputAdornment,
   Paper,
   Stack,
@@ -16,16 +15,15 @@ import {
 import PetConditionAdmission from "./PetConditionAdmission";
 import PetMedicationAdmission from "./PetMedicationAdmission";
 import { format } from "date-fns";
-import PetProductAdmission from "./PetProductAdmission";
 
 export default function TreatmentForm() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [errors, setErrors] = useState(null);
   const [loading, setLoading] = useState(null);
 
   const [treatment, setTreatment] = useState({
     id: null,
+    day: null,
     pet_id: null,
     diagnosis: "",
     body_weight: null,
@@ -148,8 +146,6 @@ export default function TreatmentForm() {
     <>
       <Paper
         sx={{
-          // width: "70%",
-          // margin: "auto",
           margin: "30px",
           padding: "15px",
         }}
@@ -187,10 +183,23 @@ export default function TreatmentForm() {
             )}
             {treatment.date && (
               <Typography variant="body1">
-                Date: {format(new Date(treatment.date), "MMMM d, yyyy h:mm a")}
+                Date and Time:{" "}
+                {format(new Date(treatment.date), "MMMM d, yyyy h:mm a")}
               </Typography>
             )}
-            <Typography variant="body1">Day: {treatment.day} </Typography>
+            <TextField
+              sx={{ width: "7%", mt: 1 }}
+              value={treatment.day}
+              onChange={(ev) => handleFieldChange("day", ev.target.value)}
+              label="Day"
+              InputLabelProps={{ shrink: true }}
+              variant="outlined"
+              size="small"
+              required
+              InputProps={{
+                readOnly: edittreatment ? false : true,
+              }}
+            />
             <Box
               sx={{
                 display: "flex",

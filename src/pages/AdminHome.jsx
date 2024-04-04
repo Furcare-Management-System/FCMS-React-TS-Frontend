@@ -62,9 +62,11 @@ export default function AdminHome() {
     axiosClient
       .get(`/counts`)
       .then(({ data }) => {
-        setPetowners(data.petowners);
-        setPets(data.pets);
-        setIncome(data.income.toFixed(2));
+        setPetowners(new Intl.NumberFormat("en-US").format(data.petowners));
+        setPets(new Intl.NumberFormat("en-US").format(data.pets));
+        setIncome(
+          new Intl.NumberFormat("en-US").format(data.income.toFixed(2))
+        );
       })
       .catch((mes) => {
         const response = mes.response;

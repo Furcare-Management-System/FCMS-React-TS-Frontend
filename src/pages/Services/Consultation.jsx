@@ -23,10 +23,10 @@ export default function Consultation({ sid }) {
   const { id } = useParams();
 
   const columns = [
-    { id: "Date", name: "Date" },
+    { id: "Date and Time", name: "Date and Time" },
     { id: "Pet", name: "Pet" },
     { id: "Diagnosis", name: "Diagnosis" },
-    { id: "Follow Up", name: "Follow Up" },
+    { id: "Follow Up Date", name: "Follow Up Date" },
     { id: "Status", name: "Status" },
     { id: "Actions", name: "Actions" },
   ];

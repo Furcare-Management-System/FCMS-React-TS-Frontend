@@ -21,7 +21,7 @@ export default function PetServiceAvail({ sid, title }) {
   const { id } = useParams();
 
   const columns = [
-    { id: "Date", name: "Date" },
+    { id: "Date and Time", name: "Date and Time" },
     { id: "Product/Service", name: "Product/Service" },
     { id: "Status", name: "Status" },
   ];

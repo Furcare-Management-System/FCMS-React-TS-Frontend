@@ -31,9 +31,10 @@ import { format } from "date-fns";
 export default function PetOwnerAppointments({ petowner }) {
   //for table
   const columns = [
-    { id: "Date", name: "Date" },
+    { id: "Date and Time", name: "Date and Time" },
     { id: "Services", name: "Services" },
     { id: "Purpose", name: "Purpose" },
+    { id: "Remarks", name: "Remarks" },
     { id: "Veterinarian", name: "Veterinarian" },
     { id: "Status", name: "Status" },
     { id: "Actions", name: "Actions" },
@@ -380,6 +381,7 @@ export default function PetOwnerAppointments({ petowner }) {
                             ))}
                         </TableCell>
                         <TableCell>{r.purpose}</TableCell>
+                        <TableCell>{r.remarks}</TableCell>
                         <TableCell>{r.vet.fullname}</TableCell>
                         <TableCell>{r.status}</TableCell>
                         <TableCell>
