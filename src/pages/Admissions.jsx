@@ -26,10 +26,10 @@ export default function Admissions() {
   const sid = 20;
   //for table
   const columns = [
-    { id: "Date", name: "Date" },
+    { id: "Date and Time", name: "Date and Time" },
     { id: "Day", name: "Day" },
     { id: "Pet", name: "Pet" },
-    { id: "diagnosis", name: "Diagnosis" },
+    { id: "diagnosis/Findings", name: "Diagnosis/Findings" },
     { id: "Actions", name: "Actions" },
   ];
 
@@ -108,7 +108,6 @@ export default function Admissions() {
     body_condition_score: "",
     fluid_rate: "",
     comments: "",
-    // unit_price: null,
   });
   const [pets, setPets] = useState([]);
   const [openmodal, setOpenmodal] = useState(false);
@@ -121,14 +120,6 @@ export default function Admissions() {
         setPets(data.data);
       })
       .catch(() => {});
-  };
-
-  const addModal = () => {
-    getPetownerPets();
-    setClientservice({});
-    setTreatment({});
-    setErrors(null);
-    setOpenmodal(true);
   };
 
   const addConsent = () => {
@@ -254,10 +245,12 @@ export default function Admissions() {
             client deposit
           </Button>
           <Button
-            onClick={addModal}
             variant="contained"
             size="small"
             color="success"
+            component={Link}
+            to={`/admin/${id}/treatment/new/`}
+            target="_blank"
           >
             <Add />
             treatment
