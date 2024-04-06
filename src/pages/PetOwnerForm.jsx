@@ -4,21 +4,13 @@ import axiosClient from "../axios-client";
 import {
   TextField,
   Box,
-  Button,
-  Stepper,
-  Step,
-  StepLabel,
   Typography,
-  Alert,
   InputAdornment,
   Paper,
   CircularProgress,
-  FormControlLabel,
-  Checkbox,
 } from "@mui/material";
 import Swal from "sweetalert2";
 import { LoadingButton } from "@mui/lab";
-import { ToastContainer, toast } from "react-toastify";
 
 export default function PetOwnerForm() {
   const navigate = useNavigate();
@@ -38,8 +30,6 @@ export default function PetOwnerForm() {
     barangay: "",
     zone: "",
     email: "",
-    password: "",
-    password_confirmation: "",
   });
 
   const [zipcode, setZipcode] = useState({
@@ -48,24 +38,6 @@ export default function PetOwnerForm() {
     province: "",
     zipcode: "",
   });
-
-  const [activeStep, setActiveStep] = useState(0);
-
-  const confirmPassword = (ev) => {
-    ev.preventDefault();
-    if (petowner.password === petowner.password_confirmation) {
-      setActiveStep((prevStep) => prevStep + 1);
-    } else {
-      // toast.error("Password did not match.", {
-      //   position: "bottom-right",
-      //   theme: "colored",
-      // });
-      Swal.fire({
-        text: "Password did not match!",
-        icon: "error",
-      });
-    }
-  };
 
   const onSubmit = (ev) => {
     ev.preventDefault();
@@ -95,31 +67,8 @@ export default function PetOwnerForm() {
     const response = err.response;
     if (response && response.status === 422) {
       setErrors(response.data.errors);
-      if (response.data.errors.email || response.data.errors.password) {
-        handlePrev();
-      }
     }
   };
-
-  const handleNext = (e) => {
-    e.preventDefault();
-    if (activeStep === 0) {
-      confirmPassword(e);
-      return true;
-    }
-
-    if (activeStep === 1) {
-      onSubmit(e);
-      return true;
-    }
-    setActiveStep((prevStep) => prevStep + 1);
-  };
-
-  const handlePrev = () => {
-    setActiveStep((prevStep) => prevStep - 1);
-  };
-
-  const steps = ["Create a User Account", "Pet Owner Registration"];
 
   useEffect(() => {
     let timerId;
@@ -130,7 +79,7 @@ export default function PetOwnerForm() {
       setZipcode({});
       setZipcodeerror(null);
       getZipcodeDetails(selectedZipcode);
-      setZipcodeloading(false);
+      // setZipcodeloading(false);
     }, 1000);
 
     return () => {
@@ -152,6 +101,7 @@ export default function PetOwnerForm() {
             ...prevStaff,
             zipcode_id: data.data.id,
           }));
+          setZipcodeloading(false);
         })
         .catch((error) => {
           const response = error.response;
@@ -166,113 +116,30 @@ export default function PetOwnerForm() {
     setSelectedZipcode(event.target.value);
   };
 
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleCheckboxChange = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const getStepContent = (step) => {
-    switch (step) {
-      case 0:
-        return (
-          <Box
-            sx={{
-              width: "80%",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              "& > :not(style)": { m: 1 },
-              margin: "auto",
-            }}
-          >
-            <Typography variant="h5" padding={1} align="center">
-              Create an Account
-            </Typography>
-            <TextField
-              id="Email"
-              label="Email"
-              size="small"
-              type="email"
-              fullWidth
-              value={petowner.email || ""}
-              onChange={(ev) =>
-                setPetowner({ ...petowner, email: ev.target.value })
-              }
-              required
-              error={errors && errors.email ? true : false}
-              helperText={
-                errors && errors.email
-                  ? errors && errors.email
-                  : "Please input a valid email address."
-              }
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              id="Password"
-              size="small"
-              label="Password"
-              type={showPassword ? "text" : "password"}
-              required
-              fullWidth
-              value={petowner.password || ""}
-              onChange={(ev) =>
-                setPetowner({ ...petowner, password: ev.target.value })
-              }
-              error={errors && errors.password ? true : false}
-              helperText={
-                errors && errors.password
-                  ? errors && errors.password
-                  : "Your password must be at least 8 characters long and contain numbers and letters."
-              }
-            />
-            <TextField
-              variant="outlined"
-              id="Password Confirmation"
-              label="Password Confirmation"
-              size="small"
-              fullWidth
-              required
-              type={showPassword ? "text" : "password"}
-              value={petowner.password_confirmation || ""}
-              onChange={(ev) =>
-                setPetowner({
-                  ...petowner,
-                  password_confirmation: ev.target.value,
-                })
-              }
-              error={errors && errors.password ? true : false}
-            />
-            <FormControlLabel
-              sx={{ width: "100%" }}
-              control={
-                <Checkbox
-                  checked={showPassword}
-                  onChange={handleCheckboxChange}
-                  color="primary"
-                />
-              }
-              label="Show Password"
-            />
-          </Box>
-        );
-      case 1:
-        return (
-          <Box
-            sx={{
-              width: "80%",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              "& > :not(style)": { m: 1 },
-              margin: "auto",
-            }}
-          >
-            <Typography variant="h5" padding={1} align="center">
-              Pet Owner Registration
-            </Typography>
-
+  return (
+    <Paper
+      sx={{
+        width: "70%",
+        margin: "3%",
+        padding: "15px",
+        border: "2px solid black",
+      }}
+    >
+      <form onSubmit={(e) => onSubmit(e)}>
+        <Box
+          sx={{
+            width: "90%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            "& > :not(style)": { m: 1 },
+            margin: "auto",
+          }}
+        >
+          <Typography variant="h5" padding={1} align="center">
+            Pet Owner Registration
+          </Typography>
+          <Box display={"flex"} flexDirection={"row"} sx={{ width: "100%" }}>
             <TextField
               variant="outlined"
               size="small"
@@ -301,177 +168,138 @@ export default function PetOwnerForm() {
               error={errors && errors.lastname ? true : false}
               helperText={errors && errors.lastname}
             />
+          </Box>
+          <TextField
+            id="Email"
+            label="Email"
+            size="small"
+            type="email"
+            fullWidth
+            value={petowner.email || ""}
+            onChange={(ev) =>
+              setPetowner({ ...petowner, email: ev.target.value })
+            }
+            // required
+            error={errors && errors.email ? true : false}
+            helperText={
+              errors && errors.email
+                ? errors && errors.email
+                : "Please input a valid email address."
+            }
+            autoFocus
+          />
+          <TextField
+            variant="outlined"
+            size="small"
+            id="Contact Number"
+            label="Contact Number"
+            type="number"
+            fullWidth
+            inputProps={{
+              minLength: 10,
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">+63</InputAdornment>
+              ),
+            }}
+            value={petowner.contact_num}
+            onChange={(ev) => {
+              const input = ev.target.value.slice(0, 10);
+              setPetowner({ ...petowner, contact_num: input });
+            }}
+            required
+            error={errors && errors.contact_num ? true : false}
+            helperText={errors && errors.contact_num}
+          />
+
+          <TextField
+            id="Zone"
+            size="small"
+            label="Zone/Block/Street"
+            fullWidth
+            value={petowner.zone || ""}
+            onChange={(ev) =>
+              setPetowner({ ...petowner, zone: ev.target.value })
+            }
+            error={errors && errors.zone ? true : false}
+            helperText={errors && errors.zone}
+          />
+          <TextField
+            id="Barangay"
+            label="Barangay"
+            size="small"
+            fullWidth
+            value={petowner.barangay}
+            onChange={(ev) =>
+              setPetowner({ ...petowner, barangay: ev.target.value })
+            }
+            required
+            error={errors && errors.barangay ? true : false}
+            helperText={errors && errors.barangay}
+          />
+
+          <Box display={"flex"} flexDirection={"row"} sx={{ width: "100%" }}>
             <TextField
-              variant="outlined"
+              id="Zipcode"
+              label="Zipcode"
               size="small"
-              id="Contact Number"
-              label="Contact Number"
               type="number"
-              fullWidth
-              inputProps={{
-                minLength: 10,
-              }}
+              value={selectedZipcode}
+              onChange={handleZipcodeChange}
+              fullWidth={!zipcode.area}
+              required
+              error={
+                (errors && errors.zipcode_id) || zipcodeerror ? true : false
+              }
+              helperText={(errors && errors.zipcode_id) || zipcodeerror}
               InputProps={{
                 startAdornment: (
-                  <InputAdornment position="start">+63</InputAdornment>
+                  <InputAdornment position="start">
+                    {zipcodeloading && <CircularProgress size={15} />}
+                  </InputAdornment>
                 ),
               }}
-              value={petowner.contact_num}
-              onChange={(ev) => {
-                const input = ev.target.value.slice(0, 10);
-                setPetowner({ ...petowner, contact_num: input });
-              }}
-              required
-              error={errors && errors.contact_num ? true : false}
-              helperText={errors && errors.contact_num}
             />
-
-            <TextField
-              id="Zone"
-              size="small"
-              label="Zone/Block/Street"
-              fullWidth
-              value={petowner.zone || ""}
-              onChange={(ev) =>
-                setPetowner({ ...petowner, zone: ev.target.value })
-              }
-              error={errors && errors.zone ? true : false}
-              helperText={errors && errors.zone}
-            />
-            <TextField
-              id="Barangay"
-              label="Barangay"
-              size="small"
-              fullWidth
-              value={petowner.barangay}
-              onChange={(ev) =>
-                setPetowner({ ...petowner, barangay: ev.target.value })
-              }
-              required
-              error={errors && errors.barangay ? true : false}
-              helperText={errors && errors.barangay}
-            />
-
-            <Box display={"flex"} flexDirection={"row"} sx={{ width: "100%" }}>
+            <Box>
               <TextField
-                id="Zipcode"
-                label="Zipcode"
+                id="Area"
+                label="Area"
                 size="small"
-                type="number"
-                value={selectedZipcode}
-                onChange={handleZipcodeChange}
-                fullWidth={!zipcode.area}
+                value={zipcode.area || ""}
                 required
-                error={
-                  (errors && errors.zipcode_id) || zipcodeerror ? true : false
-                }
-                helperText={(errors && errors.zipcode_id) || zipcodeerror}
                 InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      {zipcodeloading && <CircularProgress size={15} />}
-                    </InputAdornment>
-                  ),
+                  readOnly: true,
+                  "aria-readonly": true,
                 }}
               />
-              <Box>
-                <TextField
-                  id="Area"
-                  label="Area"
-                  size="small"
-                  value={zipcode.area || ""}
-                  required
-                  InputProps={{
-                    readOnly: true,
-                    "aria-readonly": true,
-                  }}
-                />
-              </Box>
-              <Box>
-                <TextField
-                  id="Province"
-                  label="Province"
-                  size="small"
-                  value={zipcode.province || ""}
-                  fullWidth
-                  required
-                  InputProps={{
-                    readOnly: true,
-                    "aria-readonly": true,
-                  }}
-                />
-              </Box>
+            </Box>
+            <Box>
+              <TextField
+                id="Province"
+                label="Province"
+                size="small"
+                value={zipcode.province || ""}
+                fullWidth
+                required
+                InputProps={{
+                  readOnly: true,
+                  "aria-readonly": true,
+                }}
+              />
             </Box>
           </Box>
-        );
-
-      default:
-        return "Unknown step";
-    }
-  };
-
-  return (
-    <Paper
-      sx={{
-        width: "70%",
-        // marginLeft: "auto",
-        marginLeft: "5%",
-        marginTop: "3%",
-        padding: "20px",
-        border: "2px solid black",
-      }}
-    >
-      <ToastContainer />
-      <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-      <div margin="auto">
-        {activeStep === steps.length ? (
-          <div>
-            <p>All steps completed</p>
-          </div>
-        ) : (
-          <div>
-            <form onSubmit={(e) => handleNext(e)}>
-              {getStepContent(activeStep)}
-              <Box
-                sx={{
-                  padding: "10px",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <Button disabled={activeStep === 0} onClick={handlePrev}>
-                  Back
-                </Button>
-                {activeStep === 0 && (
-                  <>
-                    <Button variant="contained" color="primary" type="submit">
-                      Next
-                    </Button>
-                  </>
-                )}
-                {activeStep === 1 && (
-                  <>
-                    <LoadingButton
-                      loading={loading}
-                      type="submit"
-                      variant="contained"
-                      disabled={zipcodeloading}
-                    >
-                      Save
-                    </LoadingButton>
-                  </>
-                )}
-              </Box>
-            </form>
-          </div>
-        )}
-      </div>
+          <LoadingButton
+            loading={loading}
+            type="submit"
+            variant="contained"
+            disabled={zipcodeloading}
+            fullWidth
+          >
+            Save
+          </LoadingButton>
+        </Box>
+      </form>
     </Paper>
   );
 }

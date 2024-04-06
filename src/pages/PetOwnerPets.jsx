@@ -231,7 +231,7 @@ export default function PetOwnerPets() {
         elevation={4}
       >
         <Box
-          p={2}
+          p={1}
           display="flex"
           flexDirection="row"
           justifyContent="space-between"
@@ -285,7 +285,7 @@ export default function PetOwnerPets() {
             {loading && (
               <TableBody>
                 <TableRow>
-                  <TableCell colSpan={6} style={{ textAlign: "center" }}>
+                  <TableCell colSpan={columns.length} style={{ textAlign: "center" }}>
                     Loading...
                   </TableCell>
                 </TableRow>
@@ -295,7 +295,7 @@ export default function PetOwnerPets() {
             {!loading && message && (
               <TableBody>
                 <TableRow>
-                  <TableCell colSpan={6} style={{ textAlign: "center" }}>
+                  <TableCell colSpan={columns.length} style={{ textAlign: "center" }}>
                     {message}
                   </TableCell>
                 </TableRow>

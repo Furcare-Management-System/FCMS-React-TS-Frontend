@@ -338,7 +338,7 @@ export default function AppointmentsToday() {
                 <TableRow>
                   {columns.map((column) => (
                     <TableCell
-                      style={{ backgroundColor: "black", color: "white" }}
+                      style={{ backgroundColor: "black", color: "white",fontSize: "12px", }}
                       key={column.id}
                     >
                       {column.name}

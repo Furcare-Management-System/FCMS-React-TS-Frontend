@@ -145,6 +145,8 @@ export default function ViewPetOwner() {
         }
       });
   };
+
+  // to display the petowner current appointment after completing the said schedule
   const [services, setServices] = useState([]);
 
   const getServices = () => {
