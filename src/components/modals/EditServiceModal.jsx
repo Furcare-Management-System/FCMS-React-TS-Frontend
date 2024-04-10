@@ -221,12 +221,16 @@ export default function EditServiceModal(props) {
                   </RadioGroup>
                 </FormControl>
                 <TextField
-                  value={service.unit_price || ""}
-                  onChange={(ev) =>
-                    handleFieldChange("unit_price", ev.target.value)
+                  value={
+                    typeof service.unit_price === "number"
+                      ? service.unit_price.toLocaleString()
+                      : ""
                   }
+                  onChange={(ev) => {
+                    const value = parseFloat(ev.target.value.replace(/,/g, ""));
+                    handleFieldChange("unit_price", isNaN(value) ? 0 : value);
+                  }}
                   label="Unit Price"
-                  type="text"
                   required
                   inputProps={{ min: "1" }}
                 />

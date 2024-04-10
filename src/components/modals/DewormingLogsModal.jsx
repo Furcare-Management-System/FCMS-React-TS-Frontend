@@ -80,16 +80,20 @@ export default function DewormingLogsModal(props) {
                 {!isUpdate && (
                   <TextField
                     label={`Deworming Price`}
-                    type="number"
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">₱</InputAdornment>
                       ),
                     }}
-                    value={deworminglog.unit_price || ""}
-                    onChange={(ev) =>
-                      handleFieldChange("unit_price", ev.target.value)
+                    value={
+                      typeof deworminglog.unit_price === "number"
+                        ? deworminglog.unit_price.toLocaleString()
+                        : ""
                     }
+                    onChange={(ev) => {
+                      const value = parseFloat(ev.target.value.replace(/,/g, ""));
+                      handleFieldChange("unit_price", isNaN(value) ? 0 : value);
+                    }}
                     required
                     inputProps={{ min: "1" }}
                   />

@@ -51,12 +51,11 @@ export default function BalancePaymentModal(props) {
 
     const change = amount - balance;
     payment.change = change >= 0 ? change : 0;
-    return change >= 0 ? change : 0;
+    return change >= 0 ? change.toLocaleString() : "0";
   };
 
   const [date, setDate] = useState(new Date());
   const dateToday = format(date, "MMMM d, yyyy h:mm a");
-
 
   useEffect(() => {
     calculateChange();
@@ -91,7 +90,7 @@ export default function BalancePaymentModal(props) {
               )}
               <form onSubmit={(e) => onSubmit(e)}>
                 <Stack spacing={2} margin={1}>
-                <TextField
+                  <TextField
                     variant="outlined"
                     id="Date and Time"
                     label="Date and Time"
@@ -115,18 +114,20 @@ export default function BalancePaymentModal(props) {
                     size="small"
                     type="number"
                   />
-               <TextField
+                  <TextField
                     variant="outlined"
                     id="Balance"
                     label="Balance"
-                    value={clientservice.balance}
+                    // value={clientservice.balance.toLocaleString()}
+                    value= {new Intl.NumberFormat("en-PH", {
+                      style: "currency",
+                      currency: "PHP",
+                    }).format(clientservice.balance)}
                     required
                     InputProps={{
                       readOnly: true,
                       "aria-readonly": true,
-                      startAdornment: (
-                        <InputAdornment position="start">₱</InputAdornment>
-                      ),
+                      
                     }}
                     size="small"
                     disabled={isHovered}
@@ -164,18 +165,24 @@ export default function BalancePaymentModal(props) {
                     label="Amount"
                     variant="outlined"
                     id="Amount"
-                    value={payment.amount || ""}
-                    onChange={(ev) =>
-                      handleFieldChange("amount", ev.target.value)
-                    }
                     required
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">₱</InputAdornment>
                       ),
                     }}
+                    value={
+                      typeof payment.amount === "number"
+                        ? payment.amount.toLocaleString()
+                        : ""
+                    }
+                    onChange={(ev) => {
+                      const value = parseFloat(
+                        ev.target.value.replace(/,/g, "")
+                      );
+                      handleFieldChange("amount", isNaN(value) ? 0 : value);
+                    }}
                     size="small"
-                    type="number"
                     inputProps={{ min: "1" }}
                   />
                   <TextField

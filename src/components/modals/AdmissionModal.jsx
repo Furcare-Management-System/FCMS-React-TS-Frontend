@@ -38,8 +38,6 @@ export default function AdmissionModal(props) {
   const [date, setDate] = useState(new Date());
   const dateToday = format(date, "MMMM d, yyyy h:mm a");
 
-  const formattedBalance = new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(clientservice.balance);
-  
   return (
     <>
       <Backdrop open={loading} style={{ zIndex: 999 }}>
@@ -112,20 +110,21 @@ export default function AdmissionModal(props) {
                 />
                 <TextField
                   label="Deposit"
-                  type="number"
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">₱</InputAdornment>
                     ),
                   }}
                   inputProps={{ min: "1" }}
-                  // value={clientservice.deposit || ""}
-                  // value={new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(clientservice.balance)}
-                  // value={formattedBalance}
-
-                  // onChange={(ev) =>
-                  //   handleFieldChange("deposit", ev.target.value)
-                  // }
+                  value={
+                    typeof clientservice.deposit === "number"
+                      ? clientservice.deposit.toLocaleString()
+                      : ""
+                  }
+                  onChange={(ev) => {
+                    const value = parseFloat(ev.target.value.replace(/,/g, ""));
+                    handleFieldChange("deposit", isNaN(value) ? 0 : value);
+                  }}
                   required
                 />
 

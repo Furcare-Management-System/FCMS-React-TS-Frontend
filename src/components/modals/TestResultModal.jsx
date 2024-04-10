@@ -95,16 +95,20 @@ export default function TestResultModal(props) {
                   {!isUpdate && !othertests && (
                     <TextField
                       label={`${servicename} Price`}
-                      type="number"
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">₱</InputAdornment>
                         ),
                       }}
-                      value={testresult.unit_price || ""}
-                      onChange={(ev) =>
-                        handleFieldChange("unit_price", ev.target.value)
+                      value={
+                        typeof testresult.unit_price === "number"
+                          ? testresult.unit_price.toLocaleString()
+                          : ""
                       }
+                      onChange={(ev) => {
+                        const value = parseFloat(ev.target.value.replace(/,/g, ""));
+                        handleFieldChange("unit_price", isNaN(value) ? 0 : value);
+                      }}
                       required
                       inputProps={{ min: "1" }}
                     />
@@ -162,16 +166,20 @@ export default function TestResultModal(props) {
                   {!isUpdate && othertests && (
                     <TextField
                       label={`Test Price`}
-                      type="number"
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">₱</InputAdornment>
                         ),
                       }}
-                      value={testresult.unit_price || ""}
-                      onChange={(ev) =>
-                        handleFieldChange("unit_price", ev.target.value)
+                      value={
+                        typeof testresult.unit_price === "number"
+                          ? testresult.unit_price.toLocaleString()
+                          : ""
                       }
+                      onChange={(ev) => {
+                        const value = parseFloat(ev.target.value.replace(/,/g, ""));
+                        handleFieldChange("unit_price", isNaN(value) ? 0 : value);
+                      }}
                       inputProps={{ min: "1" }}
                       required
                     />

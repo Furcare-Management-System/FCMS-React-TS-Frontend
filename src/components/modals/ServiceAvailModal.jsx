@@ -69,16 +69,20 @@ export default function ServiceAvailModal(props) {
             <Stack spacing={2} margin={2}>
               <TextField
                 label={`${title} Price`}
-                type="number"
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">₱</InputAdornment>
                   ),
                 }}
-                value={serviceavail.unit_price || ""}
-                onChange={(ev) =>
-                  handleFieldChange("unit_price", ev.target.value)
+                value={
+                  typeof serviceavail.unit_price === "number"
+                    ? serviceavail.unit_price.toLocaleString()
+                    : ""
                 }
+                onChange={(ev) => {
+                  const value = parseFloat(ev.target.value.replace(/,/g, ""));
+                  handleFieldChange("unit_price", isNaN(value) ? 0 : value);
+                }}
                 required
                 inputProps={{ min: "1" }}
               />

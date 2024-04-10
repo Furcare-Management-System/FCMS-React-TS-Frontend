@@ -102,12 +102,16 @@ export default function ProductModal(props) {
                 />
                 {!isUpdate && (
                   <TextField
-                    value={medication.unit_price || ""}
-                    onChange={(ev) =>
-                      handleFieldChange("unit_price", ev.target.value)
-                    }
+                  value={
+                    typeof medication.unit_price === "number"
+                      ? medication.unit_price.toLocaleString()
+                      : ""
+                  }
+                  onChange={(ev) => {
+                    const value = parseFloat(ev.target.value.replace(/,/g, ""));
+                    handleFieldChange("unit_price", isNaN(value) ? 0 : value);
+                  }}
                     label="Product Price"
-                    type="number"
                     required
                     inputProps={{ min: "1" }}
                   />

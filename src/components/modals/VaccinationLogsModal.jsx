@@ -85,16 +85,22 @@ export default function VaccinationLogsModal(props) {
                 {!isUpdate && (
                   <TextField
                     label={`${servicename} Price`}
-                    type="number"
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">₱</InputAdornment>
                       ),
                     }}
-                    value={vaccination.unit_price || ""}
-                    onChange={(ev) =>
-                      handleFieldChange("unit_price", ev.target.value)
+                    value={
+                      typeof vaccination.unit_price === "number"
+                        ? vaccination.unit_price.toLocaleString()
+                        : ""
                     }
+                    onChange={(ev) => {
+                      const value = parseFloat(
+                        ev.target.value.replace(/,/g, "")
+                      );
+                      handleFieldChange("unit_price", isNaN(value) ? 0 : value);
+                    }}
                     required
                     inputProps={{ min: "1" }}
                   />

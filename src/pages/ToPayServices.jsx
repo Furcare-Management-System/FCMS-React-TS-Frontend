@@ -102,7 +102,7 @@ export default function ToPayServices() {
 
     paymentrecord.total = totalCost;
 
-    return totalCost;
+    return totalCost.toLocaleString();
   };
 
   const calculateBalance = () => {
@@ -329,7 +329,7 @@ export default function ToPayServices() {
         <Backdrop open={backdrop} style={{ zIndex: 999 }}></Backdrop>
         <Box display={"flex"} justifyContent={"space-between"} p={1}>
           <Typography variant="h6" fontWeight={"bold"}>
-            Total Amount: {calculateTotal().toFixed(2)}
+            Total Amount: {calculateTotal()}
           </Typography>
           {servicesavailed.length !== 0 && (
             <Button

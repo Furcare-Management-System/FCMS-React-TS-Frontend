@@ -195,7 +195,6 @@ export default function Admissions() {
             setClientservice({});
             setTreatment({});
             setErrors(null);
-            setOpenmodal(true);
           }
         });
         getAdmissions();

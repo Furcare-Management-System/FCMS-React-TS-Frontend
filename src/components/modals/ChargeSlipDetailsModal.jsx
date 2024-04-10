@@ -83,10 +83,20 @@ export default function ChargeSlipDetailsModal(props) {
                       <TableCell>{item.quantity}</TableCell>
                       <TableCell>{item.unit}</TableCell>
                       <TableCell>
-                        {parseFloat(item.unit_price).toFixed(2)}
+                        {new Intl.NumberFormat("en-PH", {
+                          style: "currency",
+                          currency: "PHP",
+                        }).format(item.unit_price ? item.unit_price : 0)}
                       </TableCell>
                       <TableCell>
-                        {parseFloat(item.quantity * item.unit_price).toFixed(2)}
+                        {new Intl.NumberFormat("en-PH", {
+                          style: "currency",
+                          currency: "PHP",
+                        }).format(
+                          item.unit_price * item.quantity
+                            ? item.unit_price * item.quantity
+                            : 0
+                        )}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -100,7 +110,12 @@ export default function ChargeSlipDetailsModal(props) {
                         >
                           Total:
                         </TableCell>
-                        <TableCell>{payment.total}</TableCell>
+                        <TableCell>
+                          {new Intl.NumberFormat("en-PH", {
+                            style: "currency",
+                            currency: "PHP",
+                          }).format(payment.total)}
+                        </TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell
@@ -110,7 +125,12 @@ export default function ChargeSlipDetailsModal(props) {
                         >
                           Deposit:
                         </TableCell>
-                        <TableCell>{clientservice.deposit}</TableCell>
+                        <TableCell>
+                          {new Intl.NumberFormat("en-PH", {
+                            style: "currency",
+                            currency: "PHP",
+                          }).format(clientservice.deposit)}
+                        </TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell
@@ -121,10 +141,14 @@ export default function ChargeSlipDetailsModal(props) {
                           Remaining Charge:
                         </TableCell>
                         <TableCell>
-                          {" "}
-                          {payment.total < clientservice.deposit
-                            ? 0
-                            : payment.total - clientservice.deposit}
+                          {new Intl.NumberFormat("en-PH", {
+                            style: "currency",
+                            currency: "PHP",
+                          }).format(
+                            payment.total < clientservice.deposit
+                              ? 0
+                              : payment.total - clientservice.deposit
+                          )}
                         </TableCell>
                       </TableRow>
                       <TableRow>
@@ -149,7 +173,12 @@ export default function ChargeSlipDetailsModal(props) {
                         >
                           Amount:
                         </TableCell>
-                        <TableCell>{payment.amount}</TableCell>
+                        <TableCell>
+                          {new Intl.NumberFormat("en-PH", {
+                            style: "currency",
+                            currency: "PHP",
+                          }).format(payment.amount)}
+                        </TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell
@@ -159,7 +188,12 @@ export default function ChargeSlipDetailsModal(props) {
                         >
                           Change:
                         </TableCell>
-                        <TableCell>{payment.change}</TableCell>
+                        <TableCell>
+                          {new Intl.NumberFormat("en-PH", {
+                            style: "currency",
+                            currency: "PHP",
+                          }).format(payment.change)}
+                        </TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell
@@ -169,7 +203,12 @@ export default function ChargeSlipDetailsModal(props) {
                         >
                           Amounts Payable:
                         </TableCell>
-                        <TableCell>{clientservice.balance}</TableCell>
+                        <TableCell>
+                          {new Intl.NumberFormat("en-PH", {
+                            style: "currency",
+                            currency: "PHP",
+                          }).format(clientservice.balance)}
+                        </TableCell>
                       </TableRow>
                     </>
                   )}

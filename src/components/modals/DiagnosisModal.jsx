@@ -77,16 +77,20 @@ export default function DiagnosisModal(props) {
                 {!isUpdate && (
                   <TextField
                     label="Consultation Price"
-                    type="number"
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">₱</InputAdornment>
                       ),
                     }}
-                    value={diagnosis.unit_price || ""}
-                    onChange={(ev) =>
-                      handleFieldChange("unit_price", ev.target.value)
+                    value={
+                      typeof diagnosis.unit_price === "number"
+                        ? diagnosis.unit_price.toLocaleString()
+                        : ""
                     }
+                    onChange={(ev) => {
+                      const value = parseFloat(ev.target.value.replace(/,/g, ""));
+                      handleFieldChange("unit_price", isNaN(value) ? 0 : value);
+                    }}
                     required
                     inputProps={{ min: "1" }}
                   />

@@ -67,7 +67,7 @@ export default function PaymentModal(props) {
       const actualChange = Math.max(change, 0);
       // Update payment change
       payment.change = actualChange;
-      return actualChange;
+      return actualChange.toLocaleString();
     } else {
       return 0;
     }
@@ -103,7 +103,8 @@ export default function PaymentModal(props) {
     }
 
     const value = paymentTotal - paymentDiscount - clientDeposit;
-    return Math.max(value, 0);
+    const formattedValue = Math.max(value, 0).toLocaleString();
+    return formattedValue;
   };
 
   return (
@@ -168,7 +169,7 @@ export default function PaymentModal(props) {
                     variant="filled"
                     id="Total"
                     label="Total"
-                    value={payment.total || ``}
+                    value={payment.total.toLocaleString() || ``}
                     onChange={(ev) =>
                       handleFieldChange("total", ev.target.value)
                     }
@@ -188,7 +189,11 @@ export default function PaymentModal(props) {
                     variant="outlined"
                     id="Deposit"
                     label="Deposit"
-                    value={payment.total === 0 ? 0 : clientservice.deposit}
+                    value={
+                      payment.total === 0
+                        ? 0
+                        : clientservice.deposit.toLocaleString()
+                    }
                     required
                     InputProps={{
                       readOnly: true,
@@ -206,10 +211,17 @@ export default function PaymentModal(props) {
                     label="Discount"
                     variant="outlined"
                     id="Discount"
-                    value={payment.discount || ""}
-                    onChange={(ev) =>
-                      handleFieldChange("discount", ev.target.value)
+                    value={
+                      typeof payment.discount === "number"
+                        ? payment.discount.toLocaleString()
+                        : ""
                     }
+                    onChange={(ev) => {
+                      const value = parseFloat(
+                        ev.target.value.replace(/,/g, "")
+                      );
+                      handleFieldChange("discount", isNaN(value) ? 0 : value);
+                    }}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">₱</InputAdornment>
@@ -217,7 +229,6 @@ export default function PaymentModal(props) {
                     }}
                     required
                     size="small"
-                    type="number"
                     inputProps={{ min: "0" }}
                   />
                   <TextField
@@ -275,10 +286,17 @@ export default function PaymentModal(props) {
                     label="Amount"
                     variant="outlined"
                     id="Amount"
-                    value={payment.amount || ""}
-                    onChange={(ev) =>
-                      handleFieldChange("amount", ev.target.value)
+                    value={
+                      typeof payment.amount === "number"
+                        ? payment.amount.toLocaleString()
+                        : ""
                     }
+                    onChange={(ev) => {
+                      const value = parseFloat(
+                        ev.target.value.replace(/,/g, "")
+                      );
+                      handleFieldChange("amount", isNaN(value) ? 0 : value);
+                    }}
                     required
                     InputProps={{
                       startAdornment: (
@@ -286,7 +304,6 @@ export default function PaymentModal(props) {
                       ),
                     }}
                     size="small"
-                    type="number"
                     inputProps={{ min: "0" }}
                   />
                   <TextField
