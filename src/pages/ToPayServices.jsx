@@ -14,12 +14,15 @@ import {
   TablePagination,
   TableRow,
   Typography,
+  Stack,
 } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import axiosClient from "../axios-client";
 import Swal from "sweetalert2";
 import PaymentModal from "../components/modals/PaymentModal";
 import { format } from "date-fns";
+import { Delete, Edit } from "@mui/icons-material";
+import EditServiceModal from "../components/modals/EditServiceModal";
 
 export default function ToPayServices() {
   //for table
@@ -31,6 +34,7 @@ export default function ToPayServices() {
     { id: "Unit", name: "Unit" },
     { id: "Unit Price", name: "Unit Price" },
     { id: "Total", name: "Total" },
+    { id: "Actions", name: "Actions" },
   ];
   const [page, pagechange] = useState(0);
   const [rowperpage, rowperpagechange] = useState(10);
@@ -215,7 +219,6 @@ export default function ToPayServices() {
           title: "Success",
           icon: "success",
           text: "Do you want to generate a charge slip?",
-          // confirmButtonText: "GENERATE CHARGE SLIP",
           confirmButtonColor: "#3085d6",
           cancelButtonColor: "#d33",
           confirmButtonText: "Yes",
@@ -239,6 +242,72 @@ export default function ToPayServices() {
         icon: "error",
       });
     }
+  };
+
+  const [open, setOpen] = useState(false);
+  const [openloading, setOpenloading] = useState(false);
+  const [errors, setErrors] = useState(null);
+  const [service, setService] = useState({
+    quantity: null,
+    unit: null,
+    unit_price: null,
+    pet_id:null
+  });
+  const [pets, setPets] = useState([]);
+  const [submitloading, setSubmitloading] = useState(false);
+  const [servicename, setServicename] = useState(false);
+
+  const getPets = () => {
+    axiosClient
+      .get(`/petowners/${id}/pets`)
+      .then(({ data }) => {
+        setPets(data.data);
+      })
+      .catch(() => {});
+  };
+
+  const onEdit = (r) => {
+    setErrors(null);
+    setOpen(true);
+    setOpenloading(true);
+    getPets();
+
+    axiosClient
+      .get(`/servicesavailed/${r.id}`)
+      .then(({ data }) => {
+        setOpenloading(false);
+        setService(data);
+        setServicename(data.service.service)
+      })
+      .catch(() => {
+        setOpenloading(false);
+      });
+  };
+
+  const onSubmitEdit = (e) => {
+    e.preventDefault();
+    setSubmitloading(true);
+
+    if (service.id) {
+      axiosClient
+        .put(`/servicesavailed/${service.id}/update`, service)
+        .then(() => {
+          setSubmitloading(false);
+          setOpen(false);
+          getServices();
+        })
+        .catch((err) => {
+          const response = err.response;
+          if (response && response.status == 422) {
+            setErrors(response.data.errors);
+          }
+          setSubmitloading(false);
+        });
+    }
+  };
+
+  const closepopup = () => {
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -274,6 +343,20 @@ export default function ToPayServices() {
           )}
         </Box>
 
+        <EditServiceModal
+          open={open}
+          onClose={closepopup}
+          onClick={closepopup}
+          onSubmit={onSubmitEdit}
+          loading={openloading}
+          pets={pets}
+          service={service}
+          setService={setService}
+          errors={errors}
+          isUpdate={service.id}
+          submitloading={submitloading}
+          servicename={servicename}
+        />
         <PaymentModal
           open={openpayment}
           onClose={closeModal}
@@ -285,7 +368,6 @@ export default function ToPayServices() {
           clientservice={clientservice}
           pastbalance={pastbalance}
           calculateBalance={calculateBalance}
-          //  errors={errors}
         />
 
         <TableContainer sx={{ height: 410 }}>
@@ -359,6 +441,20 @@ export default function ToPayServices() {
                         </TableCell>
                         <TableCell>
                           {(r.unit_price * r.quantity).toFixed(2)}
+                        </TableCell>
+                        <TableCell>
+                          <Stack direction="row" spacing={2}>
+                            {r.status === "To Pay" && (
+                              <Button
+                                variant="contained"
+                                size="small"
+                                color="info"
+                                onClick={() => onEdit(r)}
+                              >
+                                <Edit fontSize="small" />
+                              </Button>
+                            )}
+                          </Stack>
                         </TableCell>
                       </TableRow>
                     ))}

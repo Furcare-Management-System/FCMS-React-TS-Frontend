@@ -213,6 +213,7 @@ export default function ViewPet() {
   const closepopup = () => {
     setOpen(false);
     setUpload(false);
+    setUploadloading(false);
   };
 
   const handleImage = (e) => {
