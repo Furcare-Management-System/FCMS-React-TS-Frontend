@@ -410,8 +410,8 @@ export default function PetOwnerPayments() {
                         <TableCell>
                           {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
                         </TableCell>
-                        <TableCell>{r.deposit.toFixed(2)}</TableCell>
-                        <TableCell>{r.balance.toFixed(2)}</TableCell>
+                        <TableCell>{new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(r.deposit)}</TableCell>
+                        <TableCell>{new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(r.balance)}</TableCell>
                         <TableCell>{r.status}</TableCell>
                         <TableCell>
                           <Stack direction="row" spacing={2}>

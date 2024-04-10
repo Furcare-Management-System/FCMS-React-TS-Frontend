@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import { Add, Archive, NavigateNext, Visibility } from "@mui/icons-material";
 import { SearchPetOwner } from "../components/SearchPetOwner";
+import Swal from "sweetalert2";
 
 export default function PetOwners() {
   //for table
@@ -89,13 +90,24 @@ export default function PetOwners() {
   };
 
   const onArchive = (u) => {
-    if (!window.confirm("Are you sure to archive this pet owner?")) {
-      return;
-    }
-
-    axiosClient.delete(`/petowners/${u.id}/archive`).then(() => {
-      setNotification("Pet Owner was archived");
-      getPetowners();
+    Swal.fire({
+      title: "Are you sure to archive this pet owner?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosClient.delete(`/petowners/${u.id}/archive`).then(() => {
+          Swal.fire({
+            title: "Pet Owner was archived.",
+            icon: "success",
+          }).then(() => {
+            getPetowners();
+          });
+        });
+      }
     });
   };
 

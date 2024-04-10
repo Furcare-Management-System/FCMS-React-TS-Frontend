@@ -129,10 +129,16 @@ export default function AllServicesAvailed() {
                         <TableCell>{r.service.service}</TableCell>
                         <TableCell>{r.quantity}</TableCell>
                         <TableCell>
-                          {r.unit_price ? r.unit_price.toFixed(2) : 0}
+                          {new Intl.NumberFormat("en-PH", {
+                            style: "currency",
+                            currency: "PHP",
+                          }).format(r.unit_price ? r.unit_price : 0)}
                         </TableCell>
                         <TableCell>
-                          {(r.unit_price * r.quantity).toFixed(2)}
+                          {new Intl.NumberFormat("en-PH", {
+                            style: "currency",
+                            currency: "PHP",
+                          }).format(r.unit_price ? r.unit_price * r.quantity : 0)}
                         </TableCell>
                         <TableCell>{r.status}</TableCell>
                       </TableRow>

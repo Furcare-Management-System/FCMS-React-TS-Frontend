@@ -65,7 +65,10 @@ export default function AdminHome() {
         setPetowners(new Intl.NumberFormat("en-US").format(data.petowners));
         setPets(new Intl.NumberFormat("en-US").format(data.pets));
         setIncome(
-          new Intl.NumberFormat("en-US").format(data.income.toFixed(2))
+          new Intl.NumberFormat("en-PH", {
+            style: "currency",
+            currency: "PHP",
+          }).format(data.income.toFixed(2))
         );
       })
       .catch((mes) => {

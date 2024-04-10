@@ -248,7 +248,7 @@ export default function Deposits() {
                           {format(new Date(r.date), "MMMM d, yyyy h:mm a")}
                         </TableCell>
                         <TableCell>{`${r.petowner.firstname} ${r.petowner.lastname}`}</TableCell>
-                        <TableCell>{r.deposit.toFixed(2)}</TableCell>
+                        <TableCell>{new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(r.deposit)}</TableCell>
                       </TableRow>
                     ))}
               </TableBody>

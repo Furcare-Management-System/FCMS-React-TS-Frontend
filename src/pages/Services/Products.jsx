@@ -313,7 +313,12 @@ export default function Products({ sid }) {
                           <TableCell>{record.service.service}</TableCell>
                           <TableCell>{record.quantity}</TableCell>
                           <TableCell>{record.unit}</TableCell>
-                          <TableCell>{record.unit_price}</TableCell>
+                          <TableCell>
+                            {new Intl.NumberFormat("en-PH", {
+                              style: "currency",
+                              currency: "PHP",
+                            }).format(record.unit_price)}
+                          </TableCell>
                           <TableCell>{record.status}</TableCell>
                           <TableCell>
                             <Stack direction="row" spacing={2}>

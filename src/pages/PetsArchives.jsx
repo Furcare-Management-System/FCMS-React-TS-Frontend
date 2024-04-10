@@ -81,7 +81,7 @@ export default function PetsArchives() {
       return;
     }
 
-    axiosClient.delete(`/archives/${po.id}/forcedelete`).then(() => {
+    axiosClient.delete(`/pets/archives/${po.id}/forcedelete`).then(() => {
       setNotification("Pet was permanently deleted");
       getPetsArchive();
     });

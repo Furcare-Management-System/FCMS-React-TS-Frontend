@@ -132,19 +132,14 @@ export default function PetOwnerPaymentRecords() {
                             ? `${r.type}`
                             : `${r.type} ${r.type_ref_no}`}
                         </TableCell>
-                        <TableCell>{r.total.toFixed(2)}</TableCell>
-                        <TableCell>
-                          {r.clientdeposit.deposit.toFixed(2)}
-                        </TableCell>
-                        <TableCell>
-                          {" "}
-                          {r.total < r.clientdeposit.deposit
+                        <TableCell>{new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(r.total)}</TableCell>
+                        <TableCell>{new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(r.clientdeposit.deposit)}</TableCell>
+                        <TableCell>{new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(r.total < r.clientdeposit.deposit
                             ? 0
-                            : r.total - r.clientdeposit.deposit}
-                        </TableCell>
-                        <TableCell>{r.amount.toFixed(2)}</TableCell>
-                        <TableCell>{r.change.toFixed(2)}</TableCell>
-                        <TableCell>{r.amounts_payable.toFixed(2)}</TableCell>
+                            : r.total - r.clientdeposit.deposit)}</TableCell>
+                        <TableCell>{new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(r.amount)}</TableCell>
+                        <TableCell>{new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(r.change)}</TableCell>
+                        <TableCell>{new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(r.amounts_payable)}</TableCell>
                       </TableRow>
                     ))}
               </TableBody>

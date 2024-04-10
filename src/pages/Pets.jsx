@@ -27,6 +27,7 @@ import axiosClient from "../axios-client";
 import DropDownButtons from "../components/DropDownButtons";
 import { SearchPetOwner } from "../components/SearchPetOwner";
 import { differenceInMonths, differenceInYears } from "date-fns";
+import Swal from "sweetalert2";
 
 export default function Pets() {
   const [loading, setLoading] = useState(false);
@@ -77,13 +78,24 @@ export default function Pets() {
   const [rowperpage, rowperpagechange] = useState(10);
 
   const onArchive = (u) => {
-    if (!window.confirm("Are you sure to archive this pet?")) {
-      return;
-    }
-
-    axiosClient.delete(`/pets/${u.id}/archive`).then(() => {
-      setNotification("Pet was archived");
-      getPets();
+    Swal.fire({
+      title: "Are you sure to archive this pet?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosClient.delete(`/pets/${u.id}/archive`).then(() => {
+          Swal.fire({
+            title: "Pet was archived.",
+            icon: "success",
+          }).then(() => {
+            getPets();
+          });
+        });
+      }
     });
   };
 

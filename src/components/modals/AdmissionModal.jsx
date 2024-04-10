@@ -38,6 +38,8 @@ export default function AdmissionModal(props) {
   const [date, setDate] = useState(new Date());
   const dateToday = format(date, "MMMM d, yyyy h:mm a");
 
+  const formattedBalance = new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(clientservice.balance);
+  
   return (
     <>
       <Backdrop open={loading} style={{ zIndex: 999 }}>
@@ -117,10 +119,13 @@ export default function AdmissionModal(props) {
                     ),
                   }}
                   inputProps={{ min: "1" }}
-                  value={clientservice.deposit || ""}
-                  onChange={(ev) =>
-                    handleFieldChange("deposit", ev.target.value)
-                  }
+                  // value={clientservice.deposit || ""}
+                  // value={new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(clientservice.balance)}
+                  // value={formattedBalance}
+
+                  // onChange={(ev) =>
+                  //   handleFieldChange("deposit", ev.target.value)
+                  // }
                   required
                 />
 

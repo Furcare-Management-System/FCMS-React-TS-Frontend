@@ -134,14 +134,16 @@ export default function Medicines({ sid }) {
       confirmButtonText: "Yes",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosClient.delete(`/servicesavailed/${u.id}/forcedelete/product`).then(() => {
-          Swal.fire({
-            title: "Medicine was deleted.",
-            icon: "success",
-          }).then(() => {
-            getMedications();
+        axiosClient
+          .delete(`/servicesavailed/${u.id}/forcedelete/product`)
+          .then(() => {
+            Swal.fire({
+              title: "Medicine was deleted.",
+              icon: "success",
+            }).then(() => {
+              getMedications();
+            });
           });
-        });
       }
     });
   };
@@ -324,7 +326,13 @@ export default function Medicines({ sid }) {
                           <TableCell>{record.service.service}</TableCell>
                           <TableCell>{record.quantity}</TableCell>
                           <TableCell>{record.unit}</TableCell>
-                          <TableCell>{record.unit_price}</TableCell>
+                          <TableCell>
+                            {new Intl.NumberFormat("en-PH", {
+                              style: "currency",
+                              currency: "PHP",
+                            }).format(record.unit_price)}
+                          </TableCell>
+
                           <TableCell>{record.status}</TableCell>
                           <TableCell>
                             <Stack direction="row" spacing={2}>

@@ -258,9 +258,9 @@ export default function Payments() {
                             ? `${r.type}`
                             : `${r.type} ${r.type_ref_no}`}
                         </TableCell>
-                        <TableCell>{r.total.toFixed(2)}</TableCell>
-                        <TableCell>{r.amount.toFixed(2)}</TableCell>
-                        <TableCell>{r.change.toFixed(2)}</TableCell>
+                        <TableCell>{new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(r.total)}</TableCell>
+                        <TableCell>{new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(r.amount)}</TableCell>
+                        <TableCell>{new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(r.change)}</TableCell>
                       </TableRow>
                     ))}
               </TableBody>

@@ -435,13 +435,18 @@ export default function ToPayServices() {
 
                         <TableCell>{r.quantity}</TableCell>
                         <TableCell>{r.unit}</TableCell>
-
                         <TableCell>
-                          {r.unit_price ? r.unit_price.toFixed(2) : 0}
-                        </TableCell>
-                        <TableCell>
-                          {(r.unit_price * r.quantity).toFixed(2)}
-                        </TableCell>
+                            {new Intl.NumberFormat("en-PH", {
+                              style: "currency",
+                              currency: "PHP",
+                            }).format(r.unit_price ? r.unit_price : 0)}
+                          </TableCell>
+                          <TableCell>
+                            {new Intl.NumberFormat("en-PH", {
+                              style: "currency",
+                              currency: "PHP",
+                            }).format(r.unit_price*r.quantity ? r.unit_price*r.quantity : 0)}
+                          </TableCell>
                         <TableCell>
                           <Stack direction="row" spacing={2}>
                             {r.status === "To Pay" && (
