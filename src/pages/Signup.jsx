@@ -104,6 +104,8 @@ export default function Signup() {
   };
 
   const verifyEmail = (ev) => {
+    // console.log(petowner);
+
     ev.preventDefault();
     setErrors(null);
     setLoading(true);
@@ -288,7 +290,7 @@ export default function Signup() {
                   helperText={errors && errors.password_confirmation}
                 />
               </Grid>
-              <Grid item xs={12} >
+              <Grid item xs={12}>
                 <FormControlLabel
                   control={
                     <Checkbox
