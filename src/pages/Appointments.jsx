@@ -32,6 +32,8 @@ import { useStateContext } from "../contexts/ContextProvider";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
+import { Helmet } from "react-helmet-async";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function Appointments() {
   const navigate = useNavigate();
@@ -412,6 +414,8 @@ export default function Appointments() {
 
   return (
     <>
+      <CustomHelmet title="Appointments" />
+
       <Paper
         sx={{
           minWidth: "90%",

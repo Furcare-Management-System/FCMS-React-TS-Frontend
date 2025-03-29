@@ -9,6 +9,7 @@ import { HomeSearchBar } from "../components/HomeSearchBar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useStateContext } from "../contexts/ContextProvider";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function AdminHome() {
   const { user } = useStateContext();
@@ -87,6 +88,8 @@ export default function AdminHome() {
 
   return (
     <>
+      <CustomHelmet title="Home" />
+
       <Paper sx={{ padding: "15px", margin: "10px", height: "100%" }}>
         <ToastContainer />
         <Typography variant="h5" mb={1}>

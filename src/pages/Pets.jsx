@@ -28,6 +28,7 @@ import DropDownButtons from "../components/DropDownButtons";
 import { SearchPetOwner } from "../components/SearchPetOwner";
 import { differenceInMonths, differenceInYears } from "date-fns";
 import Swal from "sweetalert2";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function Pets() {
   const [loading, setLoading] = useState(false);
@@ -130,6 +131,8 @@ export default function Pets() {
 
   return (
     <>
+      <CustomHelmet title="Pets" />
+
       <Paper
         sx={{
           minWidth: "90%",

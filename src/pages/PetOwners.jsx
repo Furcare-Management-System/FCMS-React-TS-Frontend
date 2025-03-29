@@ -22,6 +22,7 @@ import {
 import { Add, Archive, NavigateNext, Visibility } from "@mui/icons-material";
 import { SearchPetOwner } from "../components/SearchPetOwner";
 import Swal from "sweetalert2";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function PetOwners() {
   //for table
@@ -119,6 +120,8 @@ export default function PetOwners() {
 
   return (
     <>
+      <CustomHelmet title="Pet Owners" />
+
       <Paper
         sx={{
           minWidth: "90%",
