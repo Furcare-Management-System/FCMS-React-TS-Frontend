@@ -110,10 +110,20 @@ export default function Appointments() {
   const [anchorElVets, setAnchorElVets] = useState(null);
   const [openadd, setOpenadd] = useState(false);
 
+  // Add Status
+  const [status, setStatus] = useState("STATUS");
+
+  // Added Selected Veterinarian
+  const [selectedDoctor, setSelectedDoctor] = useState("");
+
   const handleAppointments = (searchValue) => {
     setMessage(null);
     setAppointments([]);
     setLoading(true);
+
+    // Set Status
+    setStatus(searchValue.toUpperCase());
+
     axiosClient
       .get(`/appointments/${searchValue}`)
       .then(({ data }) => {
@@ -164,7 +174,10 @@ export default function Appointments() {
       });
   };
 
-  const handleMenuItemClickVets = (searchValue) => {
+  const handleMenuItemClickVets = (searchValue, doctor) => {
+    // Set Selected Doctor
+    setSelectedDoctor(doctor.fullname);
+
     handleVetAppointments(searchValue);
   };
 
@@ -436,7 +449,7 @@ export default function Appointments() {
               Appointments
             </Typography>
             <DropDownButtons
-              title="status"
+              title={status}
               status={true}
               anchorEl={anchorEl}
               handleMenuItemClick={handleMenuItemClick}
@@ -449,7 +462,7 @@ export default function Appointments() {
               optionLabel5="cancelled"
             />
             <DropDownButtons
-              title="veterinarians"
+              title={selectedDoctor ? selectedDoctor : "veterinarians"}
               anchorEl={anchorElVets}
               vets={doctors}
               handleMenuItemClick={handleMenuItemClickVets}
