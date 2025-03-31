@@ -9,7 +9,6 @@ import {
   Alert,
   Checkbox,
   FormControlLabel,
-  Link,
   Paper,
   Stack,
   useMediaQuery,
@@ -18,7 +17,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axios-client";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 import CustomHelmet from "../components/CustomHelmet";
 
@@ -171,6 +170,26 @@ export default function Login() {
                   Forgot Password?
                 </Typography>
               </Box>
+
+              <hr />
+              <Box textAlign={"center"}>
+                <Typography
+                  variant="body2"
+                  sx={{ fontSize: "13px", alignSelf: "right", gap: 0.5 }}
+                >
+                  Don't have an account?{" "}
+                  <Link
+                    to={"/signup"}
+                    style={{
+                      cursor: "pointer",
+                      color: "blue",
+                    }}
+                  >
+                    Register here.
+                  </Link>
+                </Typography>
+              </Box>
+
               <LoadingButton
                 sx={{ mt: 2, mb: 2 }}
                 loading={loading}
