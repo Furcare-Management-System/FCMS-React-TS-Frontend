@@ -24,6 +24,7 @@ import {
 import Swal from "sweetalert2";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { LoadingButton } from "@mui/lab";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function Signup() {
   const theme = useTheme();
@@ -488,132 +489,136 @@ export default function Signup() {
   };
 
   return (
-    <Paper
-      sx={{
-        width: "100%",
-        height: "100%",
-        justifyContent: "center",
-        backgroundImage: `url(${imageURL})`,
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundBlendMode: "soft-light",
-        position: "absolute",
-        backdropFilter: "blur(10px)",
-        backgroundColor: "rgba(0,0,30,0.4)",
-      }}
-    >
-      <CssBaseline />
-      <Container
+    <>
+      <CustomHelmet title="Sign-Up" />
+
+      <Paper
         sx={{
-          backgroundColor: "white",
-          borderRadius: "5%", // Adjust radius for mobile
-          p: 1, // Remove padding for mobile
-          mt: isMobile ? "20%" : "3%",
+          width: "100%",
+          height: "100%",
+          justifyContent: "center",
+          backgroundImage: `url(${imageURL})`,
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundBlendMode: "soft-light",
+          position: "absolute",
+          backdropFilter: "blur(10px)",
+          backgroundColor: "rgba(0,0,30,0.4)",
         }}
-        component="main"
-        maxWidth="sm"
       >
-        <Box
+        <CssBaseline />
+        <Container
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            backgroundColor: "white",
+            borderRadius: "5%", // Adjust radius for mobile
+            p: 1, // Remove padding for mobile
+            mt: isMobile ? "20%" : "3%",
           }}
+          component="main"
+          maxWidth="sm"
         >
           <Box
             sx={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: "column",
               alignItems: "center",
-              pb: 1,
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }} />
-            <Typography component="h1" variant="h5">
-              Sign up
-            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                pb: 1,
+              }}
+            >
+              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }} />
+              <Typography component="h1" variant="h5">
+                Sign up
+              </Typography>
+            </Box>
+            <Stepper activeStep={activeStep} sx={{ mb: 1 }}>
+              {steps.map((label, index) => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+            <div margin="auto">
+              {activeStep === steps.length ? (
+                <div>
+                  <p>All steps completed</p>
+                </div>
+              ) : (
+                <div>
+                  <form onSubmit={(e) => handleNext(e)}>
+                    {getStepContent(activeStep)}
+                    <Box
+                      sx={{
+                        padding: "10px",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Button disabled={activeStep === 0} onClick={handlePrev}>
+                        Back
+                      </Button>
+                      {activeStep === 0 && (
+                        <>
+                          <LoadingButton
+                            size="small"
+                            loading={loading}
+                            color="primary"
+                            type="submit"
+                            variant="contained"
+                          >
+                            Next
+                          </LoadingButton>
+                        </>
+                      )}
+                      {activeStep === 1 && (
+                        <>
+                          <LoadingButton
+                            size="small"
+                            loading={loading}
+                            color="primary"
+                            type="submit"
+                            variant="contained"
+                          >
+                            Verify
+                          </LoadingButton>
+                        </>
+                      )}
+                      {activeStep === 2 && (
+                        <>
+                          <LoadingButton
+                            size="small"
+                            loading={loading}
+                            color="primary"
+                            type="submit"
+                            variant="contained"
+                          >
+                            Register
+                          </LoadingButton>
+                        </>
+                      )}
+                    </Box>
+                  </form>
+                </div>
+              )}
+            </div>
+            <Box textAlign="center">
+              <Typography variant="body1">
+                Already have an account?{" "}
+                <Link to="/login" variant="body1">
+                  Login
+                </Link>
+              </Typography>
+            </Box>
           </Box>
-          <Stepper activeStep={activeStep} sx={{ mb: 1 }}>
-            {steps.map((label, index) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          <div margin="auto">
-            {activeStep === steps.length ? (
-              <div>
-                <p>All steps completed</p>
-              </div>
-            ) : (
-              <div>
-                <form onSubmit={(e) => handleNext(e)}>
-                  {getStepContent(activeStep)}
-                  <Box
-                    sx={{
-                      padding: "10px",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Button disabled={activeStep === 0} onClick={handlePrev}>
-                      Back
-                    </Button>
-                    {activeStep === 0 && (
-                      <>
-                        <LoadingButton
-                          size="small"
-                          loading={loading}
-                          color="primary"
-                          type="submit"
-                          variant="contained"
-                        >
-                          Next
-                        </LoadingButton>
-                      </>
-                    )}
-                    {activeStep === 1 && (
-                      <>
-                        <LoadingButton
-                          size="small"
-                          loading={loading}
-                          color="primary"
-                          type="submit"
-                          variant="contained"
-                        >
-                          Verify
-                        </LoadingButton>
-                      </>
-                    )}
-                    {activeStep === 2 && (
-                      <>
-                        <LoadingButton
-                          size="small"
-                          loading={loading}
-                          color="primary"
-                          type="submit"
-                          variant="contained"
-                        >
-                          Register
-                        </LoadingButton>
-                      </>
-                    )}
-                  </Box>
-                </form>
-              </div>
-            )}
-          </div>
-          <Box textAlign="center">
-            <Typography variant="body1">
-              Already have an account?{" "}
-              <Link to="/login" variant="body1">
-                Login
-              </Link>
-            </Typography>
-          </Box>
-        </Box>
-      </Container>
-    </Paper>
+        </Container>
+      </Paper>
+    </>
   );
 }

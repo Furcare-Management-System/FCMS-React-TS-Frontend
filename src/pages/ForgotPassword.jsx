@@ -17,6 +17,7 @@ import {
 import Swal from "sweetalert2";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { LoadingButton } from "@mui/lab";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function ForgotPassword() {
   const theme = useTheme();
@@ -276,111 +277,115 @@ export default function ForgotPassword() {
   };
 
   return (
-    <Paper
-      sx={{
-        width: "100%",
-        height: "100%",
-        justifyContent: "center",
-        backgroundImage: `url(${imageURL})`,
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundBlendMode: "soft-light",
-        position: "absolute",
-        backdropFilter: "blur(10px)",
-        backgroundColor: "rgba(0,0,30,0.4)",
-      }}
-    >
-      <CssBaseline />
-      <Container
+    <>
+      <CustomHelmet title="Forgot-Password" />
+
+      <Paper
         sx={{
-          backgroundColor: "white",
-          borderRadius: "5%", // Adjust radius for mobile
-          p: 2, // Remove padding for mobile
-          mt: isMobile ? "45%" : "10%",
+          width: "100%",
+          height: "100%",
+          justifyContent: "center",
+          backgroundImage: `url(${imageURL})`,
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundBlendMode: "soft-light",
+          position: "absolute",
+          backdropFilter: "blur(10px)",
+          backgroundColor: "rgba(0,0,30,0.4)",
         }}
-        component="main"
-        maxWidth="xs"
       >
-        <Box
+        <CssBaseline />
+        <Container
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            backgroundColor: "white",
+            borderRadius: "5%", // Adjust radius for mobile
+            p: 2, // Remove padding for mobile
+            mt: isMobile ? "45%" : "10%",
           }}
+          component="main"
+          maxWidth="xs"
         >
-          <Typography
-            variant={isMobile ? "body1" : "h6"}
-            fontWeight={"bold"}
-            p={2}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            Forgot Password
-          </Typography>
-          <div margin="auto">
-            {activeStep === steps.length ? (
-              <div>
-                <p>All steps completed</p>
-              </div>
-            ) : (
-              <div>
-                <form onSubmit={(e) => handleNext(e)}>
-                  {getStepContent(activeStep)}
-                  <Box
-                    sx={{
-                      padding: "10px",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Button disabled={activeStep === 0} onClick={handlePrev}>
-                      Back
-                    </Button>
-                    {activeStep === 0 && (
-                      <>
-                        <LoadingButton
-                          size="small"
-                          loading={loading}
-                          color="primary"
-                          type="submit"
-                          variant="contained"
-                        >
-                          Next
-                        </LoadingButton>
-                      </>
-                    )}
-                    {activeStep === 1 && (
-                      <>
-                        <LoadingButton
-                          size="small"
-                          loading={loading}
-                          color="primary"
-                          type="submit"
-                          variant="contained"
-                        >
-                          Verify
-                        </LoadingButton>
-                      </>
-                    )}
-                    {activeStep === 2 && (
-                      <>
-                        <LoadingButton
-                          size="small"
-                          loading={loading}
-                          color="primary"
-                          type="submit"
-                          variant="contained"
-                        >
-                          Reset
-                        </LoadingButton>
-                      </>
-                    )}
-                  </Box>
-                </form>
-              </div>
-            )}
-          </div>
-        </Box>
-      </Container>
-    </Paper>
+            <Typography
+              variant={isMobile ? "body1" : "h6"}
+              fontWeight={"bold"}
+              p={2}
+            >
+              Forgot Password
+            </Typography>
+            <div margin="auto">
+              {activeStep === steps.length ? (
+                <div>
+                  <p>All steps completed</p>
+                </div>
+              ) : (
+                <div>
+                  <form onSubmit={(e) => handleNext(e)}>
+                    {getStepContent(activeStep)}
+                    <Box
+                      sx={{
+                        padding: "10px",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Button disabled={activeStep === 0} onClick={handlePrev}>
+                        Back
+                      </Button>
+                      {activeStep === 0 && (
+                        <>
+                          <LoadingButton
+                            size="small"
+                            loading={loading}
+                            color="primary"
+                            type="submit"
+                            variant="contained"
+                          >
+                            Next
+                          </LoadingButton>
+                        </>
+                      )}
+                      {activeStep === 1 && (
+                        <>
+                          <LoadingButton
+                            size="small"
+                            loading={loading}
+                            color="primary"
+                            type="submit"
+                            variant="contained"
+                          >
+                            Verify
+                          </LoadingButton>
+                        </>
+                      )}
+                      {activeStep === 2 && (
+                        <>
+                          <LoadingButton
+                            size="small"
+                            loading={loading}
+                            color="primary"
+                            type="submit"
+                            variant="contained"
+                          >
+                            Reset
+                          </LoadingButton>
+                        </>
+                      )}
+                    </Box>
+                  </form>
+                </div>
+              )}
+            </div>
+          </Box>
+        </Container>
+      </Paper>
+    </>
   );
 }
