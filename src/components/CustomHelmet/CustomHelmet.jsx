@@ -11,7 +11,7 @@ const CustomHelmet = ({ title = "No Page Title", children }) => {
     // Panel Title
     let panelRoleTitle = "";
 
-    switch (user.role_id) {
+    switch (user.role_id || "") {
       case "1":
         panelRoleTitle = "Admin Panel";
         break;
@@ -22,6 +22,8 @@ const CustomHelmet = ({ title = "No Page Title", children }) => {
       case "3":
         panelRoleTitle = "Pet Owner Panel";
         break;
+      default:
+        panelRoleTitle = "";
     }
 
     // Return pantel role title
@@ -31,7 +33,8 @@ const CustomHelmet = ({ title = "No Page Title", children }) => {
   return (
     <Helmet>
       <title>
-        {title} | {getPanelRoleTitle()} | Furcare
+        {title} | {getPanelRoleTitle() ? `${getPanelRoleTitle()} |` : ""}{" "}
+        Furcare
       </title>
 
       <link rel="icon" type="image/svg+xml" href={logo} />
