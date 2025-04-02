@@ -154,7 +154,7 @@ export default function PetOwnerPets() {
   const onSubmit = (e) => {
     e.preventDefault();
     setSubmitloading(true);
-    
+
     if (pet.id) {
       axiosClient
         .put(`/pets/${pet.id}`, pet)
@@ -172,6 +172,8 @@ export default function PetOwnerPets() {
           setSubmitloading(false);
         });
     } else {
+      // console.log(pet);
+
       axiosClient
         .post(`/petowners/${id}/addpet`, pet)
         .then(() => {
@@ -285,7 +287,10 @@ export default function PetOwnerPets() {
             {loading && (
               <TableBody>
                 <TableRow>
-                  <TableCell colSpan={columns.length} style={{ textAlign: "center" }}>
+                  <TableCell
+                    colSpan={columns.length}
+                    style={{ textAlign: "center" }}
+                  >
                     Loading...
                   </TableCell>
                 </TableRow>
@@ -295,7 +300,10 @@ export default function PetOwnerPets() {
             {!loading && message && (
               <TableBody>
                 <TableRow>
-                  <TableCell colSpan={columns.length} style={{ textAlign: "center" }}>
+                  <TableCell
+                    colSpan={columns.length}
+                    style={{ textAlign: "center" }}
+                  >
                     {message}
                   </TableCell>
                 </TableRow>

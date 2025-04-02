@@ -103,7 +103,7 @@ export default function DewormingReturn() {
 
   return (
     <>
-      <CustomHelmet title="Deworming Returns" />
+      <CustomHelmet title="Deworming Records" />
 
       <Paper
         sx={{

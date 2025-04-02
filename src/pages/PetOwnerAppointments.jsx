@@ -16,14 +16,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import {
-  Add,
-  DoneAll,
-  ArrowBackIos,
-  Edit,
-  Done,
-  Close,
-} from "@mui/icons-material";
+import { DoneAll, Done, Close, Edit } from "@mui/icons-material";
 import EditAppointment from "../components/modals/EditAppointment";
 import Swal from "sweetalert2";
 import { format } from "date-fns";
@@ -278,7 +271,7 @@ export default function PetOwnerAppointments({ petowner }) {
 
   return (
     <>
-      <CustomHelmet title={`View Pet Owner Appointment #${id}`} />
+      <CustomHelmet title={`Pet Owner #${id} Appointments`} />
 
       <Paper
         sx={{

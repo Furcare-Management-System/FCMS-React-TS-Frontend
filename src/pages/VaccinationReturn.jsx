@@ -104,7 +104,7 @@ export default function VaccinationReturn() {
 
   return (
     <>
-      <CustomHelmet title="Vaccinations Returns" />
+      <CustomHelmet title="Vaccinations Records" />
 
       <Paper
         sx={{

@@ -28,6 +28,9 @@ axiosClient.interceptors.response.use(
     return response;
   },
   (error) => {
+
+    console.log(error);
+
     const { response } = error;
     if (response && response.status === 401) {
       localStorage.removeItem("ACCESS_TOKEN");

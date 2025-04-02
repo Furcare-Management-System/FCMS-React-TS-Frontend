@@ -216,9 +216,11 @@ export default function PetsModal(props) {
                       onChange={(ev) =>
                         handleFieldChange("breed_id", ev.target.value)
                       }
-                      disabled={selectedSpecie ? false : true}
+                      disabled={
+                        selectedSpecie && breeds.length > 0 ? false : true
+                      }
                       fullWidth
-                      required
+                      required={breeds.length > 0}
                       sx={{ maxHeight: "200px", overflowY: "auto" }}
                     >
                       {breeds.map((item) => (
