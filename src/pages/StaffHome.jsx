@@ -85,10 +85,10 @@ export default function StaffHome() {
             </Stack>
           </Stack>
           <Stack flexDirection={"column"} height={"480px"}>
-            <HomeSearchBar 
-            searchwhat={"petowners"}
-            placeholder={"Search petowners, pets here..."}
-            navigatetype={"/admin/petowners"}
+            <HomeSearchBar
+              searchwhat={"petowners"}
+              placeholder={"Search petowners, pets here..."}
+              navigatetype={"/admin/petowners"}
             />
             <Box
               sx={{

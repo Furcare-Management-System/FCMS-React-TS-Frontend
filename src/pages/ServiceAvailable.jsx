@@ -16,6 +16,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function ServiceAvaileble() {
   //for table
@@ -73,6 +74,8 @@ export default function ServiceAvaileble() {
 
   return (
     <>
+      <CustomHelmet title="Services" />
+
       <Paper
         sx={{
           minWidth: "90%",

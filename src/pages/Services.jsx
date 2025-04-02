@@ -15,6 +15,7 @@ import {
 import { Link, useParams } from "react-router-dom";
 import axiosClient from "../axios-client";
 import { format } from "date-fns";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function Services() {
   //for table
@@ -69,6 +70,8 @@ export default function Services() {
 
   return (
     <>
+      <CustomHelmet title="Services Logs" />
+
       <Box
         flex={5}
         sx={{

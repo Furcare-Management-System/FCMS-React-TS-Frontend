@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { Add, Archive, Edit, Visibility } from "@mui/icons-material";
 import Swal from "sweetalert2";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function Staffs() {
   //for table
@@ -91,6 +92,8 @@ export default function Staffs() {
 
   return (
     <>
+      <CustomHelmet title="Staffs" />
+
       <Paper
         sx={{
           minWidth: "90%",

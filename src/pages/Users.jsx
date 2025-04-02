@@ -22,6 +22,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Notif from "../components/Notif";
 import { useStateContext } from "../contexts/ContextProvider";
 import Swal from "sweetalert2";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function Users() {
   const { notification, setNotification } = useStateContext();
@@ -183,6 +184,8 @@ export default function Users() {
 
   return (
     <>
+      <CustomHelmet title="Users" />
+
       <Paper
         sx={{
           padding: "10px",

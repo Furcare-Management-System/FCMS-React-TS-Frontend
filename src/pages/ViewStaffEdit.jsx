@@ -7,9 +7,10 @@ import PetOwnerEdit from "../components/modals/PetOwnerEdit";
 import UserEdit from "../components/modals/UserEdit";
 import Swal from "sweetalert2";
 import { useStateContext } from "../contexts/ContextProvider";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function ViewStaffEdit() {
-  const {staffuser}= useStateContext()
+  const { staffuser } = useStateContext();
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
 
@@ -197,79 +198,83 @@ export default function ViewStaffEdit() {
   }, [selectedZipcode]);
 
   return (
-    <Paper
-      sx={{
-        minWidth: "90%",
-        padding: "10px",
-        margin: "10px",
-      }}
-      elevation={4}
-    >
-      <Stack flexDirection="row">
-        <Stack p={2}>
-          <Typography variant="h5">
-            Staff Information{" "}
-            <IconButton
-              variant="contained"
-              color="info"
-              onClick={() => onEdit()}
-            >
-              <Edit fontSize="small" />
-            </IconButton>
-          </Typography>
-          <Typography>
-            Name: {staff.firstname} {staff.lastname}
-          </Typography>
-          <Typography>
-            Address: {addressdata.zone}, {addressdata.barangay}, {zipcode.area},{" "}
-            {zipcode.province}, {zipcode.zipcode}
-          </Typography>
-          <Typography>Contact Number: +63{staff.contact_num}</Typography>
-        </Stack>
+    <>
+      <CustomHelmet title="Profile" />
 
-        <Stack p={2}>
-          <Typography variant="h5">
-            User Account{" "}
-            <IconButton
-              variant="contained"
-              color="info"
-              onClick={() => onEditUSer()}
-            >
-              <Edit fontSize="small" />
-            </IconButton>
-          </Typography>
-          <Typography>Email: {userdata.email} </Typography>
+      <Paper
+        sx={{
+          minWidth: "90%",
+          padding: "10px",
+          margin: "10px",
+        }}
+        elevation={4}
+      >
+        <Stack flexDirection="row">
+          <Stack p={2}>
+            <Typography variant="h5">
+              Staff Information{" "}
+              <IconButton
+                variant="contained"
+                color="info"
+                onClick={() => onEdit()}
+              >
+                <Edit fontSize="small" />
+              </IconButton>
+            </Typography>
+            <Typography>
+              Name: {staff.firstname} {staff.lastname}
+            </Typography>
+            <Typography>
+              Address: {addressdata.zone}, {addressdata.barangay},{" "}
+              {zipcode.area}, {zipcode.province}, {zipcode.zipcode}
+            </Typography>
+            <Typography>Contact Number: +63{staff.contact_num}</Typography>
+          </Stack>
+
+          <Stack p={2}>
+            <Typography variant="h5">
+              User Account{" "}
+              <IconButton
+                variant="contained"
+                color="info"
+                onClick={() => onEditUSer()}
+              >
+                <Edit fontSize="small" />
+              </IconButton>
+            </Typography>
+            <Typography>Email: {userdata.email} </Typography>
+          </Stack>
         </Stack>
-      </Stack>
-      <PetOwnerEdit
-        open={openStaff}
-        onClose={closepopup}
-        onClick={closepopup}
-        onSubmit={onSubmit}
-        loading={loading}
-        petowner={staff}
-        setPetowner={setStaff}
-        address={addressdata}
-        setAddress={setAddressdata}
-        errors={errors}
-        isUpdate={staffuser.id}
-        zipcode={zipcode}
-        selectedZipcode={selectedZipcode}
-        handleZipcodeChange={handleZipcodeChange}
-        zipcodeerror={zipcodeerror}
-      />
-      <UserEdit
-        open={openuser}
-        onClick={closepopup}
-        onClose={closepopup}
-        onSubmit={onSubmitUser}
-        loading={loading}
-        roles={[]}
-        user={userdata}
-        setUser={setUserdata}
-        errors={errors}
-        isUpdate={userdata.id}
-      />
-    </Paper>
+        <PetOwnerEdit
+          open={openStaff}
+          onClose={closepopup}
+          onClick={closepopup}
+          onSubmit={onSubmit}
+          loading={loading}
+          petowner={staff}
+          setPetowner={setStaff}
+          address={addressdata}
+          setAddress={setAddressdata}
+          errors={errors}
+          isUpdate={staffuser.id}
+          zipcode={zipcode}
+          selectedZipcode={selectedZipcode}
+          handleZipcodeChange={handleZipcodeChange}
+          zipcodeerror={zipcodeerror}
+        />
+        <UserEdit
+          open={openuser}
+          onClick={closepopup}
+          onClose={closepopup}
+          onSubmit={onSubmitUser}
+          loading={loading}
+          roles={[]}
+          user={userdata}
+          setUser={setUserdata}
+          errors={errors}
+          isUpdate={userdata.id}
+        />
+      </Paper>
+    </>
   );
 }

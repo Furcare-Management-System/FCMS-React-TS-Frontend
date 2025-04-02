@@ -7,6 +7,7 @@ import PetOwnerEdit from "../components/modals/PetOwnerEdit";
 import UserEdit from "../components/modals/UserEdit";
 import PetOwnerTabs from "../components/PetOwnerTabs";
 import Swal from "sweetalert2";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function ViewPetOwner() {
   const { id } = useParams();
@@ -218,97 +219,106 @@ export default function ViewPetOwner() {
   }, [selectedZipcode]);
 
   return (
-    <Paper
-      sx={{
-        minWidth: "90%",
-        padding: "10px",
-        margin: "10px",
-      }}
-      elevation={4}
-    >
-      <Stack flexDirection="row">
-        <Stack p={2}>
-          <Typography variant="h5">
-            Pet Owner Information
-            <IconButton
-              variant="contained"
-              color="info"
-              onClick={() => onEdit()}
-            >
-              <Edit fontSize="small" />
-            </IconButton>
-          </Typography>
-          <Typography>
-            Name: {petownerdata.firstname} {petownerdata.lastname}
-          </Typography>
-          <Typography>
-            Address: {petownerdata.zone}, {petownerdata.barangay},{" "}
-            {zipcode.area}, {zipcode.province}, {zipcode.zipcode}
-          </Typography>
-          <Typography>Contact Number: +63{petownerdata.contact_num}</Typography>
+    <>
+      <CustomHelmet title={`View Pet Owner #${id}`} />
+
+      <Paper
+        sx={{
+          minWidth: "90%",
+          padding: "10px",
+          margin: "10px",
+        }}
+        elevation={4}
+      >
+        <Stack flexDirection="row">
+          <Stack p={2}>
+            <Typography variant="h5">
+              Pet Owner Information
+              <IconButton
+                variant="contained"
+                color="info"
+                onClick={() => onEdit()}
+              >
+                <Edit fontSize="small" />
+              </IconButton>
+            </Typography>
+            <Typography>
+              Name: {petownerdata.firstname} {petownerdata.lastname}
+            </Typography>
+            <Typography>
+              Address: {petownerdata.zone}, {petownerdata.barangay},{" "}
+              {zipcode.area}, {zipcode.province}, {zipcode.zipcode}
+            </Typography>
+            <Typography>
+              Contact Number: +63{petownerdata.contact_num}
+            </Typography>
+          </Stack>
+
+          <Stack p={2}>
+            <Typography variant="h5">
+              User Account{" "}
+              <IconButton
+                variant="contained"
+                color="info"
+                onClick={() => onEditUSer()}
+              >
+                <Edit fontSize="small" />
+              </IconButton>
+            </Typography>
+            <Typography>Email: {userdata.email} </Typography>
+          </Stack>
         </Stack>
 
-        <Stack p={2}>
-          <Typography variant="h5">
-            User Account{" "}
-            <IconButton
-              variant="contained"
-              color="info"
-              onClick={() => onEditUSer()}
-            >
-              <Edit fontSize="small" />
-            </IconButton>
+        {appointment && appointment.length > 0 && (
+          <Typography
+            p={1}
+            sx={{ backgroundColor: "whitesmoke" }}
+            variant="body1"
+            fontWeight="bold"
+          >
+            Appointment Services:
+            {services
+              .filter((service) => appointment.includes(service.id))
+              .map((filteredService) => (
+                <span key={filteredService.id}>
+                  {" "}
+                  {filteredService.service},{" "}
+                </span>
+              ))}
           </Typography>
-          <Typography>Email: {userdata.email} </Typography>
-        </Stack>
-      </Stack>
+        )}
 
-      {appointment && appointment.length > 0 && (
-        <Typography
-          p={1}
-          sx={{ backgroundColor: "whitesmoke" }}
-          variant="body1"
-          fontWeight="bold"
-        >
-          Appointment Services:
-          {services
-            .filter((service) => appointment.includes(service.id))
-            .map((filteredService) => (
-              <span key={filteredService.id}> {filteredService.service}, </span>
-            ))}
-        </Typography>
-      )}
+        <PetOwnerEdit
+          open={openPetowner}
+          onClose={closepopup}
+          onClick={closepopup}
+          onSubmit={onSubmit}
+          petowner={petownerdata}
+          setPetowner={setPetownerdata}
+          errors={errors}
+          loading={loading}
+          isUpdate={id}
+          zipcode={zipcode}
+          selectedZipcode={selectedZipcode}
+          handleZipcodeChange={handleZipcodeChange}
+          zipcodeerror={zipcodeerror}
+          zipcodeloading={zipcodeloading}
+        />
+        <UserEdit
+          open={openuser}
+          onClick={closepopup}
+          onClose={closepopup}
+          onSubmit={onSubmitUser}
+          loading={loading}
+          roles={[]}
+          user={userdata}
+          setUser={setUserdata}
+          errors={errors}
+          isUpdate={userdata.id}
+        />
 
-      <PetOwnerEdit
-        open={openPetowner}
-        onClose={closepopup}
-        onClick={closepopup}
-        onSubmit={onSubmit}
-        petowner={petownerdata}
-        setPetowner={setPetownerdata}
-        errors={errors}
-        loading={loading}
-        isUpdate={id}
-        zipcode={zipcode}
-        selectedZipcode={selectedZipcode}
-        handleZipcodeChange={handleZipcodeChange}
-        zipcodeerror={zipcodeerror}
-        zipcodeloading={zipcodeloading}
-      />
-      <UserEdit
-        open={openuser}
-        onClick={closepopup}
-        onClose={closepopup}
-        onSubmit={onSubmitUser}
-        loading={loading}
-        roles={[]}
-        user={userdata}
-        setUser={setUserdata}
-        errors={errors}
-        isUpdate={userdata.id}
-      />
-
-      <PetOwnerTabs petowner={petownerdata} />
-    </Paper>
+        <PetOwnerTabs petowner={petownerdata} />
+      </Paper>
+    </>
   );
 }

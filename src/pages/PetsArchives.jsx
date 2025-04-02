@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import axiosClient from "../axios-client";
 import { Link, useNavigate } from "react-router-dom";
 import { DeleteForever, RestoreFromTrash } from "@mui/icons-material";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function PetsArchives() {
   const navigate = useNavigate();
@@ -93,6 +94,8 @@ export default function PetsArchives() {
 
   return (
     <>
+      <CustomHelmet title="Pet Archives" />
+
       <Stack direction="row" justifyContent="space-between">
         <Box flex={5}>
           <Paper

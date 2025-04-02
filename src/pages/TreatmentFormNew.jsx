@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { format } from "date-fns";
 import Swal from "sweetalert2";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function TreatmentFormNew() {
   const { id } = useParams();
@@ -99,6 +100,8 @@ export default function TreatmentFormNew() {
 
   return (
     <>
+      <CustomHelmet title={`View Treatment Form #${id}`} />
+
       <Paper
         sx={{
           margin: "30px",

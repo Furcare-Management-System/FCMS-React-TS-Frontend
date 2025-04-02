@@ -8,6 +8,7 @@ import PetOwnerArchives from "../pages/PetOwnersArchives";
 import PetsArchives from "../pages/PetsArchives";
 import Payments from "../pages/Payments";
 import Deposits from "../pages/Deposits";
+import CustomHelmet from "./CustomHelmet";
 
 export default function PDTabs() {
   const [value, setValue] = useState("1");
@@ -17,21 +18,25 @@ export default function PDTabs() {
   };
 
   return (
-    <Box sx={{ width: "100%", typography: "body1", padding: "10px" }}>
-      <TabContext value={value}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <TabList onChange={handleChange} aria-label="lab API tabs">
-            <Tab label="Payment Records" value="1" />
-            <Tab label="Client Deposits" value="2" />
-          </TabList>
-        </Box>
-        <TabPanel value="1">
-          <Payments />{" "}
-        </TabPanel>
-        <TabPanel value="2">
-          <Deposits />
-        </TabPanel>
-      </TabContext>
-    </Box>
+    <>
+      <CustomHelmet title="Payment Records" />
+
+      <Box sx={{ width: "100%", typography: "body1", padding: "10px" }}>
+        <TabContext value={value}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <TabList onChange={handleChange} aria-label="lab API tabs">
+              <Tab label="Payment Records" value="1" />
+              <Tab label="Client Deposits" value="2" />
+            </TabList>
+          </Box>
+          <TabPanel value="1">
+            <Payments />{" "}
+          </TabPanel>
+          <TabPanel value="2">
+            <Deposits />
+          </TabPanel>
+        </TabContext>
+      </Box>
+    </>
   );
 }

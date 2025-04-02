@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import axiosClient from "../axios-client";
 import { DeleteForever, RestoreFromTrash } from "@mui/icons-material";
 import { format } from "date-fns";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function UserArchives() {
   const columns = [
@@ -89,6 +90,8 @@ export default function UserArchives() {
 
   return (
     <>
+      <CustomHelmet title="User Archives" />
+
       <Stack direction="row" justifyContent="space-between">
         <Box flex={5}>
           <Paper

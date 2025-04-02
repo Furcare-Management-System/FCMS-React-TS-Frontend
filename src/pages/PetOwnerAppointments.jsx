@@ -27,6 +27,7 @@ import {
 import EditAppointment from "../components/modals/EditAppointment";
 import Swal from "sweetalert2";
 import { format } from "date-fns";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function PetOwnerAppointments({ petowner }) {
   //for table
@@ -277,6 +278,8 @@ export default function PetOwnerAppointments({ petowner }) {
 
   return (
     <>
+      <CustomHelmet title={`View Pet Owner Appointment #${id}`} />
+
       <Paper
         sx={{
           padding: "10px",

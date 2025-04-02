@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import DropDownButtons from "../components/DropDownButtons";
 import { format } from "date-fns";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function VaccinationReturn() {
   const columns = [
@@ -103,6 +104,8 @@ export default function VaccinationReturn() {
 
   return (
     <>
+      <CustomHelmet title="Vaccinations Returns" />
+
       <Paper
         sx={{
           minWidth: "90%",

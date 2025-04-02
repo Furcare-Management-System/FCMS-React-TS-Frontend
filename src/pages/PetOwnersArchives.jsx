@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import axiosClient from "../axios-client";
 import { Link } from "react-router-dom";
 import { DeleteForever, RestoreFromTrash } from "@mui/icons-material";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function PetOwnerArchives() {
   const columns = [
@@ -92,6 +93,8 @@ export default function PetOwnerArchives() {
 
   return (
     <>
+      <CustomHelmet title="Pet Owner Archives" />
+
       <Stack direction="row" justifyContent="space-between">
         <Box flex={5}>
           <Paper
@@ -154,8 +157,7 @@ export default function PetOwnerArchives() {
                             <TableCell>{`${po.firstname} ${po.lastname}`}</TableCell>
                             <TableCell>{po.contact_num}</TableCell>
                             <TableCell>
-                              {po.zone}, {po.barangay},{" "}
-                              {po.zipcode.area}
+                              {po.zone}, {po.barangay}, {po.zipcode.area}
                             </TableCell>
                             <TableCell>{po.deleted_at}</TableCell>
                             <TableCell>

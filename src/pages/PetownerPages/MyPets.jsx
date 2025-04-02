@@ -313,7 +313,8 @@ export default function MyPets() {
                             <Avatar
                               alt="pet-photo"
                               src={
-                                `${import.meta.env.VITE_API_BASE_URL}/` + r.photo
+                                `${import.meta.env.VITE_API_BASE_URL}/` +
+                                r.photo
                               }
                               sx={{ width: 50, height: 50 }}
                               variant="rounded"
@@ -365,7 +366,11 @@ export default function MyPets() {
               <TableHead>
                 <TableRow>
                   <TableCell
-                    style={{ backgroundColor: "black", color: "white", fontSize:"20px" }}
+                    style={{
+                      backgroundColor: "black",
+                      color: "white",
+                      fontSize: "20px",
+                    }}
                   >
                     Pets
                   </TableCell>
@@ -405,7 +410,11 @@ export default function MyPets() {
                       .map((r) => (
                         <TableRow hover role="checkbox" key={r.id}>
                           <TableCell
-                            sx={{ display: "flex", flexDirection: "row", fontSize:"15px" }}
+                            sx={{
+                              display: "flex",
+                              flexDirection: "row",
+                              fontSize: "15px",
+                            }}
                           >
                             <Stack pr={3}>
                               <div>
@@ -413,7 +422,8 @@ export default function MyPets() {
                                   <Avatar
                                     alt="pet-photo"
                                     src={
-                                      `${import.meta.env.VITE_API_BASE_URL}/` + r.photo
+                                      `${import.meta.env.VITE_API_BASE_URL}/` +
+                                      r.photo
                                     }
                                     sx={{ width: 100, height: 100 }}
                                     variant="rounded"

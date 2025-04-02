@@ -22,6 +22,7 @@ import CryptoJS from "crypto-js";
 import { useStateContext } from "../contexts/ContextProvider";
 import PetImageModal from "../components/modals/PetImageModal";
 import { format, differenceInYears, differenceInMonths } from "date-fns";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function ViewPet() {
   const { id } = useParams();
@@ -302,6 +303,8 @@ export default function ViewPet() {
 
   return (
     <div>
+      <CustomHelmet title={`View Pet #${id}`} />
+
       <Paper mt={1} sx={{ padding: "15px", margin: "10px" }}>
         <Breadcrumbs color="primary">
           <Button

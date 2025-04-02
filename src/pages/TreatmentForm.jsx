@@ -15,6 +15,7 @@ import {
 import PetConditionAdmission from "./PetConditionAdmission";
 import PetMedicationAdmission from "./PetMedicationAdmission";
 import { format } from "date-fns";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function TreatmentForm() {
   const { id } = useParams();
@@ -144,6 +145,8 @@ export default function TreatmentForm() {
 
   return (
     <>
+      <CustomHelmet title="Treatment Form" />
+
       <Paper
         sx={{
           margin: "30px",

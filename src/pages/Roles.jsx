@@ -24,6 +24,7 @@ import {
 import { useEffect, useState } from "react";
 import axiosClient from "../axios-client";
 import { Add, Close, Delete, Edit, Search } from "@mui/icons-material";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function Roles() {
   //for table
@@ -133,6 +134,8 @@ export default function Roles() {
 
   return (
     <>
+      <CustomHelmet title="Roles" />
+
       <Paper
         sx={{
           padding: "10px",

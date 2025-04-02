@@ -19,6 +19,7 @@ import { Add, Archive, Close, Delete, Edit } from "@mui/icons-material";
 import UserEdit from "../components/modals/UserEdit";
 import { Link } from "react-router-dom";
 import BreedsModal from "../components/modals/BreedsModal";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function Breeds() {
   //for table
@@ -162,6 +163,8 @@ export default function Breeds() {
 
   return (
     <>
+      <CustomHelmet title="Breeds" />
+
       <Paper
         sx={{
           padding: "10px",

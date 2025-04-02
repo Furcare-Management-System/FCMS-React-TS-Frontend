@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import Swal from "sweetalert2";
 import { LoadingButton } from "@mui/lab";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function StaffForm() {
   const navigate = useNavigate();
@@ -115,183 +116,189 @@ export default function StaffForm() {
   };
 
   return (
-    <Paper
-      sx={{
-        width: "70%",
-        margin: "3%",
-        padding: "15px",
-        border: "2px solid black",
-      }}
-    >
-      <form onSubmit={(e) => onSubmit(e)} style={{ alignItems: "center" }}>
-        <Box
-          sx={{
-            width: "90%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            "& > :not(style)": { m: 1 },
-            margin: "auto",
-          }}
-        >
-          <Typography variant="h5" padding={1} align="center">
-            Staff Registration
-          </Typography>
-          <Box display={"flex"} flexDirection={"row"} sx={{ width: "100%" }}>
-            <TextField
-              variant="outlined"
-              size="small"
-              id="firstname"
-              label="Firstname"
-              value={staff.firstname}
-              onChange={(ev) =>
-                setStaff({ ...staff, firstname: ev.target.value })
-              }
-              fullWidth
-              required
-              error={errors && errors.firstname ? true : false}
-              helperText={errors && errors.firstname}
-            />
-            <TextField
-              variant="outlined"
-              size="small"
-              id="Lastname"
-              label="Lastname"
-              fullWidth
-              value={staff.lastname}
-              onChange={(ev) =>
-                setStaff({ ...staff, lastname: ev.target.value })
-              }
-              required
-              error={errors && errors.lastname ? true : false}
-              helperText={errors && errors.lastname}
-            />
-          </Box>
-          <TextField
-            id="Email"
-            label="Email"
-            size="small"
-            type="email"
-            fullWidth
-            value={staff.email || ""}
-            onChange={(ev) => setStaff({ ...staff, email: ev.target.value })}
-            // required
-            error={errors && errors.email ? true : false}
-            helperText={
-              errors && errors.email
-                ? errors && errors.email
-                : "Please input a valid email address."
-            }
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            size="small"
-            id="Contact Number"
-            label="Contact Number"
-            type="number"
-            fullWidth
-            inputProps={{
-              minLength: 10,
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">+63</InputAdornment>
-              ),
-            }}
-            value={staff.contact_num}
-            onChange={(ev) => {
-              const input = ev.target.value.slice(0, 10);
-              setStaff({ ...staff, contact_num: input });
-            }}
-            required
-            error={errors && errors.contact_num ? true : false}
-            helperText={errors && errors.contact_num}
-          />
+    <>
+      <CustomHelmet title="New Staff" />
 
-          <TextField
-            id="Zone"
-            size="small"
-            label="Zone/Block/Street"
-            fullWidth
-            value={staff.zone || ""}
-            onChange={(ev) => setStaff({ ...staff, zone: ev.target.value })}
-            error={errors && errors.zone ? true : false}
-            helperText={errors && errors.zone}
-          />
-          <TextField
-            id="Barangay"
-            label="Barangay"
-            size="small"
-            fullWidth
-            value={staff.barangay}
-            onChange={(ev) => setStaff({ ...staff, barangay: ev.target.value })}
-            required
-            error={errors && errors.barangay ? true : false}
-            helperText={errors && errors.barangay}
-          />
-
-          <Box display={"flex"} flexDirection={"row"} sx={{ width: "100%" }}>
-            <TextField
-              id="Zipcode"
-              label="Zipcode"
-              size="small"
-              type="number"
-              value={selectedZipcode}
-              onChange={handleZipcodeChange}
-              fullWidth={!zipcode.area}
-              required
-              error={
-                (errors && errors.zipcode_id) || zipcodeerror ? true : false
-              }
-              helperText={(errors && errors.zipcode_id) || zipcodeerror}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    {zipcodeloading && <CircularProgress size={15} />}
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <Box>
+      <Paper
+        sx={{
+          width: "70%",
+          margin: "3%",
+          padding: "15px",
+          border: "2px solid black",
+        }}
+      >
+        <form onSubmit={(e) => onSubmit(e)} style={{ alignItems: "center" }}>
+          <Box
+            sx={{
+              width: "90%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              "& > :not(style)": { m: 1 },
+              margin: "auto",
+            }}
+          >
+            <Typography variant="h5" padding={1} align="center">
+              Staff Registration
+            </Typography>
+            <Box display={"flex"} flexDirection={"row"} sx={{ width: "100%" }}>
               <TextField
-                id="Area"
-                label="Area"
+                variant="outlined"
                 size="small"
-                value={zipcode.area || ""}
-                required
-                InputProps={{
-                  readOnly: true,
-                  "aria-readonly": true,
-                }}
-              />
-            </Box>
-            <Box>
-              <TextField
-                id="Province"
-                label="Province"
-                size="small"
-                value={zipcode.province || ""}
+                id="firstname"
+                label="Firstname"
+                value={staff.firstname}
+                onChange={(ev) =>
+                  setStaff({ ...staff, firstname: ev.target.value })
+                }
                 fullWidth
                 required
-                InputProps={{
-                  readOnly: true,
-                  "aria-readonly": true,
-                }}
+                error={errors && errors.firstname ? true : false}
+                helperText={errors && errors.firstname}
+              />
+              <TextField
+                variant="outlined"
+                size="small"
+                id="Lastname"
+                label="Lastname"
+                fullWidth
+                value={staff.lastname}
+                onChange={(ev) =>
+                  setStaff({ ...staff, lastname: ev.target.value })
+                }
+                required
+                error={errors && errors.lastname ? true : false}
+                helperText={errors && errors.lastname}
               />
             </Box>
+            <TextField
+              id="Email"
+              label="Email"
+              size="small"
+              type="email"
+              fullWidth
+              value={staff.email || ""}
+              onChange={(ev) => setStaff({ ...staff, email: ev.target.value })}
+              // required
+              error={errors && errors.email ? true : false}
+              helperText={
+                errors && errors.email
+                  ? errors && errors.email
+                  : "Please input a valid email address."
+              }
+              autoFocus
+            />
+            <TextField
+              variant="outlined"
+              size="small"
+              id="Contact Number"
+              label="Contact Number"
+              type="number"
+              fullWidth
+              inputProps={{
+                minLength: 10,
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">+63</InputAdornment>
+                ),
+              }}
+              value={staff.contact_num}
+              onChange={(ev) => {
+                const input = ev.target.value.slice(0, 10);
+                setStaff({ ...staff, contact_num: input });
+              }}
+              required
+              error={errors && errors.contact_num ? true : false}
+              helperText={errors && errors.contact_num}
+            />
+
+            <TextField
+              id="Zone"
+              size="small"
+              label="Zone/Block/Street"
+              fullWidth
+              value={staff.zone || ""}
+              onChange={(ev) => setStaff({ ...staff, zone: ev.target.value })}
+              error={errors && errors.zone ? true : false}
+              helperText={errors && errors.zone}
+            />
+            <TextField
+              id="Barangay"
+              label="Barangay"
+              size="small"
+              fullWidth
+              value={staff.barangay}
+              onChange={(ev) =>
+                setStaff({ ...staff, barangay: ev.target.value })
+              }
+              required
+              error={errors && errors.barangay ? true : false}
+              helperText={errors && errors.barangay}
+            />
+
+            <Box display={"flex"} flexDirection={"row"} sx={{ width: "100%" }}>
+              <TextField
+                id="Zipcode"
+                label="Zipcode"
+                size="small"
+                type="number"
+                value={selectedZipcode}
+                onChange={handleZipcodeChange}
+                fullWidth={!zipcode.area}
+                required
+                error={
+                  (errors && errors.zipcode_id) || zipcodeerror ? true : false
+                }
+                helperText={(errors && errors.zipcode_id) || zipcodeerror}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      {zipcodeloading && <CircularProgress size={15} />}
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <Box>
+                <TextField
+                  id="Area"
+                  label="Area"
+                  size="small"
+                  value={zipcode.area || ""}
+                  required
+                  InputProps={{
+                    readOnly: true,
+                    "aria-readonly": true,
+                  }}
+                />
+              </Box>
+              <Box>
+                <TextField
+                  id="Province"
+                  label="Province"
+                  size="small"
+                  value={zipcode.province || ""}
+                  fullWidth
+                  required
+                  InputProps={{
+                    readOnly: true,
+                    "aria-readonly": true,
+                  }}
+                />
+              </Box>
+            </Box>
+            <LoadingButton
+              loading={loading}
+              type="submit"
+              variant="contained"
+              disabled={zipcodeloading}
+              fullWidth
+            >
+              Save
+            </LoadingButton>
           </Box>
-          <LoadingButton
-          loading={loading}
-          type="submit"
-          variant="contained"
-          disabled={zipcodeloading}
-          fullWidth
-        >
-          Save
-        </LoadingButton>
-        </Box>
-      </form>
-    </Paper>
+        </form>
+      </Paper>
+    </>
   );
 }

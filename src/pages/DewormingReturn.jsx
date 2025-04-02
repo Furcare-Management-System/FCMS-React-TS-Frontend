@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import DropDownButtons from "../components/DropDownButtons";
 import { format } from "date-fns";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function DewormingReturn() {
   const columns = [
@@ -102,6 +103,8 @@ export default function DewormingReturn() {
 
   return (
     <>
+      <CustomHelmet title="Deworming Returns" />
+
       <Paper
         sx={{
           minWidth: "90%",

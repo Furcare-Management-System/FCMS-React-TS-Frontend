@@ -19,6 +19,7 @@ import { Add, Archive, Close, Delete, Edit } from "@mui/icons-material";
 import SpeciesModal from "../components/modals/SpeciesModal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function Species() {
   //for table
@@ -135,6 +136,8 @@ export default function Species() {
 
   return (
     <>
+      <CustomHelmet title="Pet Species" />
+
       <Paper
         sx={{
           padding: "10px",

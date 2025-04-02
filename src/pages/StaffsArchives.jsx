@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import axiosClient from "../axios-client";
 import { DeleteForever, RestoreFromTrash } from "@mui/icons-material";
 import DropDownButtons from "../components/DropDownButtons";
+import CustomHelmet from "../components/CustomHelmet";
 
 export default function StaffsArchives() {
   const columns = [
@@ -92,6 +93,8 @@ export default function StaffsArchives() {
 
   return (
     <>
+      <CustomHelmet title="Staff Archives" />
+
       <Stack direction="row" justifyContent="space-between">
         <Box flex={5}>
           <Paper
