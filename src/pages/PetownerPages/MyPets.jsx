@@ -29,6 +29,7 @@ import { Link, useParams } from "react-router-dom";
 import axiosClient from "../../axios-client";
 import PetsModal from "../../components/modals/PetsModal";
 import { useStateContext } from "../../contexts/ContextProvider";
+import CustomHelmet from "../../components/CustomHelmet";
 
 export default function MyPets() {
   const { staffuser } = useStateContext();
@@ -223,6 +224,8 @@ export default function MyPets() {
 
   return (
     <>
+      <CustomHelmet title="My Pets" />
+
       <Box
         sx={{
           minWidth: "90%",

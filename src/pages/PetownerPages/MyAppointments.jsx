@@ -22,6 +22,7 @@ import { Edit, Close, Add } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import { useStateContext } from "../../contexts/ContextProvider";
 import PetownerAppointmentModal from "../../components/modals/PetownerAppointmentModal";
+import CustomHelmet from "../../components/CustomHelmet";
 
 export default function MyAppointments() {
   const { staffuser } = useStateContext();
@@ -256,6 +257,9 @@ export default function MyAppointments() {
 
   return (
     <>
+
+      <CustomHelmet title="My Appointments" />
+
       <Box
         sx={{
           minWidth: "90%",
@@ -494,7 +498,7 @@ export default function MyAppointments() {
                             {(r.status === "Pending" ||
                               r.status === "Confirmed") && (
                               <div>
-                                <Stack direction="row" spacing={2}mt={1}>
+                                <Stack direction="row" spacing={2} mt={1}>
                                   <Button
                                     variant="contained"
                                     size="small"

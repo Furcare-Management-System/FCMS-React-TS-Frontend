@@ -15,6 +15,7 @@ import {
 import { Link, useParams } from "react-router-dom";
 import axiosClient from "../../axios-client";
 import { useStateContext } from "../../contexts/ContextProvider";
+import CustomHelmet from "../../components/CustomHelmet";
 
 export default function PetOwnerServicesAvailed() {
   const { staffuser } = useStateContext();
@@ -67,6 +68,8 @@ export default function PetOwnerServicesAvailed() {
 
   return (
     <>
+      <CustomHelmet title="Availed Services" />
+
       <Box
         flex={5}
         sx={{
@@ -198,9 +201,11 @@ export default function PetOwnerServicesAvailed() {
                       .slice(page * rowperpage, page * rowperpage + rowperpage)
                       .map((r) => (
                         <TableRow hover role="checkbox" key={r.id}>
-                          <TableCell   sx={{
+                          <TableCell
+                            sx={{
                               fontSize: "15px",
-                            }}>
+                            }}
+                          >
                             <div>
                               <strong>Date:</strong> {r.date}
                             </div>

@@ -8,6 +8,7 @@ import UserEdit from "../../components/modals/UserEdit";
 import PetOwnerTabs from "../../components/PetOwnerTabs";
 import Swal from "sweetalert2";
 import { useStateContext } from "../../contexts/ContextProvider";
+import CustomHelmet from "../../components/CustomHelmet";
 
 export default function EditProfilePetOwner() {
   const { staffuser } = useStateContext();
@@ -201,79 +202,84 @@ export default function EditProfilePetOwner() {
   }, [selectedZipcode]);
 
   return (
-    <Paper
-      sx={{
-        minWidth: "90%",
-        padding: "10px",
-        margin: "10px",
-      }}
-    >
-      <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
-        <Stack p={2}>
-          <Typography variant="h5">
-            Pet Owner Information{" "}
-            <IconButton
-              variant="contained"
-              color="info"
-              onClick={() => onEdit()}
-            >
-              <Edit fontSize="small" />
-            </IconButton>
-          </Typography>
-          <Typography>
-            Name: {petownerdata.firstname} {petownerdata.lastname}
-          </Typography>
-          <Typography>
-            Address: {addressdata.zone}, {addressdata.barangay}, {zipcode.area},{" "}
-            {zipcode.province}, {zipcode.zipcode}
-          </Typography>
-          <Typography>Contact Number: +63{petownerdata.contact_num}</Typography>
-        </Stack>
+    <>
+      <CustomHelmet title="My Profile" />
 
-        <Stack p={2}>
-          <Typography variant="h5">
-            User Account{" "}
-            <IconButton
-              variant="contained"
-              color="info"
-              onClick={() => onEditUSer()}
-            >
-              <Edit fontSize="small" />
-            </IconButton>
-          </Typography>
-          <Typography>Email: {userdata.email} </Typography>
-        </Stack>
-      </Stack>
-      <PetOwnerEdit
-        open={openPetowner}
-        onClose={closepopup}
-        onClick={closepopup}
-        onSubmit={onSubmit}
-        petowner={petownerdata}
-        setPetowner={setPetownerdata}
-        address={addressdata}
-        setAddress={setAddressdata}
-        errors={errors}
-        loading={loading}
-        isUpdate={staffuser.id}
-        zipcode={zipcode}
-        selectedZipcode={selectedZipcode}
-        handleZipcodeChange={handleZipcodeChange}
-        zipcodeerror={zipcodeerror}
-      />
-      <UserEdit
-        open={openuser}
-        onClick={closepopup}
-        onClose={closepopup}
-        onSubmit={onSubmitUser}
-        loading={loading}
-        roles={[]}
-        user={userdata}
-        setUser={setUserdata}
-        errors={errors}
-        isUpdate={userdata.id}
-      />
+      <Paper
+        sx={{
+          minWidth: "90%",
+          padding: "10px",
+          margin: "10px",
+        }}
+      >
+        <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
+          <Stack p={2}>
+            <Typography variant="h5">
+              Pet Owner Information{" "}
+              <IconButton
+                variant="contained"
+                color="info"
+                onClick={() => onEdit()}
+              >
+                <Edit fontSize="small" />
+              </IconButton>
+            </Typography>
+            <Typography>
+              Name: {petownerdata.firstname} {petownerdata.lastname}
+            </Typography>
+            <Typography>
+              Address: {addressdata.zone}, {addressdata.barangay},{" "}
+              {zipcode.area}, {zipcode.province}, {zipcode.zipcode}
+            </Typography>
+            <Typography>
+              Contact Number: +63{petownerdata.contact_num}
+            </Typography>
+          </Stack>
 
-    </Paper>
+          <Stack p={2}>
+            <Typography variant="h5">
+              User Account{" "}
+              <IconButton
+                variant="contained"
+                color="info"
+                onClick={() => onEditUSer()}
+              >
+                <Edit fontSize="small" />
+              </IconButton>
+            </Typography>
+            <Typography>Email: {userdata.email} </Typography>
+          </Stack>
+        </Stack>
+        <PetOwnerEdit
+          open={openPetowner}
+          onClose={closepopup}
+          onClick={closepopup}
+          onSubmit={onSubmit}
+          petowner={petownerdata}
+          setPetowner={setPetownerdata}
+          address={addressdata}
+          setAddress={setAddressdata}
+          errors={errors}
+          loading={loading}
+          isUpdate={staffuser.id}
+          zipcode={zipcode}
+          selectedZipcode={selectedZipcode}
+          handleZipcodeChange={handleZipcodeChange}
+          zipcodeerror={zipcodeerror}
+        />
+        <UserEdit
+          open={openuser}
+          onClick={closepopup}
+          onClose={closepopup}
+          onSubmit={onSubmitUser}
+          loading={loading}
+          roles={[]}
+          user={userdata}
+          setUser={setUserdata}
+          errors={errors}
+          isUpdate={userdata.id}
+        />
+      </Paper>
+    </>
   );
 }

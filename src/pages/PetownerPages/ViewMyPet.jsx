@@ -24,6 +24,7 @@ import CryptoJS from "crypto-js";
 import { useStateContext } from "../../contexts/ContextProvider";
 import PO_PetTabs from "./PO_PetTabs";
 import PetImageModal from "../../components/modals/PetImageModal";
+import CustomHelmet from "../../components/CustomHelmet";
 
 export default function ViewMyPet() {
   const { id } = useParams();
@@ -293,6 +294,8 @@ export default function ViewMyPet() {
 
   return (
     <div>
+      <CustomHelmet title={`View Pet #${id}`} />
+
       <Paper mt={1} sx={{ padding: "15px" }}>
         {notification && <Alert severity="success">{notification}</Alert>}
         {!isMobile && (
@@ -314,7 +317,11 @@ export default function ViewMyPet() {
               </Button>
             </Stack>
             <Stack flexDirection="column" padding={1}>
-              {!isMobile && <Typography variant="h6" fontWeight={"bold"}>Pet Information</Typography>}
+              {!isMobile && (
+                <Typography variant="h6" fontWeight={"bold"}>
+                  Pet Information
+                </Typography>
+              )}
               <Stack flexDirection="row" justifyContent={"space-evenly"}>
                 <Stack sx={{ marginRight: "10px" }}>
                   <Typography>Pet Name: {pet.name}</Typography>
@@ -354,7 +361,7 @@ export default function ViewMyPet() {
         )}
 
         {isMobile && (
-          <Stack direction={"row"} justifyContent={"center"}spacing={2}>
+          <Stack direction={"row"} justifyContent={"center"} spacing={2}>
             <Stack>
               <Button onClick={uploadImage}>
                 {pet.photo ? (
@@ -386,7 +393,9 @@ export default function ViewMyPet() {
               </Box>
             </Stack>
             <Stack flexDirection="column" padding={1}>
-              <Typography variant="h5" fontWeight={"bold"}>Pet Information</Typography>
+              <Typography variant="h5" fontWeight={"bold"}>
+                Pet Information
+              </Typography>
               <Stack flexDirection="column" justifyContent={"space-evenly"}>
                 <Stack sx={{ marginRight: "10px" }}>
                   <Typography>Pet Name: {pet.name}</Typography>

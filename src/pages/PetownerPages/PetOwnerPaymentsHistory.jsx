@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import axiosClient from "../../axios-client";
 import { useStateContext } from "../../contexts/ContextProvider";
+import CustomHelmet from "../../components/CustomHelmet";
 
 export default function PetOwnerPaymentsHistory() {
   const { staffuser } = useStateContext();
@@ -70,6 +71,8 @@ export default function PetOwnerPaymentsHistory() {
 
   return (
     <>
+      <CustomHelmet title="Payment Histories" />
+
       <Box
         flex={5}
         sx={{
@@ -79,7 +82,7 @@ export default function PetOwnerPaymentsHistory() {
       >
         {!isMobile && (
           <Typography p={2} variant="h5">
-            Payments History
+            Payment Histories
           </Typography>
         )}
 
